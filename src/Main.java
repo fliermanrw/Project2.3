@@ -30,7 +30,7 @@ public class Main extends Application {
             loginController.setConnectionWriter(w);
 
             //Create a telnet reader
-            TelnetReader r = new TelnetReader(socket);
+            TelnetReader r = new TelnetReader(socket, loginController);
             Thread t1 = new Thread(r);
             t1.start();
         } catch (Exception e) {

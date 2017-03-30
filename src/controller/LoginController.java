@@ -12,7 +12,6 @@ public class LoginController {
     @FXML TextField textField;
     @FXML RadioButton playAsBot;
     @FXML RadioButton playAsHuman;
-    ButtonGroup test;
 
     public void clickButton(){
         //Get name
@@ -32,4 +31,14 @@ public class LoginController {
     public void setConnectionWriter(TelnetWriter w){
         connectionWriter = w;
     }
+
+    public void printError(String error){
+        System.out.println(error);
+    }
+
+    public void login(){
+        //gets called by server
+        System.out.println("We are logged in to the server. Change view?");
+    }
+
 }
