@@ -1,30 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConnectedController">
-   <children>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Home">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
-      <Button mnemonicParsing="false" onAction="#clickButton" text="Button" />
-   </children>
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-   </rowConstraints>
-</GridPane>
+<TabPane prefHeight="400" prefWidth="300" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConnectedController">
+   <tabs>
+       <Tab text="Home">
+           <content>
+               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500" prefWidth="300">
+                   <VBox AnchorPane.leftAnchor="14" AnchorPane.topAnchor="14">
+                       <Label text="Logged in as: ">
+                           <VBox.margin>
+                               <Insets top="8.0" />
+                               <Insets bottom="8.0" />
+                           </VBox.margin>
+                       </Label>
+                        <CheckBox mnemonicParsing="false" text="BKE">
+                            <VBox.margin>
+                                <Insets top="8.0" />
+                                <Insets bottom="8.0" />
+                            </VBox.margin>
+                        </CheckBox>
+                       <CheckBox mnemonicParsing="false" text="Orthello">
+                           <VBox.margin>
+                               <Insets top="8.0" />
+                               <Insets bottom="8.0" />
+                           </VBox.margin>
+                       </CheckBox>
+                       <Button minWidth="110" mnemonicParsing="false" onAction="#clickButton" text="Play with random">
+                           <VBox.margin>
+                               <Insets top="8.0" />
+                               <Insets bottom="8.0" />
+                           </VBox.margin>
+                       </Button>
+                       <Label text="Or: ">
+                           <VBox.margin>
+                               <Insets top="8.0" />
+                               <Insets bottom="8.0" />
+                           </VBox.margin>
+                       </Label>
+                       <ComboBox promptText="Choose opponent">
+                           <VBox.margin>
+                               <Insets top="8.0" />
+                               <Insets bottom="8.0" />
+                           </VBox.margin>
+                       </ComboBox>
+                       <Button minWidth="110" mnemonicParsing="false" onAction="#clickButton" text="Challenge">
+                           <VBox.margin>
+                               <Insets top="8.0" />
+                               <Insets bottom="8.0" />
+                           </VBox.margin>
+                       </Button>
+                   </VBox>
+                   <Button minWidth="100" mnemonicParsing="false" onAction="#clickButton" text="Logout" AnchorPane.bottomAnchor="114" AnchorPane.rightAnchor="14"/>
+                    <TextArea prefHeight="100" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" text="You logged in as: username"/>
+               </AnchorPane>
+           </content>
+       </Tab>
+   </tabs>
+</TabPane>

@@ -29,6 +29,9 @@ public class Main extends Application {
             LoginController loginController = fxmlLoader.getController();
             loginController.setConnectionWriter(w);
 
+            //Set stage in LoginController
+            loginController.setStage(primaryStage);
+
             //Create a telnet reader
             TelnetReader r = new TelnetReader(socket, loginController);
             Thread t1 = new Thread(r);
