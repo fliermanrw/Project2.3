@@ -20,6 +20,7 @@ public class TelnetReader implements Runnable{
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             while ((currentLine = reader.readLine()) != null) {
                 //@todo notify views?
+                //@todo maybe pass controler to this class?
                 System.out.println(currentLine);
             }
         } catch (IOException e) {

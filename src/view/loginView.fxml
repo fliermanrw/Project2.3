@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -22,7 +23,7 @@
                        <Insets bottom="8.0" />
                    </VBox.margin>
                </Label>
-               <TextField promptText="name">
+               <TextField fx:id="textField" promptText="name">
                    <VBox.margin>
                        <Insets top="8.0" />
                        <Insets bottom="8.0" />
@@ -30,20 +31,23 @@
                </TextField>
                <HBox>
                    <children>
-                       <Label text="Bot?"/>
-                       <RadioButton mnemonicParsing="false" text="Yes">
+                       <Label text="Bot?" />
+                       <RadioButton fx:id="playAsBot" mnemonicParsing="false" text="Yes">
                            <HBox.margin>
                                <Insets left="5.0" />
                            </HBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="playAS" />
+                     </toggleGroup>
                        </RadioButton>
-                       <RadioButton mnemonicParsing="false" text="No">
+                       <RadioButton fx:id="playAsHuman" mnemonicParsing="false" text="No" toggleGroup="$playAS" selected="true">
                            <HBox.margin>
                                <Insets left="5.0" />
                            </HBox.margin>
                        </RadioButton>
                    </children>
                </HBox>
-               <Button mnemonicParsing="false" text="Login">
+               <Button mnemonicParsing="false" onAction="#clickButton" text="Login">
                    <VBox.margin>
                        <Insets top="8.0" />
                    </VBox.margin>

@@ -8,7 +8,7 @@ import java.net.Socket;
 /**
  * Created by jouke on 30-3-2017.
  */
-public class TelnetWriter implements Runnable{
+public class TelnetWriter{
     Socket socket;
 
     public TelnetWriter(Socket socket){
@@ -26,9 +26,9 @@ public class TelnetWriter implements Runnable{
         }
     }
 
-    @Override
-    public void run() {
-        System.out.println("writer thread");
-        sendData("test");
-    }
+//    @Override
+//    public void run() {
+//        System.out.println("writer thread");
+//        sendData("test");
+//    }
 }
