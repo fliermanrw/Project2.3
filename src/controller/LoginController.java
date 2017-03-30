@@ -1,6 +1,6 @@
 package controller;
 
-public class loginController {
+public class LoginController {
     public void clickButton(){
         System.out.println("test");
     }

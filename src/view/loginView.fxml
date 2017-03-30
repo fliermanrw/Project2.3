@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane alignment="center" hgap="10" prefHeight="150" prefWidth="200" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.loginController">
+<GridPane alignment="center" hgap="10" prefHeight="150" prefWidth="200" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200" prefWidth="200">
        <children>
            <VBox AnchorPane.leftAnchor="14" AnchorPane.topAnchor="14">

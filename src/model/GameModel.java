@@ -5,7 +5,7 @@ package model;
  * Interface for the game model
  * Please implement these functions in Boggle & Tic-tac-toe
  */
-public interface gameModel {
+public interface GameModel {
     boolean isFinished();
 
     void getCurrentPlayer(); //@todo probably changes the return type

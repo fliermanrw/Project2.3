@@ -1,6 +1,6 @@
 package controller;
 
-public class connectedController {
+public class ConnectedController {
     public void clickButton(){
         System.out.println("test");
     }

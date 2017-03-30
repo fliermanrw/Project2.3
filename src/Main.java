@@ -3,6 +3,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.TelnetConnection;
 
 public class Main extends Application {
 
@@ -16,6 +17,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        //Connect to the Hanze server before going to the login view
+        TelnetConnection telnet = new TelnetConnection("145.33.225.170", 7789);
         launch(args);
     }
 }
