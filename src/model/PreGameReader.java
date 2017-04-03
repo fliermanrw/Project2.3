@@ -1,7 +1,9 @@
 package model;
 
+import controller.ConnectedController;
 import controller.PreGameView;
 import controller.LoginController;
+import controller.tictactoeController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import org.json.simple.JSONObject;
@@ -88,7 +90,6 @@ public class PreGameReader implements Runnable{
                     line = line.replaceAll("(\"|-)", "");//remove quotations and -
                     line = line.replaceAll("(\\w+)", "\"$1\""); //add quotations to every word
                     JSONParser parser = new JSONParser();
-                    System.out.println(parser);
                     try {
                         JSONObject json = (JSONObject) parser.parse(line);
                         Platform.runLater(()->{
@@ -96,7 +97,12 @@ public class PreGameReader implements Runnable{
                             alert.setTitle("Challenge Request");
                             alert.setContentText("You have been challenged by " + json.get("CHALLENGER") + " for a game of " + json.get("GAMETYPE"));
                             alert.setOnHidden(e -> {
-                                System.out.println("SEND DATA HIER");
+                                PreGameView pgv = views.get(0);
+                                if (pgv instanceof ConnectedController) {
+                                    ConnectedController tempView = (ConnectedController) pgv;
+                                    TelnetWriter tw = tempView.getConnectionWriter();
+                                    tw.sendData("challenge accept " + json.get("CHALLENGENUMBER"));
+                                }
                             });
                             alert.show();
                         });
