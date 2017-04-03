@@ -86,4 +86,8 @@ public class ConnectedController extends PreGameView{
             System.out.println(super.getPlayerList().size());
         }
     }
+
+    public TelnetWriter getConnectionWriter() {
+        return connectionWriter;
+    }
 }
