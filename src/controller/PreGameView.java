@@ -1,7 +1,8 @@
 package controller;
 
 import javafx.fxml.Initializable;
-import model.TelnetReader;
+import model.PreGameReader;
+import model.PreGameReader;
 import model.TelnetWriter;
 
 import java.util.ArrayList;
@@ -10,15 +11,15 @@ import java.util.List;
 /**
  * Created by jouke on 2-4-2017.
  */
-public abstract class AbstractView{
+public abstract class PreGameView{
     List<String> playerList;
-    TelnetReader connectionReader;
+    PreGameReader connectionReader;
     String log = "";
 
     public abstract void setSuccesfull(boolean status);
     public abstract void setConnectionWriter(TelnetWriter w);
 
-    public void setConnectionReader(TelnetReader r){
+    public void setConnectionReader(PreGameReader r){
         connectionReader = r;
         connectionReader.addView(this);
     }
@@ -32,7 +33,7 @@ public abstract class AbstractView{
         return log;
     }
 
-    public TelnetReader getConnectionReader(){
+    public PreGameReader getConnectionReader(){
         return connectionReader;
     }
 

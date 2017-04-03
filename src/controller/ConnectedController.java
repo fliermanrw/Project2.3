@@ -6,13 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
-import model.TelnetReader;
 import model.TelnetWriter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ConnectedController extends AbstractView{
+public class ConnectedController extends PreGameView{
     TelnetWriter connectionWriter;
     @FXML RadioButton reversi;
     @FXML ComboBox opponentSelection;

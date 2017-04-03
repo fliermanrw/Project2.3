@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.TelnetReader;
 import model.TelnetWriter;
 
 import javax.swing.*;
@@ -17,7 +16,7 @@ import java.net.URL;
 import java.util.ConcurrentModificationException;
 import java.util.ResourceBundle;
 
-public class LoginController extends AbstractView {
+public class LoginController extends PreGameView {
     TelnetWriter connectionWriter;
     @FXML
     TextField textField;
