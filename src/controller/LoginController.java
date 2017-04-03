@@ -14,6 +14,7 @@ import model.TelnetWriter;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
 import java.util.ResourceBundle;
 
 public class LoginController extends AbstractView {
@@ -40,6 +41,7 @@ public class LoginController extends AbstractView {
 
         //Login
         connectionWriter.sendData("login " + playerName);
+        super.updateLog("login " + playerName);
     }
 
     public void setConnectionWriter(TelnetWriter w) {
@@ -51,7 +53,7 @@ public class LoginController extends AbstractView {
     }
 
     public void login() {
-        System.out.println("We are logged in to the server. So we are changing the view");
+//        System.out.println("We are logged in to the server. So we are changing the view");
 
         //Remove this view from the views that get notified on updates from the reader
 //        connectionReader.removeView(this); //@todo can throw concurrentmodificationexeption
@@ -67,8 +69,13 @@ public class LoginController extends AbstractView {
                 ConnectedController connectedController = fxmlLoader.getController();
                 connectedController.setConnectionWriter(connectionWriter);
                 connectedController.setConnectionReader(super.getConnectionReader());
+                // Remove this view from the views that get notified on updates from the reader
+                connectionReader.removeView(this);
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (ConcurrentModificationException cme) {
+                System.out.println("Test");
+                cme.printStackTrace();
             }
             stage.setTitle("Connected");
             stage.setScene(new Scene(root, 300, 400));

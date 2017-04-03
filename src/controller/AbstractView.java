@@ -13,15 +13,23 @@ import java.util.List;
 public abstract class AbstractView{
     List<String> playerList;
     TelnetReader connectionReader;
+    String log = "";
 
     public abstract void setSuccesfull(boolean status);
-    public abstract void login();
-    public abstract void printError(String error);
     public abstract void setConnectionWriter(TelnetWriter w);
 
     public void setConnectionReader(TelnetReader r){
         connectionReader = r;
         connectionReader.addView(this);
+    }
+
+    public void updateLog(String currentLine){
+        log += currentLine;
+        log += "\n";
+    }
+
+    public String getLog(){
+        return log;
     }
 
     public TelnetReader getConnectionReader(){
