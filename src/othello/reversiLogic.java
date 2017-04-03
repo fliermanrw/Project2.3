@@ -232,14 +232,12 @@ public class reversiLogic {
         //up
         if (u) {
             num = 1;
-            for (int i = 0; i < size; i++) {
-                if (getBoardCell(row - num, col).getCharacterInCell() == otherCell && inBounds(row - num, col)) {
+            if (getBoardCell(row - num, col).getCharacterInCell() == otherCell) {
+                while (getBoardCell(row - num, col).getCharacterInCell() == otherCell && inBounds(row - num, col)) {
                     num++;
-                } else {
-                    if (getBoardCell(row - num, col).getCharacterInCell() == '#') {
-                        PossibleMoves.add(getBoardCell(row - num, col));
-                    }
-                    break;
+                }
+                if (getBoardCell(row - num, col).getCharacterInCell() == '#') {
+                    PossibleMoves.add(getBoardCell(row - num, col));
                 }
             }
             //PossibleMoves.add(getBoardCell(row - 1, col));
