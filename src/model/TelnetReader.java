@@ -2,6 +2,8 @@ package model;
 
 import controller.AbstractView;
 import controller.LoginController;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -78,6 +80,29 @@ public class TelnetReader implements Runnable{
                 if(currentLine.contains("WIN")){
                     //we won
 
+                }
+
+                if (currentLine.contains("CHALLENGE")) {
+                    String line = currentLine;
+                    line = line.replaceAll("(SVR GAME CHALLENGE )", ""); //remove SVR GAME MATCH
+                    line = line.replaceAll("(\"|-)", "");//remove quotations and -
+                    line = line.replaceAll("(\\w+)", "\"$1\""); //add quotations to every word
+                    JSONParser parser = new JSONParser();
+                    System.out.println(parser);
+                    try {
+                        JSONObject json = (JSONObject) parser.parse(line);
+                        Platform.runLater(()->{
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Challenge Request");
+                            alert.setContentText("You have been challenged by " + json.get("CHALLENGER") + " for a game of " + json.get("GAMETYPE"));
+                            alert.setOnHidden(e -> {
+                                System.out.println("SEND DATA HIER");
+                            });
+                            alert.show();
+                        });
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 for(AbstractView v: views){
