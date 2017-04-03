@@ -14,7 +14,7 @@
 
 <TabPane prefHeight="400" prefWidth="300" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConnectedController">
    <tabs>
-       <Tab text="Home">
+       <Tab closable="false" text="Home">
            <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500" prefWidth="300">
                    <VBox AnchorPane.leftAnchor="14" AnchorPane.topAnchor="14">
@@ -33,7 +33,7 @@
                         <ToggleGroup fx:id="game" />
                      </toggleGroup>
                         </RadioButton>
-                       <RadioButton mnemonicParsing="false" text="Orthello" toggleGroup="$game" fx:id="reversi">
+                       <RadioButton fx:id="reversi" mnemonicParsing="false" text="Orthello" toggleGroup="$game">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />
