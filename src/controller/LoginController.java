@@ -40,6 +40,7 @@ public class LoginController extends AbstractView {
 
         //Login
         connectionWriter.sendData("login " + playerName);
+        super.updateLog("login " + playerName);
     }
 
     public void setConnectionWriter(TelnetWriter w) {
@@ -51,7 +52,7 @@ public class LoginController extends AbstractView {
     }
 
     public void login() {
-        System.out.println("We are logged in to the server. So we are changing the view");
+//        System.out.println("We are logged in to the server. So we are changing the view");
 
         //Remove this view from the views that get notified on updates from the reader
 //        connectionReader.removeView(this); //@todo can throw concurrentmodificationexeption
@@ -67,6 +68,7 @@ public class LoginController extends AbstractView {
                 ConnectedController connectedController = fxmlLoader.getController();
                 connectedController.setConnectionWriter(connectionWriter);
                 connectedController.setConnectionReader(super.getConnectionReader());
+                connectedController.setLog(super.getLog());
             } catch (IOException e) {
                 e.printStackTrace();
             }

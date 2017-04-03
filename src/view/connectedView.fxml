@@ -24,7 +24,7 @@
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </Label>
-                        <RadioButton mnemonicParsing="false" text="BKE">
+                        <RadioButton mnemonicParsing="false" selected="true" text="BKE">
                             <VBox.margin>
                                 <Insets top="8.0" />
                                 <Insets bottom="8.0" />
@@ -33,7 +33,7 @@
                         <ToggleGroup fx:id="game" />
                      </toggleGroup>
                         </RadioButton>
-                       <RadioButton mnemonicParsing="false" text="Orthello" toggleGroup="$game" fx:id="reversi">
+                       <RadioButton fx:id="reversi" mnemonicParsing="false" text="Orthello" toggleGroup="$game">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />
@@ -65,7 +65,7 @@
                        </Button>
                    </VBox>
                    <Button minWidth="100" mnemonicParsing="false" onAction="#logout" text="Logout" AnchorPane.bottomAnchor="114" AnchorPane.rightAnchor="14" />
-                    <TextArea prefHeight="100" text="You logged in as: username" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" />
+                    <TextArea fx:id="logArea" prefHeight="100" text="You logged in as: username" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" />
                </AnchorPane>
            </content>
        </Tab>

@@ -2,6 +2,9 @@ package model;
 
 import controller.AbstractView;
 import controller.LoginController;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,12 +40,12 @@ public class TelnetReader implements Runnable{
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             while ((currentLine = reader.readLine()) != null) {
-                if(currentLine.contains("ERR")){
-                    String error = currentLine.replaceAll("(\\bERR\\b)", ""); //remove ERR from string
-                    for(AbstractView v: views){
-                        v.printError("Server tells us:" + error); //notify views
-                    }
-                }
+//                if(currentLine.contains("ERR")){
+//                    String error = currentLine.replaceAll("(\\bERR\\b)", ""); //remove ERR from string
+//                    for(AbstractView v: views){
+//                        v.printError("Server tells us:" + error); //notify views
+//                    }
+//                }
                 if(currentLine.contains("OK")) {
                    for(AbstractView v: views){
                        v.setSuccesfull(true); //last entered command was succesfull, notify the views
@@ -56,9 +59,32 @@ public class TelnetReader implements Runnable{
                         v.setSuccesfull(true);
                     }
                 }
+                //Match for a game is found
+                if(currentLine.contains("MATCH")){
+                    String line = currentLine;
+                    line = line.replaceAll("(SVR GAME MATCH )", ""); //remove SVR GAME MATCH
+                    line = line.replaceAll("(\"|-)", "");//remove quotations and -
+                    line = line.replaceAll("(\\w+)", "\"$1\""); //add quotations to every word
+                    JSONParser parser = new JSONParser();
+                    try {
+                        JSONObject json = (JSONObject) parser.parse(line);
+                        System.out.println(json.get("PLAYERTOMOVE"));
+                        System.out.println(json.get("GAMETYPE"));
+                        System.out.println(json.get("OPPONENT"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(currentLine.contains("WIN")){
+                    //we won
 
-                //@todo notify views?
-                //@todo maybe pass controler to this class?
+                }
+
+                for(AbstractView v: views){
+                    v.updateLog(currentLine);
+                }
+
+
                 System.out.println(currentLine);
             }
         } catch (IOException e) {

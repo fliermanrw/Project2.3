@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import model.TelnetReader;
 import model.TelnetWriter;
 
@@ -15,6 +16,7 @@ public class ConnectedController extends AbstractView{
     TelnetWriter connectionWriter;
     @FXML RadioButton reversi;
     @FXML ComboBox opponentSelection;
+    @FXML TextArea logArea;
     boolean succesfull = false;
     String command = "no command yet"; //@todo create command class
 
@@ -31,29 +33,26 @@ public class ConnectedController extends AbstractView{
     }
 
     @Override
-    public void login() {
-
-    }
-
-    @Override
-    public void printError(String error) {
-
-    }
-
-    @Override
     public void setConnectionWriter(TelnetWriter w) {
         connectionWriter = w;
     }
 
     public void logout(){
         System.out.println("Logged out of the server");
+        super.updateLog("logout");
         connectionWriter.sendData("logout");
+    }
+
+    public void setLog(String log){
+        logArea.clear();
+        logArea.appendText(log);
     }
 
     /**
      * Get all possible commands from server
      */
     public void help(){
+        super.updateLog("help");
         connectionWriter.sendData("help");
     }
 
@@ -70,8 +69,8 @@ public class ConnectedController extends AbstractView{
         }
 
         //Options server-sided are "Reversi" and "Tic-tac-toe"
+        super.updateLog("subscribe" + game);
         connectionWriter.sendData("subscribe " + game);
-        System.out.println("Tried to subcsribe;");
     }
 
     public void getOpponents(){
