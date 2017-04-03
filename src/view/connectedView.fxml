@@ -24,7 +24,7 @@
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </Label>
-                        <RadioButton mnemonicParsing="false" selected="true" text="BKE">
+                        <RadioButton fx:id="bke" mnemonicParsing="false" selected="true" text="BKE">
                             <VBox.margin>
                                 <Insets top="8.0" />
                                 <Insets bottom="8.0" />
@@ -51,13 +51,13 @@
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </Label>
-                       <ComboBox fx:id="opponentSelection" promptText="Choose opponent">
+                       <ComboBox fx:id="opponentSelection" onAction="#getOpponentIndividual" promptText="Choose opponent">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </ComboBox>
-                       <Button minWidth="110" mnemonicParsing="false" onAction="#getOpponents" text="Challenge">
+                       <Button minWidth="110" mnemonicParsing="false" onAction="#invPlayer" text="Challenge">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />
