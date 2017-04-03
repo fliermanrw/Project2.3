@@ -43,9 +43,10 @@ public class ConnectedController extends AbstractView{
         connectionWriter.sendData("logout");
     }
 
-    public void setLog(String log){
+    public void updateLog(String currentLine){
+        super.updateLog(currentLine);
         logArea.clear();
-        logArea.appendText(log);
+        logArea.appendText(super.getLog());
     }
 
     /**
@@ -69,7 +70,7 @@ public class ConnectedController extends AbstractView{
         }
 
         //Options server-sided are "Reversi" and "Tic-tac-toe"
-        super.updateLog("subscribe" + game);
+        super.updateLog("subscribe " + game);
         connectionWriter.sendData("subscribe " + game);
     }
 

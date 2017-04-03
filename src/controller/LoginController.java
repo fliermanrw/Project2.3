@@ -69,7 +69,6 @@ public class LoginController extends AbstractView {
                 ConnectedController connectedController = fxmlLoader.getController();
                 connectedController.setConnectionWriter(connectionWriter);
                 connectedController.setConnectionReader(super.getConnectionReader());
-                connectedController.setLog(super.getLog());
                 // Remove this view from the views that get notified on updates from the reader
                 connectionReader.removeView(this);
             } catch (IOException e) {
