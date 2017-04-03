@@ -41,13 +41,13 @@ public class Board {
             int pos = Integer.parseInt(scanner.nextLine());
             generateView(pos, humanPlayer);
 
-            int bestMove = minimax(board, aiPlayer);
-            generateView(bestMove, aiPlayer);
+            Move bestMove = minimax(board, aiPlayer, new Move(0));
+            generateView(bestMove.getIndex(), aiPlayer);
         }
 
-//        int bestMove = minimax(board, aiPlayer);
+//        Move bestMove = minimax(board, aiPlayer, new Move(0));
 //
-//        System.out.println("Best Move: " + bestMove);
+//        System.out.println("Best Move: " + bestMove.getIndex());
 //        System.out.println("Depth: " + depth);
     }
 
@@ -122,21 +122,24 @@ public class Board {
      * @param player
      * @return
      */
-    private int minimax(ArrayList<String> newBoard, String player) {
+    private Move minimax(ArrayList<String> newBoard, String player, Move m) {
 
         // Increment the depth (or function call) by 1
         this.depth++;
-
+        //if (m == null) m = new Move(0);
         // Get the empty spots
         ArrayList<String> availableSpots = emptySpots(newBoard);
 
         // Check who has won. If the availableSpots are 0, the game is a TIE.
         if (hasWon(newBoard, humanPlayer)) {
-            return -10;
+            m.setScore(-10);
+            return m;
         } else if (hasWon(newBoard, aiPlayer)) {
-            return 10;
+            m.setScore(10);
+            return m;
         } else if (availableSpots.size() == 0) {
-            return -1;
+            m.setScore(-1);
+            return m;
         }
 
         // Create an ArrayList with Move objects
@@ -155,11 +158,11 @@ public class Board {
             // Depending on the current player, call minimax() recursively
             // And save the score in every possible move
             if (player.equals(aiPlayer)) {
-                int result = minimax(newBoard, humanPlayer);
-                move.setScore(result);
+                Move result = minimax(newBoard, humanPlayer, move);
+                move.setScore(result.getScore());
             } else {
-                int result = minimax(newBoard, aiPlayer);
-                move.setScore(result);
+                Move result = minimax(newBoard, aiPlayer, move);
+                move.setScore(result.getScore());
             }
 
             // Reset the board
@@ -189,7 +192,7 @@ public class Board {
             }
         }
 
-        return moves.get(bestMove).getIndex();
+        return moves.get(bestMove);
     }
 
 }
