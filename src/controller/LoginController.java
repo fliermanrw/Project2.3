@@ -14,6 +14,7 @@ import model.TelnetWriter;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
 import java.util.ResourceBundle;
 
 public class LoginController extends AbstractView {
@@ -69,8 +70,13 @@ public class LoginController extends AbstractView {
                 connectedController.setConnectionWriter(connectionWriter);
                 connectedController.setConnectionReader(super.getConnectionReader());
                 connectedController.setLog(super.getLog());
+                // Remove this view from the views that get notified on updates from the reader
+                connectionReader.removeView(this);
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (ConcurrentModificationException cme) {
+                System.out.println("Test");
+                cme.printStackTrace();
             }
             stage.setTitle("Connected");
             stage.setScene(new Scene(root, 300, 400));
