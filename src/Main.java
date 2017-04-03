@@ -46,12 +46,12 @@ public class Main extends Application {
 
         primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root, 200, 150));
-//        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//            public void handle(WindowEvent we) {
-//                System.out.println("Stage is closing, logging out");
-//                connectionWriter.sendData("logout");
-//            }
-//        });
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                System.out.println("Stage is closing, logging out");
+                connectionWriter.sendData("logout");
+            }
+        });
         primaryStage.show();
     }
 
