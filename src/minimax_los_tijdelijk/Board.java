@@ -1,4 +1,4 @@
-
+package minimax_los_tijdelijk;
 /* Board
  X | O | X
  ---------

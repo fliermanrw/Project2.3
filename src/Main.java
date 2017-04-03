@@ -1,9 +1,11 @@
 import controller.LoginController;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.TelnetConnection;
 import model.TelnetReader;
 import model.TelnetWriter;
@@ -11,6 +13,8 @@ import model.TelnetWriter;
 import java.net.Socket;
 
 public class Main extends Application {
+    TelnetWriter connectionWriter;
+    TelnetReader connectionReader;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -23,25 +27,31 @@ public class Main extends Application {
             Socket socket = telnet.getConnectionSocket();
 
             //Create a telnet writer
-            TelnetWriter w = new TelnetWriter(socket);
+            connectionWriter = new TelnetWriter(socket);
+            //Create a telnet reader
+            connectionReader = new TelnetReader(socket);
+            Thread t1 = new Thread(connectionReader);
+            t1.start();
 
-            //Set writer in controller
+            //Set writer & reader in controller
             LoginController loginController = fxmlLoader.getController();
-            loginController.setConnectionWriter(w);
+            loginController.setConnectionWriter(connectionWriter);
+            loginController.setConnectionReader(connectionReader);
 
             //Set stage in LoginController
             loginController.setStage(primaryStage);
-
-            //Create a telnet reader
-            TelnetReader r = new TelnetReader(socket, loginController);
-            Thread t1 = new Thread(r);
-            t1.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root, 200, 150));
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                System.out.println("Stage is closing, logging out");
+                connectionWriter.sendData("logout");
+            }
+        });
         primaryStage.show();
     }
 

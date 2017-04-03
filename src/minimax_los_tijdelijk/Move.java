@@ -1,3 +1,5 @@
+package minimax_los_tijdelijk;
+
 public class Move {
 
     int index;

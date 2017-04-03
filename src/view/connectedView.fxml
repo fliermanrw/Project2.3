@@ -2,12 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -23,19 +24,22 @@
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </Label>
-                        <CheckBox mnemonicParsing="false" text="BKE">
+                        <RadioButton mnemonicParsing="false" text="BKE">
                             <VBox.margin>
                                 <Insets top="8.0" />
                                 <Insets bottom="8.0" />
                             </VBox.margin>
-                        </CheckBox>
-                       <CheckBox mnemonicParsing="false" text="Orthello">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="game" />
+                     </toggleGroup>
+                        </RadioButton>
+                       <RadioButton mnemonicParsing="false" text="Orthello" toggleGroup="$game" fx:id="reversi">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />
                            </VBox.margin>
-                       </CheckBox>
-                       <Button minWidth="110" mnemonicParsing="false" onAction="#clickButton" text="Play with random">
+                       </RadioButton>
+                       <Button minWidth="110" mnemonicParsing="false" onAction="#subscribe" text="Play with random">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />
@@ -47,21 +51,21 @@
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </Label>
-                       <ComboBox promptText="Choose opponent">
+                       <ComboBox fx:id="opponentSelection" promptText="Choose opponent">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </ComboBox>
-                       <Button minWidth="110" mnemonicParsing="false" onAction="#clickButton" text="Challenge">
+                       <Button minWidth="110" mnemonicParsing="false" onAction="#getOpponents" text="Challenge">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </Button>
                    </VBox>
-                   <Button minWidth="100" mnemonicParsing="false" onAction="#clickButton" text="Logout" AnchorPane.bottomAnchor="114" AnchorPane.rightAnchor="14"/>
-                    <TextArea prefHeight="100" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" text="You logged in as: username"/>
+                   <Button minWidth="100" mnemonicParsing="false" onAction="#logout" text="Logout" AnchorPane.bottomAnchor="114" AnchorPane.rightAnchor="14" />
+                    <TextArea prefHeight="100" text="You logged in as: username" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" />
                </AnchorPane>
            </content>
        </Tab>

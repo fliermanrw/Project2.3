@@ -17,6 +17,7 @@ public class TelnetWriter{
 
     public void sendData(String data){
         try {
+            System.out.println("sending data: " + data);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             bw.write(data);
             bw.newLine(); //==ENTER
