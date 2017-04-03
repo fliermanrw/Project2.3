@@ -6,15 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.PreGameReader;
 import model.TelnetConnection;
-import model.TelnetReader;
 import model.TelnetWriter;
 
 import java.net.Socket;
 
 public class Main extends Application {
     TelnetWriter connectionWriter;
-    TelnetReader connectionReader;
+    PreGameReader connectionReader;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -29,7 +29,7 @@ public class Main extends Application {
             //Create a telnet writer
             connectionWriter = new TelnetWriter(socket);
             //Create a telnet reader
-            connectionReader = new TelnetReader(socket);
+            connectionReader = new PreGameReader(socket);
             Thread t1 = new Thread(connectionReader);
             t1.start();
 
@@ -46,12 +46,12 @@ public class Main extends Application {
 
         primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root, 200, 150));
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                System.out.println("Stage is closing, logging out");
-                connectionWriter.sendData("logout");
-            }
-        });
+//        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//            public void handle(WindowEvent we) {
+//                System.out.println("Stage is closing, logging out");
+//                connectionWriter.sendData("logout");
+//            }
+//        });
         primaryStage.show();
     }
 
