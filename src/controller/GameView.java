@@ -1,12 +1,13 @@
 package controller;
 
+import javafx.fxml.Initializable;
 import model.GameReader;
 import model.TelnetWriter;
 
 /**
  * Created by Ryan on 3-4-2017.
  */
-public abstract class GameView {
+public abstract class GameView{
     GameReader connectionReader;
 
     abstract void move(int place);

@@ -5,6 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import model.TelnetWriter;
+import model.Tictactoe;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 
 /**
@@ -12,10 +17,29 @@ import model.TelnetWriter;
  */
 
 public class tictactoeController extends GameView{
+    TelnetWriter connectionWriter;
+    Tictactoe tictactoe = new Tictactoe();
+
     public void buttonClick(ActionEvent actionEvent) {
-        String index = actionEvent.getSource().toString();
         Button btn = (Button) actionEvent.getSource();
-        btn.setText("X");
+        Integer index = Integer.valueOf(btn.getId().toString());
+
+        ArrayList<Integer> validMoves = tictactoe.getValidMoves();
+
+        if(tictactoe.hasWon(tictactoe.getGrid(), tictactoe.getCurrentPlayer())){
+            System.out.println(tictactoe.getCurrentPlayer() + "Has won the game");
+        }else{
+            if(validMoves.size() == 0){
+                System.out.println("Its a tie");
+            }else{
+                if(validMoves.contains(index)){
+                    btn.setText(tictactoe.getCurrentPlayer());
+                    tictactoe.move(index);
+                }
+            }
+        }
+
+//        connectionWriter.sendData("move " + index);
     }
 
     @Override
@@ -30,7 +54,7 @@ public class tictactoeController extends GameView{
 
     @Override
     public void setConnectionWriter(TelnetWriter w) {
-
+        connectionWriter = w;
     }
 }
 

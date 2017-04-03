@@ -1,16 +1,22 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Created by jouke on 30-3-2017.
  * Interface for the game model
  * Please implement these functions in Boggle & Tic-tac-toe
  */
 public interface GameModel {
-    boolean isFinished();
+    boolean hasWon(ArrayList<String> grid, String player);
 
-    void getCurrentPlayer(); //@todo probably changes the return type
+    String getCurrentPlayer(); //@todo probably changes the return type
 
-    int[][] getValidMoves();
+    void switchPlayer();
 
-    void move(int y, int x);
+    ArrayList<Integer> getValidMoves();
+
+    void move(int move);
+
+    void initGrid();
 }

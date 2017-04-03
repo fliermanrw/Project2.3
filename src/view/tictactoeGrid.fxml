@@ -8,7 +8,7 @@
 <!-- Copied from someone else, view is not the priority for this project. Model is our own logic-->
 <!--Source: https://github.com/yfain/java24hourtrainer2ndedition/blob/master/TicTacToe/src/tictactoe/TicTacToe.fxml-->
 <!--Source: https://yakovfain.com/2014/11/20/tic-tac-toe-in-javafx/-->
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GridController">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.tictactoeController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -30,15 +30,15 @@
     <center>
         <GridPane fx:id = "gameBoard" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="b1" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" />
-                <Button fx:id="b2" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="1" />
-                <Button fx:id="b3" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="2" />
-                <Button fx:id="b4" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.rowIndex="1" />
-                <Button fx:id="b5" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Button fx:id="b6" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <Button fx:id="b7" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.rowIndex="2" />
-                <Button fx:id="b8" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Button fx:id="b9" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Button fx:id="0" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" />
+                <Button fx:id="1" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="1" />
+                <Button fx:id="2" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="2" />
+                <Button fx:id="3" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.rowIndex="1" />
+                <Button fx:id="4" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Button fx:id="5" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Button fx:id="6" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.rowIndex="2" />
+                <Button fx:id="7" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Button fx:id="8" onAction="#buttonClick" prefHeight="100.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             </children>
         </GridPane>
     </center>
