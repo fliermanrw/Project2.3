@@ -14,7 +14,7 @@
             <menus>
                 <Menu text="Actions">
                     <items>
-                        <MenuItem text="Play" onAction=""/>
+                        <MenuItem text="Play"/>
                         <MenuItem text="Quit" />
                     </items>
                 </Menu>
