@@ -11,9 +11,9 @@ public class othelloBoard {
     private static int size = 8;
     private char turn;
 
-    private boardCell[][] reversiBoard = new boardCell[size][size];
+    private static boardCell[][] reversiBoard = new boardCell[size][size];
     private static ArrayList<boardCell> cellsOnBoard = new ArrayList<>();
-    private othelloLogic logic = new othelloLogic(reversiBoard, size);
+    public static othelloLogic logic = new othelloLogic(reversiBoard, size);
 
     public othelloBoard(char turn) {
         this.turn = turn;
@@ -64,7 +64,7 @@ public class othelloBoard {
             System.out.println("No more moves for : " + turn);
             System.out.println("Winner is : " + countPoints());
         } else {
-            askForNewMove();
+         //   askForNewMove();
         }
     }
 
@@ -99,7 +99,7 @@ public class othelloBoard {
         }
     }
 
-    private boardCell getCellOnBoard(int row, int col) {
+    public boardCell getCellOnBoard(int row, int col) {
         for (boardCell b : reversiBoard[row]) {
             if (b.getRow() == row && b.getCol() == col) {
                 return b;
@@ -143,5 +143,9 @@ public class othelloBoard {
             }
         }
         printBoard();
+    }
+
+    public boardCell[][] getShit() {
+        return reversiBoard;
     }
 }
