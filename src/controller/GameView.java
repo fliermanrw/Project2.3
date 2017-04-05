@@ -10,6 +10,10 @@ import model.TelnetWriter;
 public abstract class GameView{
     GameReader connectionReader;
 
+    public abstract void serverMove(int place);
+
+    public abstract void ourturn();
+
     abstract void move(int place);
 
     abstract void forfeit();

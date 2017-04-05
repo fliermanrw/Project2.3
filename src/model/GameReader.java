@@ -40,6 +40,42 @@ public class GameReader implements Runnable{
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             while ((currentLine = reader.readLine()) != null) {
+                if(currentLine.contains("YOURTURN")){
+                    for(GameView v : views){
+                        v.ourturn();//dummy data is index 1
+                    }
+                }
+                if(currentLine.contains("MOVE")){
+                    //opponent has made a move
+                    String line = currentLine;
+                    line = line.replaceAll("(SVR GAME MOVE )", ""); //remove SVR GAME MATCH
+                    line = line.replaceAll("(\"|-)", "");//remove quotations and -
+                    line = line.replaceAll("(\\w+)", "\"$1\""); //add quotations to every word
+                    JSONParser parser = new JSONParser();
+                    try {
+                        JSONObject json = (JSONObject) parser.parse(line);
+                        System.out.println(json.get("PLAYER"));
+                        System.out.println(json.get("MOVE"));
+                        System.out.println(json.get("DETAILS"));
+                        int index = Integer.valueOf(json.get("MOVE").toString());
+                        for(GameView v : views){
+                            v.serverMove(index);//dummy data is index 1
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+//                for(GameView v : views){
+//                    v.serverMove(1);//dummy data is index 1
+//                }
+
+
+//            SVR GAME MATCH {PLAYERTOMOVE: "test", GAMETYPE: "Tic-tac-toe", OPPONENT: "muis"}
+//            SVR GAME YOURTURN {TURNMESSAGE: ""}
+//            move 0
+//            OK
+//            SVR GAME MOVE {PLAYER: "test", MOVE: "0", DETAILS: ""}
+
                 //@Todo Notift views on certain conditions
 
                 System.out.println(currentLine);
