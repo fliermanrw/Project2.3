@@ -57,9 +57,14 @@ public class ConnectedController extends PreGameView implements Initializable {
 
     @Override
     public void startGame(String game) {
+        System.out.println("startgame wel aangeroepen?");
+        System.out.println(game);
         //change view and start game controller of certain game
         Platform.runLater(() -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/tictactoeGrid.fxml"));
+            String gridtoGame = "tictactoeGrid";
+            if(game.equals("Reversi")){gridtoGame = "othelloGrid";}
+            System.out.println(gridtoGame);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/"+ gridtoGame+ ".fxml"));
             Parent root = null;
             try {
                 root = (Parent) fxmlLoader.load();
