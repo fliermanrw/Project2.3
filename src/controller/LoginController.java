@@ -21,7 +21,6 @@ public class LoginController extends PreGameView {
     RadioButton playAsBot;
     @FXML
     RadioButton playAsHuman;
-    Stage stage;
     boolean succesfull = false;
 
     public void clickButton() {
@@ -44,6 +43,11 @@ public class LoginController extends PreGameView {
         connectionWriter = w;
     }
 
+    @Override
+    public void startGame(String game) {
+
+    }
+
     public void printError(String error) {
         System.out.println(error);
     }
@@ -56,6 +60,7 @@ public class LoginController extends PreGameView {
 
         //Perform this in the javafx thread
         Platform.runLater(() -> {
+            Stage stage = super.getStage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/connectedView.fxml"));
             Parent root = null;
             try {
@@ -65,6 +70,8 @@ public class LoginController extends PreGameView {
                 ConnectedController connectedController = fxmlLoader.getController();
                 connectedController.setConnectionWriter(connectionWriter);
                 connectedController.setConnectionReader(super.getConnectionReader());
+                connectedController.setSocket(super.getSocket());
+                connectedController.setStage(super.getStage());
                 // Remove this view from the views that get notified on updates from the reader
                 connectionReader.removeView(this);
             } catch (IOException e) {
@@ -76,10 +83,6 @@ public class LoginController extends PreGameView {
             stage.setTitle("Connected");
             stage.setScene(new Scene(root, 300, 400));
         });
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     @Override

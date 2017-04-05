@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by jouke on 3-4-2017.
  */
 
-public class tictactoeController extends GameView{
+public class TictactoeController extends GameView{
     TelnetWriter connectionWriter;
     Tictactoe tictactoe = new Tictactoe();
     boolean ourturn = false;

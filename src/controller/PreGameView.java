@@ -1,8 +1,10 @@
 package controller;
 
+import javafx.stage.Stage;
 import model.server_connection.PreGameReader;
 import model.server_connection.TelnetWriter;
 
+import java.net.Socket;
 import java.util.List;
 
 /**
@@ -12,6 +14,8 @@ public abstract class PreGameView{
     List<String> playerList;
     PreGameReader connectionReader;
     String log = "";
+    Stage stage;
+    Socket socket;
 
     public abstract void setSuccesfull(boolean status);
     public abstract void setConnectionWriter(TelnetWriter w);
@@ -20,6 +24,15 @@ public abstract class PreGameView{
         connectionReader = r;
         connectionReader.addView(this);
     }
+
+    public void setSocket(Socket s){
+        socket = s;
+    }
+
+    public Socket getSocket(){
+        return socket;
+    }
+    public abstract void startGame(String game);
 
     public void updateLog(String currentLine){
         log += currentLine;
@@ -32,6 +45,14 @@ public abstract class PreGameView{
 
     public PreGameReader getConnectionReader(){
         return connectionReader;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public Stage getStage(){
+        return stage;
     }
 
     public void setPlayerList(List<String> players){

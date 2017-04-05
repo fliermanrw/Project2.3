@@ -2,14 +2,21 @@ package controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
+import model.server_connection.GameReader;
 import model.server_connection.TelnetWriter;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
 import java.util.ResourceBundle;
 
 public class ConnectedController extends PreGameView implements Initializable {
@@ -47,6 +54,33 @@ public class ConnectedController extends PreGameView implements Initializable {
     public void setConnectionWriter(TelnetWriter w) {
         connectionWriter = w;
     }
+
+    @Override
+    public void startGame(String game) {
+        //change view and start game controller of certain game
+        Platform.runLater(() -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/tictactoeGrid.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) fxmlLoader.load();
+
+                //Set writer in controller
+                TictactoeController tictactoeController= fxmlLoader.getController();
+                tictactoeController.setConnectionWriter(connectionWriter);
+                tictactoeController.setConnectionReader(new GameReader(super.getSocket()));
+                // Remove this view from the views that get notified on updates from the reader
+                connectionReader.removeView(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ConcurrentModificationException cme) {
+                System.out.println("Test");
+                cme.printStackTrace();
+            }
+            stage.setTitle("Connected");
+            stage.setScene(new Scene(root, 800, 800));
+        });
+    }
+
 
     public void logout(){
         System.out.println("Logged out of the server");
