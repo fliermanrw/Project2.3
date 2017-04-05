@@ -6,12 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.server_connection.GameReader;
+import model.server_connection.PreGameReader;
 import model.server_connection.TelnetWriter;
 
 import java.io.IOException;
@@ -26,9 +24,11 @@ public class ConnectedController extends PreGameView implements Initializable {
     @FXML ComboBox opponentSelection;
     @FXML TextArea logArea;
     @FXML ToggleGroup test;
+    @FXML Label loggedInAs;
     private String selectedOpponent;
     boolean succesfull = false;
     String command = "no command yet"; //@todo create command class
+    String playerName = null;
 
     public void clickButton(){
         System.out.println("test");
@@ -50,15 +50,19 @@ public class ConnectedController extends PreGameView implements Initializable {
         updateOpponentSelection();
     }
 
+    public void setPlayerName(String playerName){
+        this.playerName = playerName;
+        loggedInAs.setText("Logged in as: " + playerName);
+    }
+
     @Override
     public void setConnectionWriter(TelnetWriter w) {
         connectionWriter = w;
     }
 
     @Override
-    public void startGame(String game) {
+    public void startGame(String game, String playerToMove) {
         System.out.println("startgame wel aangeroepen?");
-        System.out.println(game);
         //change view and start game controller of certain game
         Platform.runLater(() -> {
             String gridtoGame = "tictactoeGrid";
@@ -72,7 +76,18 @@ public class ConnectedController extends PreGameView implements Initializable {
                 //Set writer in controller
                 TictactoeController tictactoeController= fxmlLoader.getController();
                 tictactoeController.setConnectionWriter(connectionWriter);
-                tictactoeController.setConnectionReader(new GameReader(super.getSocket()));
+
+                //Create a game telnet reader @todo dirty please think of something cleaner
+                GameReader gameReader = new GameReader(super.getSocket());
+                Thread t1 = new Thread(gameReader);
+                t1.start();
+                tictactoeController.setConnectionReader(gameReader);
+
+
+                //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
+                if(playerToMove.equals(this.playerName)){
+                    tictactoeController.ourturn();
+                }
                 // Remove this view from the views that get notified on updates from the reader
                 connectionReader.removeView(this);
             } catch (IOException e) {
@@ -81,7 +96,7 @@ public class ConnectedController extends PreGameView implements Initializable {
                 System.out.println("Test");
                 cme.printStackTrace();
             }
-            stage.setTitle("Connected");
+            stage.setTitle("Our playername = " + playerName);
             stage.setScene(new Scene(root, 800, 800));
         });
     }

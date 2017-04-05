@@ -21,6 +21,6 @@ public abstract class GameView{
 
     public void setConnectionReader(GameReader r){
         connectionReader = r;
-//        connectionReader.addView(this);
+        connectionReader.addView(this);
     }
 }

@@ -50,6 +50,7 @@ public class TictactoeController extends GameView{
     @Override
     public void ourturn() {
         ourturn = true;
+        System.out.println("TictactoeController: Got notified it's now our turn and we can make a move");
     }
 
     @Override

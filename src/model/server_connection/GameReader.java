@@ -41,6 +41,7 @@ public class GameReader implements Runnable{
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             while ((currentLine = reader.readLine()) != null) {
                 if(currentLine.contains("YOURTURN")){
+                    System.out.println("GameReader: it's now our turn, notify views");
                     for(GameView v : views){
                         v.ourturn();//dummy data is index 1
                     }
@@ -49,11 +50,18 @@ public class GameReader implements Runnable{
                     //opponent has made a move
                     String line = currentLine;
                     line = line.replaceAll("(SVR GAME MOVE )", ""); //remove SVR GAME MATCH
-                    line = line.replaceAll("(\"|-)", "");//remove quotations and -
+                    System.out.println("Na filter:"  + line);
+                    line = line.replaceAll("(\"|-|\\s)", "");//remove quotations and - and spaces (=\s)
+                    System.out.println("Na filter:"  + line);
                     line = line.replaceAll("(\\w+)", "\"$1\""); //add quotations to every word
+                    System.out.println("Na filter:"  + line);
                     JSONParser parser = new JSONParser();
                     try {
                         JSONObject json = (JSONObject) parser.parse(line);
+                        //@todo bug when details is empty causes
+                        //@todo example string: SVR GAME MOVE {PLAYER: "b", MOVE: "1", DETAILS: ""}
+                        //@todo string that (line) that causes an error when parsing to json {"PLAYER":"b","MOVE":"1","DETAILS":}
+                        //@todo Unexpected token RIGHT BRACE(}), i think because "details" has no value
                         System.out.println(json.get("PLAYER"));
                         System.out.println(json.get("MOVE"));
                         System.out.println(json.get("DETAILS"));
