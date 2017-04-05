@@ -1,25 +1,21 @@
 package othello;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
  * Created by Cyriel on 30-3-2017.
  */
 
-public class reversiBoard {
+public class othelloBoard {
     private static int size = 8;
     private char turn;
-    Turn t;
 
-    boardCell[][] reversiBoard = new boardCell[size][size];
+    private boardCell[][] reversiBoard = new boardCell[size][size];
     private static ArrayList<boardCell> cellsOnBoard = new ArrayList<>();
-    reversiLogic logic = new reversiLogic(reversiBoard, size);
+    private othelloLogic logic = new othelloLogic(reversiBoard, size);
 
-    public reversiBoard(char turn, Turn t) {
-        this.t = t;
+    public othelloBoard(char turn) {
         this.turn = turn;
         // generate a new board as soon as the object is created.
         generateNewBoard();
@@ -28,17 +24,59 @@ public class reversiBoard {
         recursiveMove();
     }
 
+    public String countPoints() {
+        int whitePoints = 0;
+        int blackPoints = 0;
+        for (boardCell[] a : reversiBoard) {
+            for (boardCell b : a) {
+                switch (b.getCharacterInCell()) {
+                    case 'W':
+                        whitePoints++;
+                        break;
+                    case 'B':
+                        blackPoints++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        if (whitePoints > blackPoints){
+            return "White";
+        } else if (blackPoints > whitePoints){
+            return "Black";
+        }
+        return "Tie";
+    }
+
     public void recursiveMove() {
         System.out.println("Turn : " + turn);
         refreshBoardList();
         System.out.print("Available moves: ");
+        int numberOfMoves = 0;
         for (String a : logic.fetchValidMoves(cellsOnBoard, turn)) {
             System.out.print("(" + a + ")");
+            numberOfMoves++;
         }
+        System.out.print("\n");
+        System.out.print("Number of moves : " + numberOfMoves);
+        if (numberOfMoves == 0){
+            System.out.println("No more moves for : " + turn);
+            System.out.println("Winner is : " + countPoints());
+        } else {
+            askForNewMove();
+        }
+    }
+
+    private void askForNewMove(){
         System.out.print("\n");
         System.out.print("Enter your move (Format : row,col): ");
         Scanner scanner1 = new Scanner(System.in);
         String input = scanner1.nextLine();
+        if (input.length() != 3){
+            System.out.println("Move was invalid.");
+            recursiveMove();
+        }
         int row = Character.getNumericValue((input.charAt(0)));
         int col = Character.getNumericValue((input.charAt(2)));
         String move = row + "," + col;
