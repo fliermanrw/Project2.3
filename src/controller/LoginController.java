@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.server_connection.TelnetWriter;
 
@@ -24,6 +26,7 @@ public class LoginController extends PreGameView {
     boolean succesfull = false;
 
     public void clickButton() {
+
         //Get name
         String playerName = textField.getText();
 
@@ -34,10 +37,14 @@ public class LoginController extends PreGameView {
             //Play as a human
         }
 
+
+
         //Login
         connectionWriter.sendData("login " + playerName);
         super.updateLog("login " + playerName);
     }
+
+
 
     public void setConnectionWriter(TelnetWriter w) {
         connectionWriter = w;
@@ -91,5 +98,4 @@ public class LoginController extends PreGameView {
         //Last command was succesfull
         login();
     }
-
 }

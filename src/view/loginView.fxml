@@ -47,7 +47,7 @@
                        </RadioButton>
                    </children>
                </HBox>
-               <Button mnemonicParsing="false" onAction="#clickButton" text="Login">
+               <Button fx:id="login" mnemonicParsing="false" defaultButton="true" onAction="#clickButton" text="Login">
                    <VBox.margin>
                        <Insets top="8.0" />
                    </VBox.margin>
