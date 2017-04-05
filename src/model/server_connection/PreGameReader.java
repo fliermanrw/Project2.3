@@ -1,9 +1,7 @@
-package model;
+package model.server_connection;
 
 import controller.ConnectedController;
 import controller.PreGameView;
-import controller.LoginController;
-import controller.tictactoeController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import org.json.simple.JSONObject;

@@ -8,13 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.TelnetWriter;
+import model.server_connection.TelnetWriter;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ConcurrentModificationException;
-import java.util.ResourceBundle;
 
 public class LoginController extends PreGameView {
     TelnetWriter connectionWriter;

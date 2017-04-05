@@ -1,4 +1,4 @@
-package model;
+package model.server_connection;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

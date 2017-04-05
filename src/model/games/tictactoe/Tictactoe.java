@@ -1,4 +1,6 @@
-package model;
+package model.games.tictactoe;
+
+import model.games.GameModel;
 
 import java.util.ArrayList;
 

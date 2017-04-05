@@ -6,9 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import model.PreGameReader;
-import model.TelnetConnection;
-import model.TelnetWriter;
+import model.server_connection.PreGameReader;
+import model.server_connection.TelnetConnection;
+import model.server_connection.TelnetWriter;
 
 import java.net.Socket;
 
@@ -57,6 +57,11 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+//        Tictactoe tictactoe = new Tictactoe();
+//        tictactoe.printGrid();
+//        tictactoe.move(2);
+//        tictactoe.move(1);
+//        tictactoe.printGrid();
         launch(args);
     }
 }

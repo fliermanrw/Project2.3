@@ -1,4 +1,4 @@
-package othello;
+package model.games.othello;
 
 /**
  * Created by Cyriel on 21-3-2017.

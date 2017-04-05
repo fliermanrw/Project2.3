@@ -1,8 +1,7 @@
 package controller;
 
-import javafx.fxml.Initializable;
-import model.GameReader;
-import model.TelnetWriter;
+import model.server_connection.GameReader;
+import model.server_connection.TelnetWriter;
 
 /**
  * Created by Ryan on 3-4-2017.

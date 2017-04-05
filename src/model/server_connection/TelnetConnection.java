@@ -1,4 +1,4 @@
-package model;
+package model.server_connection;
 
 import java.io.*;
 import java.net.Socket;

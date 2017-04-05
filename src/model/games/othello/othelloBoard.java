@@ -1,4 +1,4 @@
-package othello;
+package model.games.othello;
 
 import java.util.ArrayList;
 import java.util.Scanner;

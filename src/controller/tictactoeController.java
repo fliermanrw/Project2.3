@@ -1,15 +1,11 @@
 package controller;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import model.TelnetWriter;
-import model.Tictactoe;
+import model.server_connection.TelnetWriter;
+import model.games.tictactoe.Tictactoe;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 
 /**

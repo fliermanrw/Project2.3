@@ -1,4 +1,4 @@
-package model;
+package model.server_connection;
 
 import controller.GameView;
 import controller.GameView;

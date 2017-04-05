@@ -1,11 +1,8 @@
 package controller;
 
-import javafx.fxml.Initializable;
-import model.PreGameReader;
-import model.PreGameReader;
-import model.TelnetWriter;
+import model.server_connection.PreGameReader;
+import model.server_connection.TelnetWriter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

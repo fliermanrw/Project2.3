@@ -1,4 +1,4 @@
-package minimax_los_tijdelijk;
+package model.minimax_los_tijdelijk;
 
 public class Move {
 
