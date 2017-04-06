@@ -24,6 +24,7 @@ public class LoginController extends PreGameView {
     @FXML
     RadioButton playAsHuman;
     boolean succesfull = false;
+    String playerName = null;
 
     public void clickButton() {
 
@@ -42,8 +43,8 @@ public class LoginController extends PreGameView {
         //Login
         connectionWriter.sendData("login " + playerName);
         super.updateLog("login " + playerName);
+        this.playerName = playerName;
     }
-
 
 
     public void setConnectionWriter(TelnetWriter w) {
@@ -51,7 +52,7 @@ public class LoginController extends PreGameView {
     }
 
     @Override
-    public void startGame(String game) {
+    public void startGame(String game, String playerToMove) {
 
     }
 
@@ -77,6 +78,7 @@ public class LoginController extends PreGameView {
                 ConnectedController connectedController = fxmlLoader.getController();
                 connectedController.setConnectionWriter(connectionWriter);
                 connectedController.setConnectionReader(super.getConnectionReader());
+                connectedController.setPlayerName(playerName);
                 connectedController.setSocket(super.getSocket());
                 connectedController.setStage(super.getStage());
                 // Remove this view from the views that get notified on updates from the reader

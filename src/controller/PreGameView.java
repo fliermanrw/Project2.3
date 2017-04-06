@@ -32,7 +32,7 @@ public abstract class PreGameView{
     public Socket getSocket(){
         return socket;
     }
-    public abstract void startGame(String game);
+    public abstract void startGame(String game, String playerToMove);
 
     public void updateLog(String currentLine){
         log += currentLine;

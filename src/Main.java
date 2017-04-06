@@ -37,6 +37,7 @@ public class Main extends Application {
             LoginController loginController = fxmlLoader.getController();
             loginController.setConnectionWriter(connectionWriter);
             loginController.setConnectionReader(connectionReader);
+            loginController.setSocket(socket);
 
             //Set stage in LoginController
             loginController.setStage(primaryStage);
@@ -57,11 +58,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-//        Tictactoe tictactoe = new Tictactoe();
-//        tictactoe.printGrid();
-//        tictactoe.move(2);
-//        tictactoe.move(1);
-//        tictactoe.printGrid();
         launch(args);
     }
 }
