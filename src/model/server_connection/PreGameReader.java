@@ -55,7 +55,7 @@ public class PreGameReader implements Runnable{
                 }
                 if(currentLine.contains("OK")) {
                    for(PreGameView v: views){
-                       v.setSuccesfull(true); //last entered command was succesfull, notify the views
+//                       v.setSuccesfull(true); //last entered command was succesfull, notify the views
                    }
                 }
                 if(currentLine.contains("PLAYERLIST")){
@@ -63,7 +63,7 @@ public class PreGameReader implements Runnable{
                     List<String> players = Arrays.asList(playerlist.split(","));
                     for(PreGameView v: views){
                         v.setPlayerList(players);
-                        v.setSuccesfull(true);
+//                        v.setSuccesfull(true);
                     }
                 }
                 //Match for a game is found
@@ -107,8 +107,8 @@ public class PreGameReader implements Runnable{
                                 PreGameView pgv = views.get(0);
                                 if (pgv instanceof ConnectedController) {
                                     ConnectedController tempView = (ConnectedController) pgv;
-                                    TelnetWriter tw = tempView.getConnectionWriter();
-                                    tw.sendData("challenge accept " + json.get("CHALLENGENUMBER"));
+//                                    TelnetWriter tw = tempView.getConnectionWriter();
+//                                    tw.sendData("challenge accept " + json.get("CHALLENGENUMBER"));
                                 }
                             });
                             alert.show();

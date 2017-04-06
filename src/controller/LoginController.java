@@ -57,6 +57,10 @@ public class LoginController extends PreGameView {
         System.out.println(error);
     }
 
+    public void setPlayerName(String name){
+        this.playerName = name;
+    }
+
     public void login() {
         //Perform this in the javafx thread
         Platform.runLater(() -> {

@@ -7,9 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-import model.server_connection.GameReader;
-import model.server_connection.PreGameReader;
+import model.server_connection.ServerHandlerWriter;
 import model.server_connection.TelnetWriter;
 
 import java.io.IOException;
@@ -42,13 +40,13 @@ public class ConnectedController extends PreGameView implements Initializable {
         updateOpponentSelection();
     }
 
-    @Override
-    public void setSuccesfull(boolean status) {
-        succesfull = status;
-        System.out.println("ConnectedController: Last executed command was succesfull");
-        opponentSelection.getItems().add("test");
-        updateOpponentSelection();
-    }
+//    @Override
+//    public void setSuccesfull(boolean status) {
+//        succesfull = status;
+//        System.out.println("ConnectedController: Last executed command was succesfull");
+//        opponentSelection.getItems().add("test");
+//        updateOpponentSelection();
+//    }
 
     public void setPlayerName(String playerName){
         this.playerName = playerName;
@@ -172,9 +170,7 @@ public class ConnectedController extends PreGameView implements Initializable {
     }
 
     public void getOpponents(){
-
-//        connectionWriter.sendData("get playerlist"); //ask for a playerlist
-
+        ServerHandlerWriter.getPlayerList();
     }
 
     private void updateOpponentSelection(){
@@ -199,10 +195,6 @@ public class ConnectedController extends PreGameView implements Initializable {
             selectedGame = "Reversi";
         }
         connectionWriter.sendData("challenge " + "\"" + selectedOpponent.replace(" ", "") +"\""  + " " + "\"" + selectedGame + "\"");
-    }
-
-    public TelnetWriter getConnectionWriter() {
-        return connectionWriter;
     }
 
 }

@@ -19,4 +19,8 @@ public class ServerHandlerWriter{
     public static void login(String playerName) {
         ServerHandlerWriter.writeSend("login " + playerName);
     }
+
+    public static void getPlayerList(){
+        ServerHandlerWriter.writeSend("get playerlist");
+    }
 }

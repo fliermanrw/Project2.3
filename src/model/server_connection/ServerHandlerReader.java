@@ -14,7 +14,6 @@ import java.util.Stack;
 public class ServerHandlerReader implements Runnable {
     public Socket socket;
     private String currentCommand;
-    private String currentGame = "Tic-tac-toe";
     private Stage stage;
 
     public ServerHandlerReader(Socket socket, Stage stage) {
@@ -50,8 +49,11 @@ public class ServerHandlerReader implements Runnable {
 
                     if(currentLine.contains("OK")){
                         if(currentCommand.contains("login")){
-                            LoginController lc = new LoginController(); //@todo gives error because stage is not set
+                            String username = currentCommand.replaceAll("(login )", "");
+                            System.out.println(username);
+                            LoginController lc = new LoginController();
                             lc.setStage(this.stage);
+                            lc.setPlayerName(username);
                             lc.login();
                         }
                     }
