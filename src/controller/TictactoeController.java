@@ -6,16 +6,21 @@ import model.server_connection.TelnetWriter;
 import model.games.tictactoe.Tictactoe;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 /**
  * Created by jouke on 3-4-2017.
  */
 
-public class TictactoeController extends GameView{
+public class TictactoeController extends GameView {
     TelnetWriter connectionWriter;
-    Tictactoe tictactoe = new Tictactoe();
+    Tictactoe tictactoe;
     boolean ourturn = false;
+
+    public TictactoeController() {
+        tictactoe = new Tictactoe();
+    }
 
     public void buttonClick(ActionEvent actionEvent) {
         Button btn = (Button) actionEvent.getSource();
@@ -50,6 +55,10 @@ public class TictactoeController extends GameView{
     @Override
     public void ourturn() {
         ourturn = true;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Positie? (0 t/m 8): ");
+        int pos = Integer.parseInt(scanner.nextLine());
+        connectionWriter.sendData("move " + Integer.toString(pos));
         System.out.println("TictactoeController: Got notified it's now our turn and we can make a move");
     }
 
