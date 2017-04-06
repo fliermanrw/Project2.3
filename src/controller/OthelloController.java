@@ -12,7 +12,6 @@ public class OthelloController extends GameView{
     TelnetWriter connectionWriter;
     Tictactoe tictactoe = new Tictactoe();
     boolean ourturn = false;
-    String committest = "dd";
 
     public void buttonClick(ActionEvent actionEvent) {
         Button btn = (Button) actionEvent.getSource();
