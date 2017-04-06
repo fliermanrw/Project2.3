@@ -153,7 +153,7 @@ public class othelloBoard {
         printBoard();
     }
 
-    public boardCell[][] getShit() {
+    public boardCell[][] getBoard() {
         return reversiBoard;
     }
 }

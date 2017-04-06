@@ -2,6 +2,7 @@ package controller;
 
 import com.sun.org.apache.xerces.internal.dom.ChildNode;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -16,19 +17,35 @@ public class OthelloController extends GameView{
     othelloGameModel othello = new othelloGameModel('W');
     boolean ourturn = false;
 
-//<Button fx:id="7" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-//<Button fx:id="8" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="0" /
+    @FXML
+    GridPane othelloGameBoard;
 
-    public void buttonClick(ActionEvent actionEvent) {
-        Button btn = (Button) actionEvent.getSource();
-        Integer index = Integer.valueOf(btn.getId().toString());
 
+    @FXML
+    public void initialize(){
+        for (int row = 0; row < 8; row ++) {
+            othelloGameBoard.addRow(row);
+            for (int col = 0; col < 8; col++) {
+                Button a = new Button();
+                a.setPrefWidth(50.0);
+                a.setPrefHeight(50.0);
+                a.setId(Integer.toString(othello.rowColToInt(row, col)));
+                a.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        buttonClick(a.getId());
+                    }
+                });
+                othelloGameBoard.addColumn(col, a);
+            }
+        }
+    }
+
+    public void buttonClick(String id) {
+        int index = Integer.parseInt(id);
         ArrayList<Integer> validMoves = othello.getValidMoves();
-
-        if(validMoves.contains(index)){
-            btn.setText("X");
-        }
-        }
+        othello.move(index);
+    }
 
     //When server notifies us of a new move
     @Override

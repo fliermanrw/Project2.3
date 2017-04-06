@@ -44,7 +44,6 @@ public class othelloGameModel implements GameModel {
     public ArrayList<Integer> getValidMoves() {
         ArrayList<Integer> listOfMoves = new ArrayList<>();
         for (boardCell cell : othelloBoard.logic.fetchValidMovesAsCell(othelloBoard.cellsOnBoard, othello.turn)) {
-
             listOfMoves.add(rowColToInt(cell.getCol(), cell.getRow()));
         }
         System.out.println(listOfMoves);
@@ -60,7 +59,7 @@ public class othelloGameModel implements GameModel {
                 x++;
             }
         }
-        othello.logic.applyMove(othello.getShit(), othello.getCellOnBoard(x - 1, y), othello.turn);
+        othello.logic.applyMove(othello.getBoard(), othello.getCellOnBoard(x - 1, y), othello.turn);
         othello.printBoard();
     }
 
