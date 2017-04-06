@@ -63,9 +63,10 @@ public class ConnectedController extends PreGameView implements Initializable {
     @Override
     public void startGame(String game, String playerToMove) {
         System.out.println("startgame wel aangeroepen?");
+        System.out.println(game);
         //change view and start game controller of certain game
         Platform.runLater(() -> {
-            if (game.equals("Tic-tac-toe")) {
+            if (game.equals("Tictactoe")) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/tictactoeGrid.fxml"));
                 Parent root = null;
                 try {
@@ -123,7 +124,7 @@ public class ConnectedController extends PreGameView implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ConcurrentModificationException cme) {
-                    System.out.println("Test");
+//                    System.out.println("Test");
                     cme.printStackTrace();
                 }
                 stage.setTitle("Our playername = " + playerName);

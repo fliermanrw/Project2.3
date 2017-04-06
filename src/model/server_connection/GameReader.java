@@ -10,9 +10,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jouke on 30-3-2017.
@@ -49,42 +49,22 @@ public class GameReader implements Runnable{
                 if(currentLine.contains("MOVE")){
                     //opponent has made a move
                     String line = currentLine;
-                    line = line.replaceAll("(SVR GAME MOVE )", ""); //remove SVR GAME MATCH
-                    System.out.println("Na filter:"  + line);
-                    line = line.replaceAll("(\"|-|\\s)", "");//remove quotations and - and spaces (=\s)
-                    System.out.println("Na filter:"  + line);
-                    line = line.replaceAll("(\\w+)", "\"$1\""); //add quotations to every word
-                    System.out.println("Na filter:"  + line);
-                    JSONParser parser = new JSONParser();
-                    try {
-                        JSONObject json = (JSONObject) parser.parse(line);
-                        //@todo bug when details is empty causes
-                        //@todo example string: SVR GAME MOVE {PLAYER: "b", MOVE: "1", DETAILS: ""}
-                        //@todo string that (line) that causes an error when parsing to json {"PLAYER":"b","MOVE":"1","DETAILS":}
-                        //@todo Unexpected token RIGHT BRACE(}), i think because "details" has no value
-                        System.out.println(json.get("PLAYER"));
-                        System.out.println(json.get("MOVE"));
-                        System.out.println(json.get("DETAILS"));
-                        int index = Integer.valueOf(json.get("MOVE").toString());
-                        for(GameView v : views){
-                            v.serverMove(index);//dummy data is index 1
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    //        First group: ([A-Za-z]+):  //Match any characert from A-Z or a-z, + means 1 or more, end with :
+                    //        So the first group matches every word that ends with :
+                    //        ---------------------------------------------------------------
+                    //        Second group: "([^"]*)"    //Match the ", then [^"] = match a single characer " that is not in the set,  * = between zero and more times, end with a " .
+                    //        So the second group matches everything between quotes and checks if it doesn't contain quotes itself?
+                    Map<String,String> vars = new HashMap<>();
+                    Pattern pattern = Pattern.compile("([A-Za-z]+): \"([^\"]*)\"");
+                    Matcher matcher = pattern.matcher(line);
+                    while (matcher.find()) {
+                        vars.put(matcher.group(1), matcher.group(2));
+                    }
+                    System.out.println(vars.get("MOVE"));
+                    for(GameView v : views){
+                            v.serverMove(Integer.valueOf(vars.get("MOVE")));//dummy data is index 1
                     }
                 }
-//                for(GameView v : views){
-//                    v.serverMove(1);//dummy data is index 1
-//                }
-
-
-//            SVR GAME MATCH {PLAYERTOMOVE: "test", GAMETYPE: "Tic-tac-toe", OPPONENT: "muis"}
-//            SVR GAME YOURTURN {TURNMESSAGE: ""}
-//            move 0
-//            OK
-//            SVR GAME MOVE {PLAYER: "test", MOVE: "0", DETAILS: ""}
-
-                //@Todo Notift views on certain conditions
 
                 System.out.println(currentLine);
             }
