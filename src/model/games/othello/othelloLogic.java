@@ -35,6 +35,18 @@ public class othelloLogic {
         return listOfValidMoves;
     }
 
+    public ArrayList<boardCell> fetchValidMovesAsCell(ArrayList<boardCell> cellsOnBoard, char turn) {
+        ArrayList<boardCell> listOfValidMoves = new ArrayList<>();
+        for (boardCell b : cellsOnBoard) {
+            if (b.getCharacterInCell() == turn) {
+                for (boardCell cell : getMoves(b, turn)) {
+                    listOfValidMoves.add(cell);
+                }
+            }
+        }
+        return listOfValidMoves;
+    }
+
     public boardCell[][] applyMove(boardCell[][] board, boardCell b, char turn) {
         reversiBoard = board;
 
