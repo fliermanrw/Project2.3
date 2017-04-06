@@ -10,9 +10,9 @@ import java.util.Arrays;
  */
 public class othelloGameModel implements GameModel {
 
-    public static void main(String[] args) {
-        new othelloGameModel('W');
-    }
+//    public static void main(String[] args) {
+//        new othelloGameModel('W');
+//    }
 
     othelloBoard othello;
     char turnForBot;
