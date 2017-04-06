@@ -55,10 +55,7 @@ public class ConnectedController extends PreGameView implements Initializable {
         loggedInAs.setText("Logged in as: " + playerName);
     }
 
-    @Override
-    public void setConnectionWriter(TelnetWriter w) {
-        connectionWriter = w;
-    }
+
 
     @Override
     public void startGame(String game, String playerToMove) {
@@ -76,11 +73,11 @@ public class ConnectedController extends PreGameView implements Initializable {
                     TictactoeController tictactoeController = fxmlLoader.getController();
                     tictactoeController.setConnectionWriter(connectionWriter);
 
-                    //Create a game telnet reader @todo dirty please think of something cleaner
-                    GameReader gameReader = new GameReader(super.getSocket());
-                    Thread t1 = new Thread(gameReader);
-                    t1.start();
-                    tictactoeController.setConnectionReader(gameReader);
+//                    //Create a game telnet reader @todo dirty please think of something cleaner
+//                    GameReader gameReader = new GameReader(super.getSocket());
+//                    Thread t1 = new Thread(gameReader);
+//                    t1.start();
+//                    tictactoeController.setConnectionReader(gameReader);
 
 
                     //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
@@ -108,11 +105,11 @@ public class ConnectedController extends PreGameView implements Initializable {
                     OthelloController othelloController = fxmlLoader.getController();
                     othelloController.setConnectionWriter(connectionWriter);
 
-                    //Create a game telnet reader @todo dirty please think of something cleaner
-                    GameReader gameReader = new GameReader(super.getSocket());
-                    Thread t1 = new Thread(gameReader);
-                    t1.start();
-                    othelloController.setConnectionReader(gameReader);
+//                    //Create a game telnet reader @todo dirty please think of something cleaner
+//                    GameReader gameReader = new GameReader(super.getSocket());
+//                    Thread t1 = new Thread(gameReader);
+//                    t1.start();
+//                    othelloController.setConnectionReader(gameReader);
 
 
                     //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
@@ -175,7 +172,8 @@ public class ConnectedController extends PreGameView implements Initializable {
     }
 
     public void getOpponents(){
-        connectionWriter.sendData("get playerlist"); //ask for a playerlist
+
+//        connectionWriter.sendData("get playerlist"); //ask for a playerlist
 
     }
 

@@ -10,7 +10,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import model.server_connection.ServerHandler;
+import model.server_connection.ServerHandlerWriter;
 import model.server_connection.TelnetWriter;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.util.ConcurrentModificationException;
@@ -26,8 +29,7 @@ public class LoginController extends PreGameView {
     boolean succesfull = false;
     String playerName = null;
 
-    public void clickButton() {
-
+    public void loginButton() {
         //Get name
         String playerName = textField.getText();
 
@@ -41,14 +43,9 @@ public class LoginController extends PreGameView {
 
 
         //Login
-        connectionWriter.sendData("login " + playerName);
-        super.updateLog("login " + playerName);
+        ServerHandlerWriter.login(playerName);
+        super.updateLog(ServerHandler.log);
         this.playerName = playerName;
-    }
-
-
-    public void setConnectionWriter(TelnetWriter w) {
-        connectionWriter = w;
     }
 
     @Override
@@ -61,11 +58,6 @@ public class LoginController extends PreGameView {
     }
 
     public void login() {
-//        System.out.println("We are logged in to the server. So we are changing the view");
-
-        //Remove this view from the views that get notified on updates from the reader
-//        connectionReader.removeView(this); //@todo can throw concurrentmodificationexeption
-
         //Perform this in the javafx thread
         Platform.runLater(() -> {
             Stage stage = super.getStage();
@@ -76,28 +68,16 @@ public class LoginController extends PreGameView {
 
                 //Set writer in controller
                 ConnectedController connectedController = fxmlLoader.getController();
-                connectedController.setConnectionWriter(connectionWriter);
-                connectedController.setConnectionReader(super.getConnectionReader());
                 connectedController.setPlayerName(playerName);
-                connectedController.setSocket(super.getSocket());
-                connectedController.setStage(super.getStage());
+//                connectedController.setStage(super.getStage());
                 // Remove this view from the views that get notified on updates from the reader
-                connectionReader.removeView(this);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ConcurrentModificationException cme) {
-                System.out.println("Test");
                 cme.printStackTrace();
             }
             stage.setTitle("Connected");
             stage.setScene(new Scene(root, 300, 400));
         });
-    }
-
-    @Override
-    public void setSuccesfull(boolean status) {
-        succesfull = status;
-        //Last command was succesfull
-        login();
     }
 }

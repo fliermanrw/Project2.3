@@ -48,6 +48,11 @@ public class PreGameReader implements Runnable{
 //                        v.printError("Server tells us:" + error); //notify views
 //                    }
 //                }
+
+
+                if(currentLine.contains("MOVE")){
+                    System.out.println("Pregamereader: move");
+                }
                 if(currentLine.contains("OK")) {
                    for(PreGameView v: views){
                        v.setSuccesfull(true); //last entered command was succesfull, notify the views
@@ -85,6 +90,7 @@ public class PreGameReader implements Runnable{
 
                 }
 
+
                 if (currentLine.contains("CHALLENGE")) {
                     String line = currentLine;
                     line = line.replaceAll("(SVR GAME CHALLENGE )", ""); //remove SVR GAME MATCH
@@ -117,7 +123,7 @@ public class PreGameReader implements Runnable{
                 }
 
 
-                System.out.println(currentLine);
+//                System.out.println(currentLine);
             }
         } catch (IOException e) {
             e.printStackTrace();
