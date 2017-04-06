@@ -1,7 +1,10 @@
 package controller;
 
+import com.sun.org.apache.xerces.internal.dom.ChildNode;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 import model.games.othello.othelloGameModel;
 import model.server_connection.TelnetWriter;
 
@@ -12,6 +15,9 @@ public class OthelloController extends GameView{
     TelnetWriter connectionWriter;
     othelloGameModel othello = new othelloGameModel('W');
     boolean ourturn = false;
+
+//<Button fx:id="7" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+//<Button fx:id="8" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="0" /
 
     public void buttonClick(ActionEvent actionEvent) {
         Button btn = (Button) actionEvent.getSource();

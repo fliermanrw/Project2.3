@@ -33,8 +33,7 @@
         </MenuBar>
     </top>
     <center>
-        <GridPane fx:id="gameBoard" BorderPane.alignment="CENTER">
-            <children>
+        <GridPane fx:id="othelloGameBoard" BorderPane.alignment="CENTER">
                 <Button fx:id="0" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <Button fx:id="1" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                 <Button fx:id="2" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="0" GridPane.rowIndex="2" />
@@ -66,8 +65,8 @@
                 <Button fx:id="24" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
                 <Button fx:id="25" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                 <Button fx:id="26" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                <Button fx:id="27" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                <Button fx:id="28" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                <Button fx:id="27" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="3" text="W"/>
+                <Button fx:id="28" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="4" text="B"/>
                 <Button fx:id="29" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                 <Button fx:id="30" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
                 <Button fx:id="31" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="7" />
@@ -75,8 +74,8 @@
                 <Button fx:id="32" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="0" />
                 <Button fx:id="33" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                 <Button fx:id="34" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                <Button fx:id="35" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                <Button fx:id="36" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                <Button fx:id="35" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="3" text="B"/>
+                <Button fx:id="36" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="4" text="W" />
                 <Button fx:id="37" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
                 <Button fx:id="38" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="6" />
                 <Button fx:id="39" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="7" />
@@ -107,9 +106,6 @@
                 <Button fx:id="61" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="7" GridPane.rowIndex="5" />
                 <Button fx:id="62" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="7" GridPane.rowIndex="6" />
                 <Button fx:id="63" onAction="#buttonClick" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="7" GridPane.rowIndex="7" />
-
-
-            </children>
          <columnConstraints>
             <ColumnConstraints minWidth="10.0" prefWidth="50.0" />
             <ColumnConstraints minWidth="10.0" prefWidth="50.0" />

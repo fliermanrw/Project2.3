@@ -10,10 +10,6 @@ import java.util.Arrays;
  */
 public class othelloGameModel implements GameModel {
 
-//    public static void main(String[] args) {
-//        new othelloGameModel('W');
-//    }
-
     othelloBoard othello;
     char turnForBot;
 
@@ -73,7 +69,6 @@ public class othelloGameModel implements GameModel {
         othello.generateNewBoard();
         othello.refreshBoardList();
     }
-
 
     public int rowColToInt(int row, int col) {
         int index = row * 8 + col;
