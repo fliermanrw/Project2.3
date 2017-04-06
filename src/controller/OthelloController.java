@@ -34,7 +34,7 @@ public class OthelloController extends GameView{
                 a.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        buttonClick(a.getId());
+                        buttonClick(a.getId(), a);
                     }
                 });
                 a.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row,col)).getCharacterInCell()));
@@ -43,10 +43,23 @@ public class OthelloController extends GameView{
         }
     }
 
-    public void buttonClick(String id) {
+    public void buttonClick(String id, Button button) {
         int index = Integer.parseInt(id);
         ArrayList<Integer> validMoves = othello.getValidMoves();
-        othello.move(index);
+
+        if(ourturn) {
+            button.setText("B");
+            othello.move(index);
+            ourturn = false;
+        } else{
+            //wachten op de move van de server
+            // doe dingen..
+
+           button.setText("W");
+           ourturn();
+
+
+        }
     }
 
     //When server notifies us of a new move
