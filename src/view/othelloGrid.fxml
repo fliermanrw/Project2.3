@@ -19,7 +19,7 @@
             <menus>
                 <Menu text="Actions">
                     <items>
-                        <MenuItem onAction="" text="Play" />
+                       <!-- <MenuItem onAction="" text="Play" />-->
                         <MenuItem text="Quit" />
                     </items>
                 </Menu>

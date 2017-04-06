@@ -65,7 +65,7 @@ public class ConnectedController extends PreGameView implements Initializable {
         System.out.println("startgame wel aangeroepen?");
         //change view and start game controller of certain game
         Platform.runLater(() -> {
-            if(game.equals("tic-tac-toe")){
+            if (game.equals("tic-tac-toe")) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/tictactoeGrid.fxml"));
                 Parent root = null;
                 try {
@@ -96,43 +96,42 @@ public class ConnectedController extends PreGameView implements Initializable {
                 }
                 stage.setTitle("Our playername = " + playerName);
                 stage.setScene(new Scene(root, 800, 800));
-            } else if(game.equals("Reversi")){
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/othelloGrid.fxml"));
-                        Parent root = null;
-                        try {
-                            root = (Parent) fxmlLoader.load();
+            } else if (game.equals("Reversi")) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/othelloGrid.fxml"));
+                Parent root = null;
+                try {
+                    root = (Parent) fxmlLoader.load();
 
-                            //Set writer in controller
-                            OthelloController othelloController= fxmlLoader.getController();
-                            OthelloController.setConnectionWriter(connectionWriter);
+                    //Set writer in controller
+                    OthelloController othelloController = fxmlLoader.getController();
+                    othelloController.setConnectionWriter(connectionWriter);
 
-                            //Create a game telnet reader @todo dirty please think of something cleaner
-                            GameReader gameReader = new GameReader(super.getSocket());
-                            Thread t1 = new Thread(gameReader);
-                            t1.start();
-                            othelloController.setConnectionReader(gameReader);
+                    //Create a game telnet reader @todo dirty please think of something cleaner
+                    GameReader gameReader = new GameReader(super.getSocket());
+                    Thread t1 = new Thread(gameReader);
+                    t1.start();
+                    othelloController.setConnectionReader(gameReader);
 
 
-                            //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
-                            if(playerToMove.equals(this.playerName)){
-                                othelloController.ourturn();
-                            }
-                            // Remove this view from the views that get notified on updates from the reader
-                            connectionReader.removeView(this);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (ConcurrentModificationException cme) {
-                            System.out.println("Test");
-                            cme.printStackTrace();
-                        }
-                        stage.setTitle("Our playername = " + playerName);
-                        stage.setScene(new Scene(root, 800, 800));
-                    });
+                    //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
+                    if (playerToMove.equals(this.playerName)) {
+                        othelloController.ourturn();
+                    }
+                    // Remove this view from the views that get notified on updates from the reader
+                    connectionReader.removeView(this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ConcurrentModificationException cme) {
+                    System.out.println("Test");
+                    cme.printStackTrace();
+                }
+                stage.setTitle("Our playername = " + playerName);
+                stage.setScene(new Scene(root, 800, 800));
             }
 
-                    );
 
-    }
+        });}
+
 
 
     public void logout(){
