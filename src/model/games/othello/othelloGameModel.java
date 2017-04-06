@@ -10,14 +10,14 @@ import java.util.Arrays;
  */
 public class othelloGameModel implements GameModel {
 
-    othelloBoard othello;
+    public othelloBoard othelloBoard;
     char turnForBot;
 
     public othelloGameModel(char turnForBot) {
         this.turnForBot = turnForBot;
         // Make a new board and assign the colour for the bot.
         // 'B' if bot plays first 'W' if bot plays second
-        othello = new othelloBoard(turnForBot);
+        othelloBoard = new othelloBoard(turnForBot);
         initGrid();
         for (int a : getValidMoves()) {
             System.out.println(a);
@@ -32,18 +32,18 @@ public class othelloGameModel implements GameModel {
 
     @Override
     public String getCurrentPlayer() {
-        return Character.toString(othello.turn);
+        return Character.toString(othelloBoard.turn);
     }
 
     @Override
     public void switchPlayer() {
-        othello.swapTurn();
+        othelloBoard.swapTurn();
     }
 
     @Override
     public ArrayList<Integer> getValidMoves() {
         ArrayList<Integer> listOfMoves = new ArrayList<>();
-        for (boardCell cell : othelloBoard.logic.fetchValidMovesAsCell(othelloBoard.cellsOnBoard, othello.turn)) {
+        for (boardCell cell : othelloBoard.logic.fetchValidMovesAsCell(othelloBoard.cellsOnBoard, othelloBoard.turn)) {
             listOfMoves.add(rowColToInt(cell.getCol(), cell.getRow()));
         }
         System.out.println(listOfMoves);
@@ -59,14 +59,14 @@ public class othelloGameModel implements GameModel {
                 x++;
             }
         }
-        othello.logic.applyMove(othello.getBoard(), othello.getCellOnBoard(x - 1, y), othello.turn);
-        othello.printBoard();
+        othelloBoard.logic.applyMove(othelloBoard.getBoard(), othelloBoard.getCellOnBoard(x - 1, y), othelloBoard.turn);
+        othelloBoard.printBoard();
     }
 
     @Override
     public void initGrid() {
-        othello.generateNewBoard();
-        othello.refreshBoardList();
+        othelloBoard.generateNewBoard();
+        othelloBoard.refreshBoardList();
     }
 
     public int rowColToInt(int row, int col) {

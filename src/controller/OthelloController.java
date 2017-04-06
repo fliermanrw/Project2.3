@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import model.games.othello.boardCell;
 import model.games.othello.othelloGameModel;
 import model.server_connection.TelnetWriter;
 
@@ -22,8 +23,8 @@ public class OthelloController extends GameView{
 
 
     @FXML
-    public void initialize(){
-        for (int row = 0; row < 8; row ++) {
+    public void initialize() {
+        for (int row = 0; row < 8; row++) {
             othelloGameBoard.addRow(row);
             for (int col = 0; col < 8; col++) {
                 Button a = new Button();
@@ -36,6 +37,7 @@ public class OthelloController extends GameView{
                         buttonClick(a.getId());
                     }
                 });
+                a.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row,col)).getCharacterInCell()));
                 othelloGameBoard.addColumn(col, a);
             }
         }
