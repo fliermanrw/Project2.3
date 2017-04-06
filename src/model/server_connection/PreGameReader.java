@@ -70,9 +70,9 @@ public class PreGameReader implements Runnable{
                     JSONParser parser = new JSONParser();
                     try {
                         JSONObject json = (JSONObject) parser.parse(line);
-                        System.out.println(json.get("PLAYERTOMOVE"));
-                        System.out.println(json.get("GAMETYPE"));
-                        System.out.println(json.get("OPPONENT"));
+//                        System.out.println(json.get("PLAYERTOMOVE"));
+//                        System.out.println(json.get("GAMETYPE"));
+//                        System.out.println(json.get("OPPONENT"));
                         for(PreGameView v: views){
                            v.startGame(String.valueOf(json.get("GAMETYPE")), String.valueOf(json.get("PLAYERTOMOVE")));
                         }
