@@ -25,8 +25,9 @@ public class TictactoeController extends GameView {
     public void buttonClick(ActionEvent actionEvent) {
         Button btn = (Button) actionEvent.getSource();
         Integer index = Integer.valueOf(btn.getId().toString());
-
+        System.out.println(index);
         ArrayList<Integer> validMoves = tictactoe.getValidMoves();
+        System.out.println("Validmoves" + validMoves);
 
         if(ourturn){
             if(tictactoe.hasWon(tictactoe.getGrid(), tictactoe.getCurrentPlayer())){
@@ -50,15 +51,16 @@ public class TictactoeController extends GameView {
     @Override
     public void serverMove(int index) {
         tictactoe.move(index); //set position in model
+        System.out.println("TictactoeController: Received move: " + index);
     }
 
     @Override
     public void ourturn() {
         ourturn = true;
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Positie? (0 t/m 8): ");
-        int pos = Integer.parseInt(scanner.nextLine());
-        connectionWriter.sendData("move " + Integer.toString(pos));
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Positie? (0 t/m 8): ");
+//        int pos = Integer.parseInt(scanner.nextLine());
+//        connectionWriter.sendData("move " + Integer.toString(pos));
         System.out.println("TictactoeController: Got notified it's now our turn and we can make a move");
     }
 

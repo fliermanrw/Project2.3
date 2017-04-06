@@ -25,6 +25,9 @@ public class OthelloController extends GameView{
 
         ArrayList<Integer> validMoves = othello.getValidMoves();
 
+        if(validMoves.contains(index)){
+            btn.setText("X");
+        }
         }
 
     //When server notifies us of a new move

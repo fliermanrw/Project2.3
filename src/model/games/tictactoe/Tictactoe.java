@@ -13,29 +13,14 @@ public class Tictactoe implements GameModel {
 
     private ArrayList<String> grid;
     private int gridSize;
-    private String humanPlayer = "X";
-    private String aiPlayer = "O";
+    private String humanPlayer;
+    private String aiPlayer;
     private String currentPlayer;
     private int depth;
 
     public Tictactoe() {
         gridSize = 9; //3*3
         initGrid();
-        //startCommandLine();
-    }
-
-    private void startCommandLine() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-
-            System.out.print("Positie? (0 t/m 8): ");
-            int pos = Integer.parseInt(scanner.nextLine());
-            printGrid(pos, humanPlayer);
-
-            Move bestMove = minimax(grid, aiPlayer, new Move(0));
-            printGrid(bestMove.getIndex(), aiPlayer);
-            System.out.println(getValidMoves());
-        }
     }
 
     /**
@@ -61,24 +46,25 @@ public class Tictactoe implements GameModel {
         }
     }
 
-    // @todo?
     public ArrayList<String> getGrid(){
         return grid;
     }
 
-    // @todo?
     @Override
     public String getCurrentPlayer() {
         return currentPlayer;
     }
 
-    // @todo?
+    public void setCurrentPlayer(String player) {
+        currentPlayer = player;
+    }
+
     @Override
     public void switchPlayer() {
-        if (currentPlayer.equals(aiPlayer)) {
-            currentPlayer = humanPlayer;
-        } else if (currentPlayer.equals(humanPlayer)) {
-            currentPlayer = aiPlayer;
+        if (currentPlayer.equals("O")) {
+            currentPlayer = "X";
+        } else if (currentPlayer.equals("X")) {
+            currentPlayer = "O";
         }
     }
 
@@ -96,10 +82,9 @@ public class Tictactoe implements GameModel {
         return result;
     }
 
-    // @todo?
     @Override
     public void move(int move) {
-        grid.set(move, getCurrentPlayer());
+        grid.set(move, currentPlayer);
         switchPlayer();
     }
 
@@ -113,9 +98,23 @@ public class Tictactoe implements GameModel {
         }
     }
 
-    public void printGrid(int pos, String player) {
-        grid.remove(pos);
-        grid.add(pos, player);
+    public void setHumanPlayer(String player) {
+        humanPlayer = player;
+    }
+
+    public String getHumanPlayer() {
+        return humanPlayer;
+    }
+
+    public void setAiPlayer(String player) {
+        aiPlayer = player;
+    }
+
+    public String getAIPlayer() {
+        return aiPlayer;
+    }
+
+    public void printGrid() {
         for (int i = 0; i < gridSize; i++) {
             if (i % 3 != 0) {
                 System.out.print(" " + grid.get(i) + " ");
@@ -144,7 +143,7 @@ public class Tictactoe implements GameModel {
         return result;
     }
 
-    private Move minimax(ArrayList<String> newBoard, String player, Move m) {
+    public Move minimax(ArrayList<String> newBoard, String player, Move m) {
         // Increment the depth (or function call) by 1
         this.depth++;
         //if (m == null) m = new Move(0);
