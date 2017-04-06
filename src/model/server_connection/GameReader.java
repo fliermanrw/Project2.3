@@ -61,6 +61,7 @@ public class GameReader implements Runnable{
                         vars.put(matcher.group(1), matcher.group(2));
                     }
                     System.out.println(vars.get("MOVE"));
+
                     for(GameView v : views){
                             v.serverMove(Integer.valueOf(vars.get("MOVE")));//dummy data is index 1
                     }

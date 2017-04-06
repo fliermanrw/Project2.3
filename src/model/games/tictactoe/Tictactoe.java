@@ -21,6 +21,7 @@ public class Tictactoe implements GameModel {
     public Tictactoe() {
         gridSize = 9; //3*3
         initGrid();
+        setCurrentPlayer("X");
     }
 
     /**
@@ -94,7 +95,7 @@ public class Tictactoe implements GameModel {
 
         for(int cell = 0; cell < gridSize; cell++){
             grid.add(Integer.toString(cell));
-            System.out.println(cell);
+//            System.out.println(cell);
         }
     }
 
