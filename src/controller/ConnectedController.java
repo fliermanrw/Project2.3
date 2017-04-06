@@ -65,40 +65,73 @@ public class ConnectedController extends PreGameView implements Initializable {
         System.out.println("startgame wel aangeroepen?");
         //change view and start game controller of certain game
         Platform.runLater(() -> {
-            String gridtoGame = "tictactoeGrid";
-            if(game.equals("Reversi")){gridtoGame = "othelloGrid";}
-            System.out.println(gridtoGame);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/"+ gridtoGame+ ".fxml"));
-            Parent root = null;
-            try {
-                root = (Parent) fxmlLoader.load();
+            if(game.equals("tic-tac-toe")){
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/tictactoeGrid.fxml"));
+                Parent root = null;
+                try {
+                    root = (Parent) fxmlLoader.load();
 
-                //Set writer in controller
-                TictactoeController tictactoeController= fxmlLoader.getController();
-                tictactoeController.setConnectionWriter(connectionWriter);
+                    //Set writer in controller
+                    TictactoeController tictactoeController = fxmlLoader.getController();
+                    tictactoeController.setConnectionWriter(connectionWriter);
 
-                //Create a game telnet reader @todo dirty please think of something cleaner
-                GameReader gameReader = new GameReader(super.getSocket());
-                Thread t1 = new Thread(gameReader);
-                t1.start();
-                tictactoeController.setConnectionReader(gameReader);
+                    //Create a game telnet reader @todo dirty please think of something cleaner
+                    GameReader gameReader = new GameReader(super.getSocket());
+                    Thread t1 = new Thread(gameReader);
+                    t1.start();
+                    tictactoeController.setConnectionReader(gameReader);
 
 
-                //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
-                if(playerToMove.equals(this.playerName)){
-                    tictactoeController.ourturn();
+                    //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
+                    if (playerToMove.equals(this.playerName)) {
+                        tictactoeController.ourturn();
+                    }
+                    // Remove this view from the views that get notified on updates from the reader
+                    connectionReader.removeView(this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ConcurrentModificationException cme) {
+                    System.out.println("Test");
+                    cme.printStackTrace();
                 }
-                // Remove this view from the views that get notified on updates from the reader
-                connectionReader.removeView(this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ConcurrentModificationException cme) {
-                System.out.println("Test");
-                cme.printStackTrace();
+                stage.setTitle("Our playername = " + playerName);
+                stage.setScene(new Scene(root, 800, 800));
+            } else if(game.equals("Reversi")){
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/othelloGrid.fxml"));
+                        Parent root = null;
+                        try {
+                            root = (Parent) fxmlLoader.load();
+
+                            //Set writer in controller
+                            OthelloController othelloController= fxmlLoader.getController();
+                            OthelloController.setConnectionWriter(connectionWriter);
+
+                            //Create a game telnet reader @todo dirty please think of something cleaner
+                            GameReader gameReader = new GameReader(super.getSocket());
+                            Thread t1 = new Thread(gameReader);
+                            t1.start();
+                            othelloController.setConnectionReader(gameReader);
+
+
+                            //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
+                            if(playerToMove.equals(this.playerName)){
+                                othelloController.ourturn();
+                            }
+                            // Remove this view from the views that get notified on updates from the reader
+                            connectionReader.removeView(this);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ConcurrentModificationException cme) {
+                            System.out.println("Test");
+                            cme.printStackTrace();
+                        }
+                        stage.setTitle("Our playername = " + playerName);
+                        stage.setScene(new Scene(root, 800, 800));
+                    });
             }
-            stage.setTitle("Our playername = " + playerName);
-            stage.setScene(new Scene(root, 800, 800));
-        });
+
+                    );
+
     }
 
 
@@ -106,6 +139,7 @@ public class ConnectedController extends PreGameView implements Initializable {
         System.out.println("Logged out of the server");
         super.updateLog("logout");
         connectionWriter.sendData("logout");
+
     }
 
     public void updateLog(String currentLine){
