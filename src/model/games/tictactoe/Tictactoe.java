@@ -1,6 +1,7 @@
 package model.games.tictactoe;
 
 import model.games.GameModel;
+import model.server_connection.TelnetWriter;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,7 +21,7 @@ public class Tictactoe implements GameModel {
     public Tictactoe() {
         gridSize = 9; //3*3
         initGrid();
-        startCommandLine();
+        //startCommandLine();
     }
 
     private void startCommandLine() {
