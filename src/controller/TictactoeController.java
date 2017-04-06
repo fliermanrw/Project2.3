@@ -55,10 +55,10 @@ public class TictactoeController extends GameView {
     @Override
     public void ourturn() {
         ourturn = true;
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Positie? (0 t/m 8): ");
-        int pos = Integer.parseInt(scanner.nextLine());
-        connectionWriter.sendData("move " + Integer.toString(pos));
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Positie? (0 t/m 8): ");
+//        int pos = Integer.parseInt(scanner.nextLine());
+//        connectionWriter.sendData("move " + Integer.toString(pos));
         System.out.println("TictactoeController: Got notified it's now our turn and we can make a move");
     }
 
