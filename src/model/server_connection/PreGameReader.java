@@ -48,9 +48,14 @@ public class PreGameReader implements Runnable{
 //                        v.printError("Server tells us:" + error); //notify views
 //                    }
 //                }
+
+
+                if(currentLine.contains("MOVE")){
+                    System.out.println("Pregamereader: move");
+                }
                 if(currentLine.contains("OK")) {
                    for(PreGameView v: views){
-                       v.setSuccesfull(true); //last entered command was succesfull, notify the views
+//                       v.setSuccesfull(true); //last entered command was succesfull, notify the views
                    }
                 }
                 if(currentLine.contains("PLAYERLIST")){
@@ -58,7 +63,7 @@ public class PreGameReader implements Runnable{
                     List<String> players = Arrays.asList(playerlist.split(","));
                     for(PreGameView v: views){
                         v.setPlayerList(players);
-                        v.setSuccesfull(true);
+//                        v.setSuccesfull(true);
                     }
                 }
                 //Match for a game is found
@@ -85,6 +90,7 @@ public class PreGameReader implements Runnable{
 
                 }
 
+
                 if (currentLine.contains("CHALLENGE")) {
                     String line = currentLine;
                     line = line.replaceAll("(SVR GAME CHALLENGE )", ""); //remove SVR GAME MATCH
@@ -101,8 +107,8 @@ public class PreGameReader implements Runnable{
                                 PreGameView pgv = views.get(0);
                                 if (pgv instanceof ConnectedController) {
                                     ConnectedController tempView = (ConnectedController) pgv;
-                                    TelnetWriter tw = tempView.getConnectionWriter();
-                                    tw.sendData("challenge accept " + json.get("CHALLENGENUMBER"));
+//                                    TelnetWriter tw = tempView.getConnectionWriter();
+//                                    tw.sendData("challenge accept " + json.get("CHALLENGENUMBER"));
                                 }
                             });
                             alert.show();
@@ -117,7 +123,7 @@ public class PreGameReader implements Runnable{
                 }
 
 
-                System.out.println(currentLine);
+//                System.out.println(currentLine);
             }
         } catch (IOException e) {
             e.printStackTrace();

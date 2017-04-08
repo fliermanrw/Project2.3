@@ -17,21 +17,6 @@ public abstract class PreGameView{
     Stage stage;
     Socket socket;
 
-    public abstract void setSuccesfull(boolean status);
-    public abstract void setConnectionWriter(TelnetWriter w);
-
-    public void setConnectionReader(PreGameReader r){
-        connectionReader = r;
-        connectionReader.addView(this);
-    }
-
-    public void setSocket(Socket s){
-        socket = s;
-    }
-
-    public Socket getSocket(){
-        return socket;
-    }
     public abstract void startGame(String game, String playerToMove);
 
     public void updateLog(String currentLine){
@@ -41,10 +26,6 @@ public abstract class PreGameView{
 
     public String getLog(){
         return log;
-    }
-
-    public PreGameReader getConnectionReader(){
-        return connectionReader;
     }
 
     public void setStage(Stage stage) {

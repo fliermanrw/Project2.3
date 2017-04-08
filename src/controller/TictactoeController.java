@@ -56,20 +56,20 @@ public class TictactoeController extends GameView {
     //When server notifies us of a new move
     @Override
     public void serverMove(int index) {
-        Platform.runLater(()->{
-            for(Node node : gameBoard.getChildren()){
-                System.out.println("looping trough nodes");
-                if(node instanceof Button){
-                    Button button = (Button) node;
-                    int buttonid = Integer.valueOf(button.getId());
-                    System.out.println("Button id:" + buttonid + "server index id:" + index);
-                    if(buttonid == index){
-                        System.out.println("button id equals index");
-                        button.setText("test");
-                    }
-                }
-            }
-        });
+//        Platform.runLater(()->{
+//            for(Node node : gameBoard.getChildren()){
+//                System.out.println("looping trough nodes");
+//                if(node instanceof Button){
+//                    Button button = (Button) node;
+//                    int buttonid = Integer.valueOf(button.getId());
+//                    System.out.println("Button id:" + buttonid + "server index id:" + index);
+//                    if(buttonid == index){
+//                        System.out.println("button id equals index");
+//                        button.setText("test");
+//                    }
+//                }
+//            }
+//        });
         tictactoe.move(index); //set position in model
         System.out.println("TictactoeController: Received move: " + index);
     }

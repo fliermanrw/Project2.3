@@ -40,34 +40,48 @@ public class GameReader implements Runnable{
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             while ((currentLine = reader.readLine()) != null) {
+                System.out.println(currentLine);
+
+                if(currentLine.contains("MOVE")){
+                    System.out.println("GameReader: move");
+                }
                 if(currentLine.contains("YOURTURN")){
-                    System.out.println("GameReader: it's now our turn, notify views");
-                    for(GameView v : views){
-                        v.ourturn();//dummy data is index 1
-                    }
+                    System.out.println("GameReader: yourturn");
                 }
                 if(currentLine.contains("MOVE")){
-                    //opponent has made a move
-                    String line = currentLine;
-                    //        First group: ([A-Za-z]+):  //Match any characert from A-Z or a-z, + means 1 or more, end with :
-                    //        So the first group matches every word that ends with :
-                    //        ---------------------------------------------------------------
-                    //        Second group: "([^"]*)"    //Match the ", then [^"] = match a single characer " that is not in the set,  * = between zero and more times, end with a " .
-                    //        So the second group matches everything between quotes and checks if it doesn't contain quotes itself?
-                    Map<String,String> vars = new HashMap<>();
-                    Pattern pattern = Pattern.compile("([A-Za-z]+): \"([^\"]*)\"");
-                    Matcher matcher = pattern.matcher(line);
-                    while (matcher.find()) {
-                        vars.put(matcher.group(1), matcher.group(2));
-                    }
-                    System.out.println(vars.get("MOVE"));
-
-                    for(GameView v : views){
-                            v.serverMove(Integer.valueOf(vars.get("MOVE")));//dummy data is index 1
-                    }
+                    System.out.println("GameReader: move");
                 }
-
-                System.out.println(currentLine);
+//                System.out.println(currentLine);
+//                if(currentLine.contains("MOVE")){
+//                    System.out.println("GameReader: we received a new move");
+//                }
+//                if(currentLine.contains("YOURTURN")){
+//                    System.out.println("GameReader: it's now our turn, notify views");
+//                    for(GameView v : views){
+//                        v.ourturn();//dummy data is index 1
+//                    }
+//                }
+//                if(currentLine.contains("MOVE")){
+//                    System.out.println("GameReader: we received a new move");
+//                    //opponent has made a move
+//                    String line = currentLine;
+//                    //        First group: ([A-Za-z]+):  //Match any characert from A-Z or a-z, + means 1 or more, end with :
+//                    //        So the first group matches every word that ends with :
+//                    //        ---------------------------------------------------------------
+//                    //        Second group: "([^"]*)"    //Match the ", then [^"] = match a single characer " that is not in the set,  * = between zero and more times, end with a " .
+//                    //        So the second group matches everything between quotes and checks if it doesn't contain quotes itself?
+//                    Map<String,String> vars = new HashMap<>();
+//                    Pattern pattern = Pattern.compile("([A-Za-z]+): \"([^\"]*)\"");
+//                    Matcher matcher = pattern.matcher(line);
+//                    while (matcher.find()) {
+//                        vars.put(matcher.group(1), matcher.group(2));
+//                    }
+//                    System.out.println(vars.get("MOVE"));
+//
+//                    for(GameView v : views){
+//                            v.serverMove(Integer.valueOf(vars.get("MOVE")));//dummy data is index 1
+//                    }
+//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
