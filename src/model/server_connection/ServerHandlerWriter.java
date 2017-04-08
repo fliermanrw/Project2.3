@@ -23,4 +23,12 @@ public class ServerHandlerWriter{
     public static void getPlayerList(){
         ServerHandlerWriter.writeSend("get playerlist");
     }
+
+    public static void help() {
+        ServerHandlerWriter.writeSend("help");
+    }
+
+    public static void acceptChallenge(String challengeNumber) {
+        ServerHandlerWriter.writeSend("challenge accept " + challengeNumber);
+    }
 }

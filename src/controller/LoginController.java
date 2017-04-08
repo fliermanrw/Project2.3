@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.server_connection.ServerHandler;
+import model.server_connection.ServerHandlerReader;
 import model.server_connection.ServerHandlerWriter;
 import model.server_connection.TelnetWriter;
 import sun.rmi.runtime.Log;
@@ -72,6 +73,7 @@ public class LoginController extends PreGameView {
 
                 //Set writer in controller
                 ConnectedController connectedController = fxmlLoader.getController();
+                ServerHandlerReader.currentController = connectedController;
                 connectedController.setPlayerName(playerName);
 //                connectedController.setStage(super.getStage());
                 // Remove this view from the views that get notified on updates from the reader

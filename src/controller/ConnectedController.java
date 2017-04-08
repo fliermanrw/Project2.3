@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,12 +9,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.util.Duration;
 import model.server_connection.ServerHandlerWriter;
 import model.server_connection.TelnetWriter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ConcurrentModificationException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ConnectedController extends PreGameView implements Initializable {
@@ -34,10 +38,22 @@ public class ConnectedController extends PreGameView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Platform.runLater(()-> {
-            getOpponents();
-        });
-        updateOpponentSelection();
+        // @todo: EVEN LEZEN!
+        // @todo We moeten timelines gebruiken, omdat bij het initialiseren getOpponents() wordt aangeroepen voor de
+        // @todo get playerlist commando. Vervolgens moet de thread (ServerHandlerReader.java) deze afhandelen en de
+        // @todo players eruit filteren om ze in deze superclass te zetten. Omdat het een thread is, is de thread soms
+        // @todo eerder of later. Dit zorgt voor unexpected behaviour (soms null values bij super.getPlayerList() en soms niet).
+        // @todo Daarom heb ik een soort Task of Keyframe systeem toegevoegd om te zorgen dat ze altijd in de juiste
+        // @todo volgorde worden afgehandeld. (Misschien kan dit ook naar de startGame() method verplaatst worden. Even overleggen).
+        //Platform.runLater(()-> {
+            //updateOpponentSelection();
+            //System.out.println("Playerlist22 " + super.getPlayerList());
+        //});
+        // Create keyframes and use a timeline to run the tasks after each other
+        final KeyFrame kf1 = new KeyFrame(Duration.millis(0), e -> getOpponents());
+        final KeyFrame kf2 = new KeyFrame(Duration.millis(500), e ->  updateOpponentSelection());
+        final Timeline timeline = new Timeline(kf1, kf2);
+        Platform.runLater(timeline::play);
     }
 
 //    @Override
@@ -52,8 +68,6 @@ public class ConnectedController extends PreGameView implements Initializable {
         this.playerName = playerName;
         loggedInAs.setText("Logged in as: " + playerName);
     }
-
-
 
     @Override
     public void startGame(String game, String playerToMove) {
@@ -175,7 +189,7 @@ public class ConnectedController extends PreGameView implements Initializable {
 
     private void updateOpponentSelection(){
         if(super.getPlayerList()!=null){
-//            opponentSelection.getItems().clear();
+            opponentSelection.getItems().clear();
             for(String player: super.getPlayerList()){
                 opponentSelection.getItems().add(player);
             }
@@ -194,7 +208,7 @@ public class ConnectedController extends PreGameView implements Initializable {
         } else if (reversi.isSelected()) {
             selectedGame = "Reversi";
         }
-        connectionWriter.sendData("challenge " + "\"" + selectedOpponent.replace(" ", "") +"\""  + " " + "\"" + selectedGame + "\"");
+        ServerHandlerWriter.writeSend("challenge " + "\"" + selectedOpponent.replace(" ", "") +"\""  + " " + "\"" + selectedGame + "\"");
     }
 
 }

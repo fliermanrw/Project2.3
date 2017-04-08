@@ -37,7 +37,7 @@ public class ServerHandler{
         Thread t1 = new Thread(new ServerHandlerReader(socket, stage));
         ServerHandlerWriter test = new ServerHandlerWriter();
         t1.start();
-        ServerHandlerWriter.writeSend("help");
+        //ServerHandlerWriter.help();
 
     }
 }
