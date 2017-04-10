@@ -51,7 +51,7 @@ public class TictactoeController extends GameView implements Initializable{
                     System.out.println("Its a tie");
                 }else{
                     if(validMoves.contains(index)){
-                        tictactoe.move(index);
+                        tictactoe.move(index, true);
                         tictactoe.printGrid();
                         move(index);
                         btn.setText(tictactoe.getCurrentPlayer());
@@ -96,7 +96,7 @@ public class TictactoeController extends GameView implements Initializable{
                 }
             }
         });
-        tictactoe.move(bestMove.getIndex());
+        tictactoe.move(bestMove.getIndex(),true);
         move(bestMove.getIndex());
         ourturn=false;
         System.out.println("bestmove="+bestMove.getIndex());

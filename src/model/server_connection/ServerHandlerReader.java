@@ -118,9 +118,8 @@ public class ServerHandlerReader implements Runnable {
                         }
                     }
 
-                    if(currentLine.contains("MOVE")){
+                    if(currentLine.contains("SVR GAME MOVE")){
                         System.out.println("GameReader: we received a new move");
-                        System.out.println(currentLine);
                         //opponent has made a move
                         String line = currentLine;
                         //        First group: ([A-Za-z]+):  //Match any characert from A-Z or a-z, + means 1 or more, end with :
