@@ -134,9 +134,9 @@ public class ServerHandlerReader implements Runnable {
                         while (matcher.find()) {
                             vars.put(matcher.group(1), matcher.group(2));
                         }
-
+                        System.out.println("vars" + vars.get("MOVE") + vars.get("PLAYER"));
                         if (vars.get("MOVE") != null) {
-                            currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")));
+                            currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")), String.valueOf(vars.get("PLAYER")));
                         }
 
 //                        System.out.println(Integer.valueOf(vars.get("MOVE")));

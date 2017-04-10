@@ -1,8 +1,6 @@
 package controller;
 
 import javafx.stage.Stage;
-import model.server_connection.PreGameReader;
-import model.server_connection.TelnetWriter;
 
 import java.net.Socket;
 import java.util.List;
@@ -12,7 +10,6 @@ import java.util.List;
  */
 public abstract class PreGameView{
     List<String> playerList;
-    PreGameReader connectionReader;
     String log = "";
     Stage stage;
     Socket socket;

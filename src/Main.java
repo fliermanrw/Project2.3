@@ -16,8 +16,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main extends Application {
-    TelnetWriter connectionWriter;
-    PreGameReader connectionReader;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -31,7 +29,7 @@ public class Main extends Application {
             //TelnetConnection telnet = new TelnetConnection("145.33.225.170", 7789);
 
             // Local
-            TelnetConnection telnet = new TelnetConnection("192.168.56.1", 7789);
+            TelnetConnection telnet = new TelnetConnection("0.0.0.0", 7789);
 
             ServerHandler serverHandler = new ServerHandler(telnet.getConnectionSocket(), primaryStage);
             LoginController loginController = fxmlLoader.getController();

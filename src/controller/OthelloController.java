@@ -8,13 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import model.games.othello.boardCell;
 import model.games.othello.othelloGameModel;
-import model.server_connection.TelnetWriter;
 
 import java.util.ArrayList;
 
 
 public class OthelloController extends GameView{
-    TelnetWriter connectionWriter;
     othelloGameModel othello = new othelloGameModel('W');
     boolean ourturn = false;
 
@@ -62,10 +60,9 @@ public class OthelloController extends GameView{
         }
     }
 
-    //When server notifies us of a new move
     @Override
-    public void serverMove(int index) {
-        othello.move(index); //set position in model
+    public void serverMove(int index, String playerName) {
+
     }
 
     @Override
@@ -75,17 +72,12 @@ public class OthelloController extends GameView{
 
     @Override
     void move(int place) {
-        connectionWriter.sendData("move " + place);
+        //todo
     }
 
     @Override
     void forfeit() {
-        connectionWriter.sendData("forfeit");
-    }
-
-    @Override
-    public void setConnectionWriter(TelnetWriter w) {
-        connectionWriter = w;
+        //todo
     }
 }
 

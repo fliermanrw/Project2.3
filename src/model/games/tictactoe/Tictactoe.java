@@ -1,10 +1,8 @@
 package model.games.tictactoe;
 
 import model.games.GameModel;
-import model.server_connection.TelnetWriter;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Created by jouke on 3-4-2017.

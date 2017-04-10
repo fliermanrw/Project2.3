@@ -6,16 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import model.games.tictactoe.Move;
 import model.server_connection.ServerHandlerWriter;
-import model.server_connection.TelnetWriter;
 import model.games.tictactoe.Tictactoe;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 
 /**
@@ -23,15 +21,17 @@ import java.util.Scanner;
  */
 
 public class TictactoeController extends GameView implements Initializable{
-    TelnetWriter connectionWriter;
     Tictactoe tictactoe;
     boolean ourturn = false;
     @FXML GridPane gameBoard;
-    @FXML AnchorPane removeLater;
+    String playerName;
 
 
     public TictactoeController() {
         tictactoe = new Tictactoe();
+        tictactoe.setHumanPlayer("X");
+        tictactoe.setAiPlayer("O");
+        tictactoe.setCurrentPlayer(tictactoe.getHumanPlayer()); //case is human
     }
 
     public void buttonClick(ActionEvent actionEvent) {
@@ -51,7 +51,9 @@ public class TictactoeController extends GameView implements Initializable{
                 }else{
                     if(validMoves.contains(index)){
                         tictactoe.move(index);
+                        tictactoe.printGrid();
                         move(index);
+                        btn.setText(tictactoe.getCurrentPlayer());
                         ourturn = false;
                     }
                 }
@@ -61,41 +63,49 @@ public class TictactoeController extends GameView implements Initializable{
 
     //When server notifies us of a new move
     @Override
-    public void serverMove(int index) {
-        tictactoe.move(index); //set position in model
+    public void serverMove(int index, String currentName) {
+        if(!this.playerName.equals(currentName)) {
+            tictactoe.move(index, true); //set position in model
+            tictactoe.printGrid();
+            Platform.runLater(() -> {
+                for (Node node : gameBoard.getChildren()) {
+                    if (node instanceof Button) {
+                        Button button = (Button) node;
+                        int buttonid = Integer.valueOf(button.getId());
+                        if (buttonid == index) {
+                            button.setText(tictactoe.getCurrentPlayer());
+                        }
+                    }
+                }
+            });
+            ourturn();
+        }
+    }
+
+    public void botMove(){
+        Move bestMove = tictactoe.minimax(tictactoe.getGrid(), tictactoe.getAIPlayer(), new Move(0));
         Platform.runLater(()->{
             for(Node node : gameBoard.getChildren()){
-                System.out.println("looping trough nodes");
                 if(node instanceof Button){
                     Button button = (Button) node;
                     int buttonid = Integer.valueOf(button.getId());
-                    System.out.println("Button id:" + buttonid + "server index id:" + index);
-                    if(buttonid == index){
-                        System.out.println("button id equals index");
+                    if(buttonid == bestMove.getIndex()){
                         button.setText(tictactoe.getCurrentPlayer());
                     }
                 }
             }
         });
-        tictactoe.switchPlayer();
-        ourturn();
-//        System.out.println(tictactoe.getGrid());
-//        System.out.println(tictactoe.getCurrentPlayer());
-//        System.out.println(index);
-//        tictactoe.move(index); //set position in model
-//        System.out.println(tictactoe.getCurrentPlayer());
-//        System.out.println(tictactoe.getGrid());
-//        System.out.println("TictactoeController: Received move: " + index);
+        tictactoe.move(bestMove.getIndex());
+        move(bestMove.getIndex());
+        ourturn=false;
+        System.out.println("bestmove="+bestMove.getIndex());
     }
 
     @Override
     public void ourturn() {
         ourturn = true;
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.print("Positie? (0 t/m 8): ");
-//        int pos = Integer.parseInt(scanner.nextLine());
-//        connectionWriter.sendData("move " + Integer.toString(pos));
         System.out.println("TictactoeController: Got notified it's now our turn and we can make a move");
+//        botMove(); @todo toggle this when its a bot, autogenerates a move
     }
 
     @Override
@@ -105,12 +115,12 @@ public class TictactoeController extends GameView implements Initializable{
 
     @Override
     void forfeit() {
-        connectionWriter.sendData("forfeit");
+        ServerHandlerWriter.writeSend("forfeit");
     }
 
-    @Override
-    public void setConnectionWriter(TelnetWriter w) {
-        connectionWriter = w;
+
+    public void setPlayerName(String name){
+        this.playerName = name;
     }
 
     @Override

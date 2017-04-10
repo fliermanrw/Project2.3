@@ -9,20 +9,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.server_connection.ServerHandlerReader;
 import model.server_connection.ServerHandlerWriter;
-import model.server_connection.TelnetWriter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ConcurrentModificationException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ConnectedController extends PreGameView implements Initializable {
-    TelnetWriter connectionWriter;
     @FXML RadioButton bke;
     @FXML RadioButton reversi;
     @FXML ComboBox opponentSelection;
@@ -88,7 +84,7 @@ public class ConnectedController extends PreGameView implements Initializable {
                     //Set writer in controller
                     TictactoeController tictactoeController = fxmlLoader.getController();
                     ServerHandlerReader.currentGameView = tictactoeController;
-                    tictactoeController.setConnectionWriter(connectionWriter);
+                    tictactoeController.setPlayerName(playerName);
 
 //                    //Create a game telnet reader @todo dirty please think of something cleaner
 //                    GameReader gameReader = new GameReader(super.getSocket());
@@ -122,7 +118,6 @@ public class ConnectedController extends PreGameView implements Initializable {
                     //Set writer in controller
                     OthelloController othelloController = fxmlLoader.getController();
                     ServerHandlerReader.currentGameView = othelloController;
-                    othelloController.setConnectionWriter(connectionWriter);
 
 //                    //Create a game telnet reader @todo dirty please think of something cleaner
 //                    GameReader gameReader = new GameReader(super.getSocket());
@@ -135,8 +130,6 @@ public class ConnectedController extends PreGameView implements Initializable {
                     if (playerToMove.equals(this.playerName)) {
                         othelloController.ourturn();
                     }
-                    // Remove this view from the views that get notified on updates from the reader
-                    connectionReader.removeView(this);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ConcurrentModificationException cme) {
@@ -155,8 +148,7 @@ public class ConnectedController extends PreGameView implements Initializable {
     public void logout(){
         System.out.println("Logged out of the server");
         super.updateLog("logout");
-        connectionWriter.sendData("logout");
-
+        ServerHandlerWriter.writeSend("logout");
     }
 
     public void updateLog(String currentLine){
@@ -170,7 +162,6 @@ public class ConnectedController extends PreGameView implements Initializable {
      */
     public void help(){
         super.updateLog("help");
-        connectionWriter.sendData("help");
     }
 
     /**
@@ -187,7 +178,7 @@ public class ConnectedController extends PreGameView implements Initializable {
 
         //Options server-sided are "Reversi" and "Tic-tac-toe"
         super.updateLog("subscribe " + game);
-        connectionWriter.sendData("subscribe " + game);
+        ServerHandlerWriter.writeSend("subscribe " + game);
     }
 
     public void getOpponents(){

@@ -7,20 +7,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.server_connection.ServerHandler;
 import model.server_connection.ServerHandlerReader;
 import model.server_connection.ServerHandlerWriter;
-import model.server_connection.TelnetWriter;
-import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.util.ConcurrentModificationException;
 
 public class LoginController extends PreGameView {
-    TelnetWriter connectionWriter;
     @FXML
     TextField textField;
     @FXML
