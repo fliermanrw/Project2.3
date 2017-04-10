@@ -23,13 +23,14 @@ import java.util.Stack;
 public class ServerHandlerReader implements Runnable {
     public Socket socket;
     private String currentCommand;
-    private Stage stage;
+    public static Stage stage;
     public static PreGameView currentController;
 
     public ServerHandlerReader(Socket socket, Stage stage) {
         this.socket = socket;
         this.stage = stage;
     }
+
     @Override
     public void run() {
         String currentLine;
@@ -95,6 +96,22 @@ public class ServerHandlerReader implements Runnable {
                                 });
                                 alert.show();
                             });
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    // Match if a game is found
+                    if(currentLine.contains("MATCH")){
+                        System.out.println("stage: " + stage);
+                        String line = currentLine;
+                        line = line.replaceAll("(SVR GAME MATCH )", ""); //remove SVR GAME MATCH
+                        line = line.replaceAll("(\"|-)", "");//remove quotations and -
+                        line = line.replaceAll("(\\w+)", "\"$1\""); //add quotations to every word
+                        JSONParser parser = new JSONParser();
+                        try {
+                            JSONObject json = (JSONObject) parser.parse(line);
+                            currentController.startGame(String.valueOf(json.get("GAMETYPE")), String.valueOf(json.get("PLAYERTOMOVE")));
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }

@@ -9,7 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.server_connection.ServerHandlerReader;
 import model.server_connection.ServerHandlerWriter;
 import model.server_connection.TelnetWriter;
 
@@ -71,6 +73,8 @@ public class ConnectedController extends PreGameView implements Initializable {
 
     @Override
     public void startGame(String game, String playerToMove) {
+//        final Stage stage = this.stage;
+//        final String playerName = this.playerName;
         System.out.println("startgame wel aangeroepen?");
         System.out.println(game);
         //change view and start game controller of certain game
@@ -97,15 +101,16 @@ public class ConnectedController extends PreGameView implements Initializable {
                         tictactoeController.ourturn();
                     }
                     // Remove this view from the views that get notified on updates from the reader
-                    connectionReader.removeView(this);
+                    //connectionReader.removeView(this);
+                    ServerHandlerReader.currentController = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ConcurrentModificationException cme) {
                     //System.out.println("Test");
                     cme.printStackTrace();
                 }
-                stage.setTitle("Our playername = " + playerName);
-                stage.setScene(new Scene(root, 800, 800));
+                ServerHandlerReader.stage.setTitle("Our playername = " + playerName);
+                ServerHandlerReader.stage.setScene(new Scene(root, 800, 800));
 
             } else if (game.equals("Reversi")) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/othelloGrid.fxml"));
@@ -136,8 +141,8 @@ public class ConnectedController extends PreGameView implements Initializable {
 //                    System.out.println("Test");
                     cme.printStackTrace();
                 }
-                stage.setTitle("Our playername = " + playerName);
-                stage.setScene(new Scene(root, 800, 800));
+                ServerHandlerReader.stage.setTitle("Our playername = " + playerName);
+                ServerHandlerReader.stage.setScene(new Scene(root, 800, 800));
             }
 
 
