@@ -27,6 +27,7 @@ public class ServerHandlerReader implements Runnable {
     public static Stage stage;
     public static PreGameView currentController;
     public static GameView currentGameView;
+    public static boolean useBot = false;
 
     public ServerHandlerReader(Socket socket, Stage stage) {
         this.socket = socket;
@@ -66,7 +67,6 @@ public class ServerHandlerReader implements Runnable {
                             System.out.println("username: " + username);
                             LoginController lc = new LoginController();
                             lc.setStage(this.stage);
-                            lc.setPlayerName(username);
                             lc.login();
                         }
                     }

@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import model.games.tictactoe.Move;
+import model.server_connection.ServerHandler;
+import model.server_connection.ServerHandlerReader;
 import model.server_connection.ServerHandlerWriter;
 import model.games.tictactoe.Tictactoe;
 
@@ -24,7 +26,6 @@ public class TictactoeController extends GameView implements Initializable{
     Tictactoe tictactoe;
     boolean ourturn = false;
     @FXML GridPane gameBoard;
-    String playerName;
 
 
     public TictactoeController() {
@@ -64,7 +65,7 @@ public class TictactoeController extends GameView implements Initializable{
     //When server notifies us of a new move
     @Override
     public void serverMove(int index, String currentName) {
-        if(!this.playerName.equals(currentName)) {
+        if(!ServerHandler.playerName.equals(currentName)) {
             tictactoe.move(index, true); //set position in model
             tictactoe.printGrid();
             Platform.runLater(() -> {
@@ -105,7 +106,10 @@ public class TictactoeController extends GameView implements Initializable{
     public void ourturn() {
         ourturn = true;
         System.out.println("TictactoeController: Got notified it's now our turn and we can make a move");
-//        botMove(); @todo toggle this when its a bot, autogenerates a move
+        if(ServerHandlerReader.useBot){
+            botMove();
+            System.out.println("TictactoeController: Got notified it's now our turn, our bot is going to make a turn");
+        }
     }
 
     @Override
@@ -116,11 +120,6 @@ public class TictactoeController extends GameView implements Initializable{
     @Override
     void forfeit() {
         ServerHandlerWriter.writeSend("forfeit");
-    }
-
-
-    public void setPlayerName(String name){
-        this.playerName = name;
     }
 
     @Override

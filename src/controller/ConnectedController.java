@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.util.Duration;
+import model.server_connection.ServerHandler;
 import model.server_connection.ServerHandlerReader;
 import model.server_connection.ServerHandlerWriter;
 
@@ -28,7 +29,6 @@ public class ConnectedController extends PreGameView implements Initializable {
     private String selectedOpponent;
     boolean succesfull = false;
     String command = "no command yet"; //@todo create command class
-    String playerName = null;
 
     public void clickButton(){
         System.out.println("test");
@@ -52,25 +52,12 @@ public class ConnectedController extends PreGameView implements Initializable {
         final KeyFrame kf2 = new KeyFrame(Duration.millis(500), e ->  updateOpponentSelection());
         final Timeline timeline = new Timeline(kf1, kf2);
         Platform.runLater(timeline::play);
-    }
 
-//    @Override
-//    public void setSuccesfull(boolean status) {
-//        succesfull = status;
-//        System.out.println("ConnectedController: Last executed command was succesfull");
-//        opponentSelection.getItems().add("test");
-//        updateOpponentSelection();
-//    }
-
-    public void setPlayerName(String playerName){
-        this.playerName = playerName;
-        loggedInAs.setText("Logged in as: " + playerName);
+        loggedInAs.setText("Logged in as: " + ServerHandler.playerName);
     }
 
     @Override
     public void startGame(String game, String playerToMove) {
-//        final Stage stage = this.stage;
-//        final String playerName = this.playerName;
         System.out.println("startgame wel aangeroepen?");
         System.out.println(game);
         //change view and start game controller of certain game
@@ -84,21 +71,12 @@ public class ConnectedController extends PreGameView implements Initializable {
                     //Set writer in controller
                     TictactoeController tictactoeController = fxmlLoader.getController();
                     ServerHandlerReader.currentGameView = tictactoeController;
-                    tictactoeController.setPlayerName(playerName);
-
-//                    //Create a game telnet reader @todo dirty please think of something cleaner
-//                    GameReader gameReader = new GameReader(super.getSocket());
-//                    Thread t1 = new Thread(gameReader);
-//                    t1.start();
-//                    tictactoeController.setConnectionReader(gameReader);
-
 
                     //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
-                    if (playerToMove.equals(this.playerName)) {
+                    if (playerToMove.equals(ServerHandler.playerName)) {
                         tictactoeController.ourturn();
                     }
-                    // Remove this view from the views that get notified on updates from the reader
-                    //connectionReader.removeView(this);
+
                     ServerHandlerReader.currentController = null;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -106,7 +84,7 @@ public class ConnectedController extends PreGameView implements Initializable {
                     //System.out.println("Test");
                     cme.printStackTrace();
                 }
-                ServerHandlerReader.stage.setTitle("Our playername = " + playerName);
+                ServerHandlerReader.stage.setTitle("Our playername = " + ServerHandler.playerName);
                 ServerHandlerReader.stage.setScene(new Scene(root, 800, 800));
 
             } else if (game.equals("Reversi")) {
@@ -119,24 +97,16 @@ public class ConnectedController extends PreGameView implements Initializable {
                     OthelloController othelloController = fxmlLoader.getController();
                     ServerHandlerReader.currentGameView = othelloController;
 
-//                    //Create a game telnet reader @todo dirty please think of something cleaner
-//                    GameReader gameReader = new GameReader(super.getSocket());
-//                    Thread t1 = new Thread(gameReader);
-//                    t1.start();
-//                    othelloController.setConnectionReader(gameReader);
-
-
                     //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
-                    if (playerToMove.equals(this.playerName)) {
+                    if (playerToMove.equals(ServerHandler.playerName)) {
                         othelloController.ourturn();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ConcurrentModificationException cme) {
-//                    System.out.println("Test");
                     cme.printStackTrace();
                 }
-                ServerHandlerReader.stage.setTitle("Our playername = " + playerName);
+                ServerHandlerReader.stage.setTitle("Our playername = " + ServerHandler.playerName);
                 ServerHandlerReader.stage.setScene(new Scene(root, 800, 800));
             }
 

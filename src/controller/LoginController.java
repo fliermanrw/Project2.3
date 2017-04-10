@@ -23,7 +23,6 @@ public class LoginController extends PreGameView {
     @FXML
     RadioButton playAsHuman;
     boolean succesfull = false;
-    String playerName = null;
 
     public void loginButton() {
         //Get name
@@ -32,8 +31,10 @@ public class LoginController extends PreGameView {
         //Get playing style
         if (playAsBot.isSelected()) {
             //Play as a bot
+            ServerHandlerReader.useBot = true;
         } else {
             //Play as a human
+            ServerHandlerReader.useBot = false;
         }
 
 
@@ -41,7 +42,7 @@ public class LoginController extends PreGameView {
         //Login
         ServerHandlerWriter.login(playerName);
         super.updateLog(ServerHandler.log);
-        this.playerName = playerName;
+        ServerHandler.playerName = playerName;
     }
 
     @Override
@@ -51,10 +52,6 @@ public class LoginController extends PreGameView {
 
     public void printError(String error) {
         System.out.println(error);
-    }
-
-    public void setPlayerName(String name){
-        this.playerName = name;
     }
 
     public void login() {
@@ -69,9 +66,6 @@ public class LoginController extends PreGameView {
                 //Set writer in controller
                 ConnectedController connectedController = fxmlLoader.getController();
                 ServerHandlerReader.currentController = connectedController;
-                connectedController.setPlayerName(playerName);
-//                connectedController.setStage(super.getStage());
-                // Remove this view from the views that get notified on updates from the reader
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ConcurrentModificationException cme) {
