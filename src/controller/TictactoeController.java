@@ -3,14 +3,18 @@ package controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import model.server_connection.ServerHandlerWriter;
 import model.server_connection.TelnetWriter;
 import model.games.tictactoe.Tictactoe;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 
@@ -18,11 +22,12 @@ import java.util.Scanner;
  * Created by jouke on 3-4-2017.
  */
 
-public class TictactoeController extends GameView {
+public class TictactoeController extends GameView implements Initializable{
     TelnetWriter connectionWriter;
     Tictactoe tictactoe;
     boolean ourturn = false;
     @FXML GridPane gameBoard;
+    @FXML AnchorPane removeLater;
 
 
     public TictactoeController() {
@@ -106,6 +111,28 @@ public class TictactoeController extends GameView {
     @Override
     public void setConnectionWriter(TelnetWriter w) {
         connectionWriter = w;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        gameBoard.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+            for(Node node : gameBoard.getChildren()){
+                if(node instanceof Button){
+                    Button button = (Button) node;
+                    button.setPrefHeight(gameBoard.getHeight()/3);
+                    button.setPrefWidth(gameBoard.getWidth()/3);
+                }
+            }
+        });
+        gameBoard.heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+            for(Node node : gameBoard.getChildren()){
+                if(node instanceof Button){
+                    Button button = (Button) node;
+                    button.setPrefHeight(gameBoard.getHeight()/3);
+                    button.setPrefWidth(gameBoard.getWidth()/3);
+                }
+            }
+        });
     }
 }
 
