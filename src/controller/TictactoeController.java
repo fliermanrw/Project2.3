@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -130,6 +131,7 @@ public class TictactoeController extends GameView implements Initializable{
                     Button button = (Button) node;
                     button.setPrefHeight(gameBoard.getHeight()/3);
                     button.setPrefWidth(gameBoard.getWidth()/3);
+                    String style = "-fx-font-size:"+gameBoard.getWidth()/7 + ";";
                 }
             }
         });
@@ -139,6 +141,7 @@ public class TictactoeController extends GameView implements Initializable{
                     Button button = (Button) node;
                     button.setPrefHeight(gameBoard.getHeight()/3);
                     button.setPrefWidth(gameBoard.getWidth()/3);
+                    String style = "-fx-font-size:"+gameBoard.getHeight()/7 + ";";
                 }
             }
         });
