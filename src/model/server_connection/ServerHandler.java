@@ -19,7 +19,7 @@ import java.util.Stack;
 /**
  * Created by jouke on 6-4-2017.
  */
-public class ServerHandler{
+public class ServerHandler {
     public static Stack<String> queue = new Stack<>();
     public static String log;
 //

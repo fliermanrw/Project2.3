@@ -86,7 +86,18 @@ public class Tictactoe implements GameModel {
     @Override
     public void move(int move) {
         grid.set(move, currentPlayer);
-        switchPlayer();
+    }
+
+    /**
+     * Alternative constructer. If switchFlag == true, switch the player automatically too.
+     * @param move
+     * @param switchFlag
+     */
+    public void move(int move, boolean switchFlag) {
+        grid.set(move, currentPlayer);
+        if (switchFlag) {
+            switchPlayer();
+        }
     }
 
     @Override

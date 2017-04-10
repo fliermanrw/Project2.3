@@ -87,6 +87,7 @@ public class ConnectedController extends PreGameView implements Initializable {
 
                     //Set writer in controller
                     TictactoeController tictactoeController = fxmlLoader.getController();
+                    ServerHandlerReader.currentGameView = tictactoeController;
                     tictactoeController.setConnectionWriter(connectionWriter);
 
 //                    //Create a game telnet reader @todo dirty please think of something cleaner
@@ -120,6 +121,7 @@ public class ConnectedController extends PreGameView implements Initializable {
 
                     //Set writer in controller
                     OthelloController othelloController = fxmlLoader.getController();
+                    ServerHandlerReader.currentGameView = othelloController;
                     othelloController.setConnectionWriter(connectionWriter);
 
 //                    //Create a game telnet reader @todo dirty please think of something cleaner

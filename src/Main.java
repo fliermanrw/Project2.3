@@ -26,7 +26,13 @@ public class Main extends Application {
 
         //Connect to the Hanze server before going to the login view
         try {
-            TelnetConnection telnet = new TelnetConnection("145.33.225.170", 7789);
+
+            // Remote
+            //TelnetConnection telnet = new TelnetConnection("145.33.225.170", 7789);
+
+            // Local
+            TelnetConnection telnet = new TelnetConnection("192.168.56.1", 7789);
+
             ServerHandler serverHandler = new ServerHandler(telnet.getConnectionSocket(), primaryStage);
             LoginController loginController = fxmlLoader.getController();
             loginController.setStage(primaryStage);

@@ -2,6 +2,7 @@ package model.server_connection;
 
 import com.sun.corba.se.spi.activation.Server;
 import controller.ConnectedController;
+import controller.GameView;
 import controller.LoginController;
 import controller.PreGameView;
 import javafx.application.Platform;
@@ -13,9 +14,9 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jouke on 6-4-2017.
@@ -25,6 +26,7 @@ public class ServerHandlerReader implements Runnable {
     private String currentCommand;
     public static Stage stage;
     public static PreGameView currentController;
+    public static GameView currentGameView;
 
     public ServerHandlerReader(Socket socket, Stage stage) {
         this.socket = socket;
@@ -92,7 +94,6 @@ public class ServerHandlerReader implements Runnable {
                                 alert.setOnHidden(e -> {
                                     String challengeNumber = (String) json.get("CHALLENGENUMBER");
                                     ServerHandlerWriter.acceptChallenge(challengeNumber);
-                                    // @todo Redirect naar nieuwe view (Othello of BKE). Gebruik json.get("GAMETYPE")
                                 });
                                 alert.show();
                             });
@@ -115,6 +116,33 @@ public class ServerHandlerReader implements Runnable {
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
+                    }
+
+                    if(currentLine.contains("MOVE")){
+                        System.out.println("GameReader: we received a new move");
+                        System.out.println(currentLine);
+                        //opponent has made a move
+                        String line = currentLine;
+                        //        First group: ([A-Za-z]+):  //Match any characert from A-Z or a-z, + means 1 or more, end with :
+                        //        So the first group matches every word that ends with :
+                        //        ---------------------------------------------------------------
+                        //        Second group: "([^"]*)"    //Match the ", then [^"] = match a single characer " that is not in the set,  * = between zero and more times, end with a " .
+                        //        So the second group matches everything between quotes and checks if it doesn't contain quotes itself?
+                        Map<String,String> vars = new HashMap<>();
+                        Pattern pattern = Pattern.compile("([A-Za-z]+): \"([^\"]*)\"");
+                        Matcher matcher = pattern.matcher(line);
+                        while (matcher.find()) {
+                            vars.put(matcher.group(1), matcher.group(2));
+                        }
+
+                        if (vars.get("MOVE") != null) {
+                            currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")));
+                        }
+
+//                        System.out.println(Integer.valueOf(vars.get("MOVE")));
+    //                    for(GameView v : views){
+    //                            v.serverMove(Integer.valueOf(vars.get("MOVE")));//dummy data is index 1
+    //                    }
                     }
 
                 }

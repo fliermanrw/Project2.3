@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import model.server_connection.ServerHandlerWriter;
 import model.server_connection.TelnetWriter;
 import model.games.tictactoe.Tictactoe;
 
@@ -31,11 +32,12 @@ public class TictactoeController extends GameView {
     public void buttonClick(ActionEvent actionEvent) {
         Button btn = (Button) actionEvent.getSource();
         Integer index = Integer.valueOf(btn.getId().toString());
-        System.out.println(index);
+        System.out.println("INDEX: " + index);
         ArrayList<Integer> validMoves = tictactoe.getValidMoves();
         System.out.println("Validmoves" + validMoves);
 
         if(ourturn){
+            System.out.println("OURMOVE = TRUE");
             if(tictactoe.hasWon(tictactoe.getGrid(), tictactoe.getCurrentPlayer())){
                 System.out.println(tictactoe.getCurrentPlayer() + "Has won the game");
             }else{
@@ -43,7 +45,6 @@ public class TictactoeController extends GameView {
                     System.out.println("Its a tie");
                 }else{
                     if(validMoves.contains(index)){
-                        btn.setText("test2");
                         tictactoe.move(index);
                         move(index);
                         ourturn = false;
@@ -56,22 +57,30 @@ public class TictactoeController extends GameView {
     //When server notifies us of a new move
     @Override
     public void serverMove(int index) {
-//        Platform.runLater(()->{
-//            for(Node node : gameBoard.getChildren()){
-//                System.out.println("looping trough nodes");
-//                if(node instanceof Button){
-//                    Button button = (Button) node;
-//                    int buttonid = Integer.valueOf(button.getId());
-//                    System.out.println("Button id:" + buttonid + "server index id:" + index);
-//                    if(buttonid == index){
-//                        System.out.println("button id equals index");
-//                        button.setText("test");
-//                    }
-//                }
-//            }
-//        });
         tictactoe.move(index); //set position in model
-        System.out.println("TictactoeController: Received move: " + index);
+        Platform.runLater(()->{
+            for(Node node : gameBoard.getChildren()){
+                System.out.println("looping trough nodes");
+                if(node instanceof Button){
+                    Button button = (Button) node;
+                    int buttonid = Integer.valueOf(button.getId());
+                    System.out.println("Button id:" + buttonid + "server index id:" + index);
+                    if(buttonid == index){
+                        System.out.println("button id equals index");
+                        button.setText(tictactoe.getCurrentPlayer());
+                    }
+                }
+            }
+        });
+        tictactoe.switchPlayer();
+        ourturn();
+//        System.out.println(tictactoe.getGrid());
+//        System.out.println(tictactoe.getCurrentPlayer());
+//        System.out.println(index);
+//        tictactoe.move(index); //set position in model
+//        System.out.println(tictactoe.getCurrentPlayer());
+//        System.out.println(tictactoe.getGrid());
+//        System.out.println("TictactoeController: Received move: " + index);
     }
 
     @Override
@@ -86,7 +95,7 @@ public class TictactoeController extends GameView {
 
     @Override
     void move(int place) {
-        connectionWriter.sendData("move " + place);
+        ServerHandlerWriter.writeSend("move " + place);
     }
 
     @Override
