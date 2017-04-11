@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import model.games.othello.boardCell;
 import model.games.othello.othelloGameModel;
 import model.server_connection.ServerHandler;
@@ -71,6 +72,12 @@ public class OthelloController extends GameView implements Initializable {
             Platform.runLater(()->{
                 for (int i = 0; i < othello.othelloBoard.cellsOnBoard.size(); i++) {
                     Button button = (Button) othelloGameBoard.getChildren().get(i);
+                    if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("B")){
+                        button.setStyle("-fx-background-color: black;");
+                    }
+                    if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("W")){
+                        button.setStyle("-fx-background-color: white;");
+                    }
                     button.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()));
                 }
             });
