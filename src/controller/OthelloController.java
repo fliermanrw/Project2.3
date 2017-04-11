@@ -13,12 +13,17 @@ import java.util.ArrayList;
 
 
 public class OthelloController extends GameView{
-    othelloGameModel othello = new othelloGameModel('W');
-    boolean ourturn = false;
+    othelloGameModel othello;
+    boolean ourturn = true;
 
     @FXML
     GridPane othelloGameBoard;
 
+    public OthelloController(){
+        othello = new othelloGameModel('B');
+        othello.initGrid();
+        othello.printBoard();
+    }
 
     @FXML
     public void initialize() {
@@ -45,19 +50,18 @@ public class OthelloController extends GameView{
         int index = Integer.parseInt(id);
         ArrayList<Integer> validMoves = othello.getValidMoves();
 
+        System.out.println("button text:" + button.getId());
         if(ourturn) {
-            button.setText("B");
-            othello.move(index);
-            ourturn = false;
-        } else{
-            //wachten op de move van de server
-            // doe dingen..
-
-           button.setText("W");
-           ourturn();
-
-
+            if(!validMoves.contains(Integer.valueOf(button.getId()))){
+                System.out.println("not a valid move");
+            }else{
+                button.setText(button.getId());
+                //@todo don't set button just update the view representation here.
+            }
+        }else{
+            System.out.println("Niet onze beurt");
         }
+//        ourturn = false;
     }
 
     @Override
