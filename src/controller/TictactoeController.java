@@ -131,7 +131,8 @@ public class TictactoeController extends GameView implements Initializable{
                     Button button = (Button) node;
                     button.setPrefHeight(gameBoard.getHeight()/3);
                     button.setPrefWidth(gameBoard.getWidth()/3);
-                    String style = "-fx-font-size:"+gameBoard.getWidth()/7 + ";";
+                    String style = "-fx-font-size:"+gameBoard.getHeight()/7 + ";";
+                    button.setStyle(style);
                 }
             }
         });
@@ -142,6 +143,7 @@ public class TictactoeController extends GameView implements Initializable{
                     button.setPrefHeight(gameBoard.getHeight()/3);
                     button.setPrefWidth(gameBoard.getWidth()/3);
                     String style = "-fx-font-size:"+gameBoard.getHeight()/7 + ";";
+                    button.setStyle(style);
                 }
             }
         });

@@ -25,6 +25,10 @@ public class othelloGameModel implements GameModel {
         System.out.println();
     }
 
+    public othelloBoard getOthelloBoard(){
+        return othelloBoard;
+    }
+
     @Override
     public boolean hasWon(ArrayList<String> grid, String player) {
         return false;

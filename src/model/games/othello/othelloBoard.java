@@ -23,6 +23,8 @@ public class othelloBoard {
 
         // Default first turn is B
         turn = 'B';
+//        generateNewBoard();
+//        recursiveMove();
     }
 
     public String countPoints() {
