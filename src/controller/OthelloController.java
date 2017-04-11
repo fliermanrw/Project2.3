@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class OthelloController extends GameView{
     othelloGameModel othello;
-    boolean ourturn = true;
+    boolean ourturn = false;
     public String startPlayer;
 
     @FXML
@@ -62,7 +62,7 @@ public class OthelloController extends GameView{
 
     public void updateBoard(){
         for(boardCell cell : othello.othelloBoard.cellsOnBoard){
-            System.out.print(othelloGameBoard.getChildren());
+//            System.out.print(othelloGameBoard.getChildren());
             break;
         }
     }
@@ -89,7 +89,6 @@ public class OthelloController extends GameView{
 //    }
 
     public void buttonClick(String id, Button button) {
-        int index = Integer.parseInt(id);
         ArrayList<Integer> validMoves = othello.getValidMoves();
 
         System.out.println("button text:" + button.getId());
@@ -97,17 +96,22 @@ public class OthelloController extends GameView{
             if(!validMoves.contains(Integer.valueOf(button.getId()))){
                 System.out.println("not a valid move");
             }else{
-                button.setText(button.getId());
                 //@todo don't set button just update the view representation here.
+                othello.move(Integer.valueOf(button.getId()));
+                othello.switchPlayer();
+                othello.printBoard();
             }
         }else{
             System.out.println("Niet onze beurt");
         }
-//        ourturn = false;
+        ourturn = false;
     }
     // er komt een move binnen van de server.
     @Override
     public void serverMove(int index, String playerName) {
+        othello.move(index);
+        othello.printBoard();
+        ourturn();
 //        ServerHandler.playerName // je eigen naam
         //playerName == de naam die nu aan de beurt is
     }
