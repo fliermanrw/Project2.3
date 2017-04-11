@@ -18,11 +18,15 @@ public class othelloGameModel implements GameModel {
         // Make a new board and assign the colour for the bot.
         // 'B' if bot plays first 'W' if bot plays second
         othelloBoard = new othelloBoard(turnForBot);
-        initGrid();
-        for (int a : getValidMoves()) {
-            System.out.println(a);
-        }
-        System.out.println();
+//        initGrid();
+//        for (int a : getValidMoves()) {
+//            System.out.println(a);
+//        }
+//        System.out.println();
+    }
+
+    public othelloBoard getOthelloBoard(){
+        return othelloBoard;
     }
 
     @Override
@@ -63,11 +67,21 @@ public class othelloGameModel implements GameModel {
         othelloBoard.printBoard();
     }
 
+    public String findCurrentWinner(){
+        return othelloBoard.findCurrentWinner();
+    }
+
     @Override
     public void initGrid() {
         othelloBoard.generateNewBoard();
         othelloBoard.refreshBoardList();
     }
+
+    public void printBoard(){
+        othelloBoard.printBoard();
+    }
+
+
 
     public int rowColToInt(int row, int col) {
         int index = row * 8 + col;

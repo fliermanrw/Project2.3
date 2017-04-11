@@ -1,9 +1,6 @@
 package model.games.othello;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by Cyriel on 30-3-2017.
@@ -25,7 +22,20 @@ public class othelloBoard {
         turn = 'B';
     }
 
-    public String countPoints() {
+    public String findCurrentWinner() {
+       HashMap<String, Integer> map = getCurrentPoints();
+       int whitePoints = map.get("W");
+       int blackPoints = map.get("B");
+
+        if (whitePoints > blackPoints) {
+            return "White";
+        } else if (blackPoints > whitePoints) {
+            return "Black";
+        }
+        return "Tie";
+    }
+
+    public HashMap<String,Integer> getCurrentPoints(){
         int whitePoints = 0;
         int blackPoints = 0;
         for (boardCell[] a : reversiBoard) {
@@ -42,60 +52,12 @@ public class othelloBoard {
                 }
             }
         }
-        if (whitePoints > blackPoints) {
-            return "White";
-        } else if (blackPoints > whitePoints) {
-            return "Black";
-        }
-        return "Tie";
-    }
 
-    public void recursiveMove() {
-        System.out.println("Turn : " + turn);
-        refreshBoardList();
-        System.out.print("Available moves: ");
-        int numberOfMoves = 0;
-        for (String a : logic.fetchValidMoves(cellsOnBoard, turn)) {
-            System.out.print("(" + a + ")");
-            numberOfMoves++;
-        }
-        System.out.print("\n");
-        System.out.print("Number of moves : " + numberOfMoves);
-        if (numberOfMoves == 0) {
-            System.out.println("No more moves for : " + turn);
-            System.out.println("Winner is : " + countPoints());
-        } else if (turn == turnForBot) {
-            // bot plays
-            ArrayList<boardCell> validMoves = logic.fetchValidMovesAsCell(cellsOnBoard, turn);
-            Random rnd = new Random();
-            int i = rnd.nextInt(validMoves.size());
-            reversiBoard = logic.applyMove(reversiBoard, validMoves.get(i), turn);
-            swapTurn();
-        } else {
-            askForNewMove();
-        }
-    }
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("W", whitePoints);
+        map.put("B", blackPoints);
 
-    private void askForNewMove() {
-        System.out.print("\n");
-        System.out.print("Enter your move (Format : row,col): ");
-        Scanner scanner1 = new Scanner(System.in);
-        String input = scanner1.nextLine();
-        if (input.length() != 3) {
-            System.out.println("Move was invalid.");
-            recursiveMove();
-        }
-        int row = Character.getNumericValue((input.charAt(0)));
-        int col = Character.getNumericValue((input.charAt(2)));
-        String move = row + "," + col;
-        if (logic.fetchValidMoves(cellsOnBoard, turn).contains(move)) {
-            // valid move
-            reversiBoard = logic.applyMove(reversiBoard, getCellOnBoard(row, col), turn);
-            swapTurn();
-        } else {
-            System.out.println("Move was invalid.");
-            recursiveMove();
-        }
+        return map;
     }
 
     public void refreshBoardList() {
@@ -122,8 +84,6 @@ public class othelloBoard {
         } else {
             turn = 'B';
         }
-        printBoard();
-        recursiveMove();
     }
 
     public void printBoard() {
@@ -150,7 +110,6 @@ public class othelloBoard {
                 }
             }
         }
-        printBoard();
     }
 
     public boardCell[][] getBoard() {

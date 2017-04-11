@@ -60,9 +60,10 @@ public class ConnectedController extends PreGameView implements Initializable {
     public void startGame(String game, String playerToMove) {
         System.out.println("startgame wel aangeroepen?");
         System.out.println(game);
+        System.out.println(playerToMove);
         //change view and start game controller of certain game
         Platform.runLater(() -> {
-            if (game.equals("Tictactoe")) {
+            if (game.equals("Tic-tac-toe")) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/tictactoeGrid.fxml"));
                 Parent root = null;
                 try {
@@ -98,9 +99,13 @@ public class ConnectedController extends PreGameView implements Initializable {
                     ServerHandlerReader.currentGameView = othelloController;
 
                     //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
-                    if (playerToMove.equals(ServerHandler.playerName)) {
-                        othelloController.ourturn();
-                    }
+                    othelloController.startPlayer = playerToMove;
+                    othelloController.init();
+//                    if (playerToMove.equals(ServerHandler.playerName)) {
+//                        othelloController.ourturn();
+//                        othelloController.startPlayer = playerToMove;
+//
+//                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ConcurrentModificationException cme) {

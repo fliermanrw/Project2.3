@@ -50,17 +50,12 @@ public class TictactoeController extends GameView implements Initializable {
         ArrayList<Integer> validMoves = tictactoe.getValidMoves();
         System.out.println("Validmoves" + validMoves);
 
-
-
-        if (ourturn) {
+        if(ourturn){
             System.out.println("OURMOVE = TRUE");
             if (tictactoe.hasWon(tictactoe.getGrid(), tictactoe.getCurrentPlayer())) {
                 System.out.println(tictactoe.getCurrentPlayer() + "Has won the game");
-                changeLabel.setText(tictactoe.getCurrentPlayer() + " Has won the game..");
-                changeLabel.setStyle("-fx-font-size: 25px;");
-
-            } else {
-                if (validMoves.size() == 0) {
+            }else{
+                if(validMoves.size() == 0){
                     System.out.println("Its a tie");
                 } else {
                     if (validMoves.contains(index)) {
@@ -80,7 +75,7 @@ public class TictactoeController extends GameView implements Initializable {
     //When server notifies us of a new move
     @Override
     public void serverMove(int index, String currentName) {
-        if (!ServerHandler.playerName.equals(currentName)) {
+        if(!ServerHandler.playerName.equals(currentName)) {
             tictactoe.move(index, true); //set position in model
             tictactoe.printGrid();
             Platform.runLater(() -> {
@@ -101,14 +96,14 @@ public class TictactoeController extends GameView implements Initializable {
         }
     }
 
-    public void botMove() {
+    public void botMove(){
         Move bestMove = tictactoe.minimax(tictactoe.getGrid(), tictactoe.getAIPlayer(), new Move(0));
-        Platform.runLater(() -> {
-            for (Node node : gameBoard.getChildren()) {
-                if (node instanceof Button) {
+        Platform.runLater(()->{
+            for(Node node : gameBoard.getChildren()){
+                if(node instanceof Button){
                     Button button = (Button) node;
                     int buttonid = Integer.valueOf(button.getId());
-                    if (buttonid == bestMove.getIndex()) {
+                    if(buttonid == bestMove.getIndex()){
                         button.setText(tictactoe.getCurrentPlayer());
                         button.setStyle("-fx-font-size: 30px");
                         changeLabel(ourturn);
@@ -117,18 +112,17 @@ public class TictactoeController extends GameView implements Initializable {
                 }
             }
         });
-        tictactoe.move(bestMove.getIndex(), true);
+        tictactoe.move(bestMove.getIndex(),true);
         move(bestMove.getIndex());
-        ourturn = false;
-        changeLabel(ourturn);
-        System.out.println("bestmove=" + bestMove.getIndex());
+        ourturn=false;
+        System.out.println("bestmove="+bestMove.getIndex());
     }
 
     @Override
     public void ourturn() {
         ourturn = true;
         System.out.println("TictactoeController: Got notified it's now our turn and we can make a move");
-        if (ServerHandlerReader.useBot) {
+        if(ServerHandlerReader.useBot){
             botMove();
             System.out.println("TictactoeController: Got notified it's now our turn, our bot is going to make a turn");
         }
@@ -147,37 +141,39 @@ public class TictactoeController extends GameView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        gameBoard.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
-            for (Node node : gameBoard.getChildren()) {
-                if (node instanceof Button) {
+        gameBoard.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+            for(Node node : gameBoard.getChildren()){
+                if(node instanceof Button){
                     Button button = (Button) node;
-                    button.setPrefHeight(gameBoard.getHeight() / 3);
-                    button.setPrefWidth(gameBoard.getWidth() / 3);
-                    String style = "-fx-font-size:" + gameBoard.getWidth() / 7 + ";";
+                    button.setPrefHeight(gameBoard.getHeight()/3);
+                    button.setPrefWidth(gameBoard.getWidth()/3);
+                    String style = "-fx-font-size:"+gameBoard.getHeight()/7 + ";";
+                    button.setStyle(style);
                 }
             }
         });
-        gameBoard.heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
-            for (Node node : gameBoard.getChildren()) {
-                if (node instanceof Button) {
+        gameBoard.heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+            for(Node node : gameBoard.getChildren()){
+                if(node instanceof Button){
                     Button button = (Button) node;
-                    button.setPrefHeight(gameBoard.getHeight() / 3);
-                    button.setPrefWidth(gameBoard.getWidth() / 3);
-                    String style = "-fx-font-size:" + gameBoard.getHeight() / 7 + ";";
+                    button.setPrefHeight(gameBoard.getHeight()/3);
+                    button.setPrefWidth(gameBoard.getWidth()/3);
+                    String style = "-fx-font-size:"+gameBoard.getHeight()/7 + ";";
+                    button.setStyle(style);
                 }
             }
         });
     }
 
     public void changeLabel(boolean ourturn) {
-            if (!ourturn) {
-                changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
-                changeLabel.setStyle("-fx-background-color: RED ; ");
-            } else if(ourturn) {
-                changeLabel.setText("YOU NEED TO MAKE A MOVE");
-                changeLabel.setStyle("-fx-background-color: GREEN ; ");
-            }
+        if (!ourturn) {
+            changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
+            changeLabel.setStyle("-fx-background-color: RED ; ");
+        } else if(ourturn) {
+            changeLabel.setText("YOU NEED TO MAKE A MOVE");
+            changeLabel.setStyle("-fx-background-color: GREEN ; ");
         }
+    }
 
     // Forfeits the game and returns to lobby / connectedView
     public void forfeitGame(ActionEvent actionEvent) {
@@ -199,4 +195,3 @@ public class TictactoeController extends GameView implements Initializable {
 
 
 }
-
