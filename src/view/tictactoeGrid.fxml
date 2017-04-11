@@ -15,7 +15,7 @@
                 <Menu text="Actions">
                     <items>
                         <MenuItem text="Forfeit and go to lobby" onAction="#forfeitGame"/>
-                        <MenuItem text="Close" onAction="#closeApplication"/>
+                        <MenuItem text="Close entire application" onAction="#closeApplication"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

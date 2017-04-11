@@ -4,13 +4,17 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import model.games.tictactoe.Move;
 import model.server_connection.ServerHandler;
 import model.server_connection.ServerHandlerReader;
@@ -18,8 +22,10 @@ import model.server_connection.ServerHandlerWriter;
 import model.games.tictactoe.Tictactoe;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.ResourceBundle;
 
 
@@ -179,18 +185,34 @@ public class TictactoeController extends GameView implements Initializable {
     public void forfeitGame(ActionEvent actionEvent) {
         forfeit();
 
-        //TODO change view to connectedView here
+        //Perform this in the javafx thread
+        Platform.runLater(() -> {
 
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/connectedView.fxml"));
+        Parent root = null;
+        try {
+            root = (Parent) fxmlLoader.load();
+
+            //Set writer in controller
+            ConnectedController connectedController = fxmlLoader.getController();
+            ServerHandlerReader.currentController = connectedController;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ConcurrentModificationException cme) {
+            cme.printStackTrace();
+        }
+        ServerHandlerReader.stage.setTitle("Lobby");
+        ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
+    });
     }
+
 
     public void closeApplication(ActionEvent actionEvent) {
         ServerHandlerWriter.writeSend("logout");
         System.out.println("gelukt uit te loggen.. nu nog afsluiten");
 
-        //TODO close the whole application
-
-
-
+        Platform.exit();
     }
 
 

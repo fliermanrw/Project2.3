@@ -1,19 +1,7 @@
 package model.server_connection;
 
-import controller.ConnectedController;
-import controller.LoginController;
-import controller.PreGameView;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.*;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
 
 /**
