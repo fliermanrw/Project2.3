@@ -201,7 +201,13 @@ public class ConnectedController extends PreGameView implements Initializable {
         } else if (reversi.isSelected()) {
             selectedGame = "Reversi";
         }
-        ServerHandlerWriter.writeSend("challenge " + "\"" + selectedOpponent.replace(" ", "") +"\""  + " " + "\"" + selectedGame + "\"");
-    }
+        if(selectedOpponent != null){
+            logArea.setText("Invited " + selectedOpponent + " for a challenge!");
+            ServerHandlerWriter.writeSend("challenge " + "\"" + selectedOpponent.replace(" ", "") +"\""  + " " + "\"" + selectedGame + "\"");
 
+        } else {
+            logArea.setText("Select an opponent please..");
+        }
+
+    }
 }
