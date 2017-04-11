@@ -14,10 +14,12 @@ import model.games.othello.othelloGameModel;
 import model.server_connection.ServerHandler;
 import model.server_connection.ServerHandlerWriter;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 
-public class OthelloController extends GameView {
+public class OthelloController extends GameView implements Initializable {
     othelloGameModel othello;
     boolean ourturn = false;
     public String startPlayer;
@@ -25,18 +27,19 @@ public class OthelloController extends GameView {
     @FXML
     GridPane othelloGameBoard;
 
-
-    public void init() {
-        if (startPlayer.equals(ServerHandler.playerName)) {
-            othello = new othelloGameModel('B');
-            System.out.println("its my turn." + startPlayer);
-        } else {
-            othello = new othelloGameModel('W');
-        }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        othello = new othelloGameModel('B');
         othello.initGrid();
         othello.printBoard();
         initBoard();
     }
+//    public void init() {
+//        othello = new othelloGameModel('B');
+//        othello.initGrid();
+//        othello.printBoard();
+//        initBoard();
+//    }
 
     public void initBoard() {
         for (int row = 0; row < 8; row++) {
@@ -84,8 +87,8 @@ public class OthelloController extends GameView {
                 //@todo don't set button just update the view representation here.
                 othello.move(Integer.valueOf(button.getId()));
                 move(Integer.valueOf(button.getId()));
-                othello.switchPlayer();
                 updateBoard();
+                othello.switchPlayer();
             }
         } else {
             System.out.println("Niet onze beurt");
@@ -96,9 +99,16 @@ public class OthelloController extends GameView {
     // er komt een move binnen van de server.
     @Override
     public void serverMove(int index, String playerName) {
-        othello.move(index);
-        othello.printBoard();
-        updateBoard();
+        if(!ServerHandler.playerName.equals(playerName)){
+            othello.move(index);
+            othello.printBoard();
+            updateBoard();
+            othello.switchPlayer();
+        }
+//        othello.move(index);
+//        othello.printBoard();
+//        updateBoard();
+//        othello.switchPlayer();
         ourturn();
 //        ServerHandler.playerName // je eigen naam
         //playerName == de naam die nu aan de beurt is
@@ -118,5 +128,6 @@ public class OthelloController extends GameView {
     void forfeit() {
         ServerHandlerWriter.writeSend("forfeit");
     }
+
 }
 

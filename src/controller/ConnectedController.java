@@ -98,9 +98,7 @@ public class ConnectedController extends PreGameView implements Initializable {
                     OthelloController othelloController = fxmlLoader.getController();
                     ServerHandlerReader.currentGameView = othelloController;
 
-                    //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
-                    othelloController.startPlayer = playerToMove;
-                    othelloController.init();
+//                    othelloController.init();
                     if (playerToMove.equals(ServerHandler.playerName)) {
                         othelloController.ourturn();
                     }
