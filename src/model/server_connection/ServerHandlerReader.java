@@ -80,69 +80,43 @@ public class ServerHandlerReader implements Runnable {
                     }
 
                     if (currentLine.contains("CHALLENGE")) {
-                        String line = currentLine;
-                        line = line.replaceAll("(SVR GAME CHALLENGE )", ""); //remove SVR GAME MATCH
-                        line = line.replaceAll("(\"|-)", "");//remove quotations and -
-                        line = line.replaceAll("(\\w+)", "\"$1\""); //add quotations to every word
-                        JSONParser parser = new JSONParser();
-                        try {
-                            JSONObject json = (JSONObject) parser.parse(line);
-                            Platform.runLater(()->{
+                        Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
+
+                        System.out.println(vars);
+
+                        Platform.runLater(()->{
                                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                                 alert.setTitle("Challenge Request");
-                                alert.setContentText("You have been challenged by " + json.get("CHALLENGER") + " for a game of " + json.get("GAMETYPE"));
+                                alert.setContentText("You have been challenged by " + vars.get("CHALLENGER") + " for a game of " + vars.get("GAMETYPE"));
                                 alert.setOnHidden(e -> {
-                                    String challengeNumber = (String) json.get("CHALLENGENUMBER");
+                                    String challengeNumber = (String) vars.get("CHALLENGENUMBER");
                                     ServerHandlerWriter.acceptChallenge(challengeNumber);
                                 });
                                 alert.show();
-                            });
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        });
                     }
 
                     // Match if a game is found
                     if(currentLine.contains("MATCH")){
-                        System.out.println("stage: " + stage);
-                        String line = currentLine;
-                        line = line.replaceAll("(SVR GAME MATCH )", ""); //remove SVR GAME MATCH
-                        line = line.replaceAll("(\"|-)", "");//remove quotations and -
-                        line = line.replaceAll("(\\w+)", "\"$1\""); //add quotations to every word
-                        JSONParser parser = new JSONParser();
-                        try {
-                            JSONObject json = (JSONObject) parser.parse(line);
-                            currentController.startGame(String.valueOf(json.get("GAMETYPE")), String.valueOf(json.get("PLAYERTOMOVE")));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
+
+                        if (vars.get("PLAYERTOMOVE") != null) {
+                            currentController.startGame(String.valueOf(vars.get("GAMETYPE")), String.valueOf(vars.get("PLAYERTOMOVE")));
                         }
                     }
+
+
 
                     if(currentLine.contains("SVR GAME MOVE")){
                         System.out.println("GameReader: we received a new move");
-                        //opponent has made a move
-                        String line = currentLine;
-                        //        First group: ([A-Za-z]+):  //Match any characert from A-Z or a-z, + means 1 or more, end with :
-                        //        So the first group matches every word that ends with :
-                        //        ---------------------------------------------------------------
-                        //        Second group: "([^"]*)"    //Match the ", then [^"] = match a single characer " that is not in the set,  * = between zero and more times, end with a " .
-                        //        So the second group matches everything between quotes and checks if it doesn't contain quotes itself?
-                        Map<String,String> vars = new HashMap<>();
-                        Pattern pattern = Pattern.compile("([A-Za-z]+): \"([^\"]*)\"");
-                        Matcher matcher = pattern.matcher(line);
-                        while (matcher.find()) {
-                            vars.put(matcher.group(1), matcher.group(2));
-                        }
-                        System.out.println("vars" + vars.get("MOVE") + vars.get("PLAYER"));
+                        Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
+
                         if (vars.get("MOVE") != null) {
                             currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")), String.valueOf(vars.get("PLAYER")));
                         }
-
-//                        System.out.println(Integer.valueOf(vars.get("MOVE")));
-    //                    for(GameView v : views){
-    //                            v.serverMove(Integer.valueOf(vars.get("MOVE")));//dummy data is index 1
-    //                    }
                     }
+
+
 
                 }
 
@@ -150,5 +124,25 @@ public class ServerHandlerReader implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Converts string using the format {Key: "value"} to a hashmap
+     *            First group: ([A-Za-z]+):  //Match any characert from A-Z or a-z, + means 1 or more, end with :
+     *            So the first group matches every word that ends with :
+     *            ---------------------------------------------------------------
+     *            Second group: "([^"]*)"    //Match the ", then [^"] = match a single characer " that is not in the set,  * = between zero and more times, end with a " .
+     *            So the second group matches everything between quotes and checks if it doesn't contain quotes itself?
+     * @return Map Can be used as Map.get("KEY")
+     */
+    public Map<String,String> stringToMap(String line) {
+        Map<String, String> vars = new HashMap<>();
+        Pattern pattern = Pattern.compile("([A-Za-z]+): \"([^\"]*)\"");
+        Matcher matcher = pattern.matcher(line);
+        while (matcher.find()) {
+            vars.put(matcher.group(1), matcher.group(2));
+        }
+
+        return vars;
     }
 }
