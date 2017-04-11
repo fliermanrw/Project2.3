@@ -212,10 +212,7 @@ public class TictactoeController extends GameView implements Initializable {
         ServerHandlerWriter.writeSend("logout");
         System.out.println("gelukt uit te loggen.. nu nog afsluiten");
 
-        //TODO close the whole application
-
-
-
+        Platform.exit();
     }
 
 
