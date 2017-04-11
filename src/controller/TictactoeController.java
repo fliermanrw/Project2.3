@@ -7,6 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import model.games.tictactoe.Move;
 import model.server_connection.ServerHandler;
@@ -14,6 +17,7 @@ import model.server_connection.ServerHandlerReader;
 import model.server_connection.ServerHandlerWriter;
 import model.games.tictactoe.Tictactoe;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -23,10 +27,13 @@ import java.util.ResourceBundle;
  * Created by jouke on 3-4-2017.
  */
 
-public class TictactoeController extends GameView implements Initializable{
+public class TictactoeController extends GameView implements Initializable {
     Tictactoe tictactoe;
     boolean ourturn = false;
-    @FXML GridPane gameBoard;
+    @FXML
+    GridPane gameBoard;
+    @FXML
+    Label changeLabel;
 
 
     public TictactoeController() {
@@ -45,22 +52,24 @@ public class TictactoeController extends GameView implements Initializable{
 
         if(ourturn){
             System.out.println("OURMOVE = TRUE");
-            if(tictactoe.hasWon(tictactoe.getGrid(), tictactoe.getCurrentPlayer())){
+            if (tictactoe.hasWon(tictactoe.getGrid(), tictactoe.getCurrentPlayer())) {
                 System.out.println(tictactoe.getCurrentPlayer() + "Has won the game");
             }else{
                 if(validMoves.size() == 0){
                     System.out.println("Its a tie");
-                }else{
-                    if(validMoves.contains(index)){
+                } else {
+                    if (validMoves.contains(index)) {
                         tictactoe.move(index, true);
                         tictactoe.printGrid();
                         move(index);
                         btn.setText(tictactoe.getCurrentPlayer());
+                        btn.setStyle("-fx-font-size: 30px");
                         ourturn = false;
+                        changeLabel(ourturn);
                     }
                 }
             }
-        }
+        } else{changeLabel(ourturn);}
     }
 
     //When server notifies us of a new move
@@ -76,6 +85,9 @@ public class TictactoeController extends GameView implements Initializable{
                         int buttonid = Integer.valueOf(button.getId());
                         if (buttonid == index) {
                             button.setText(tictactoe.getCurrentPlayer());
+                            button.setStyle("-fx-font-size: 30px");
+                            changeLabel(ourturn);
+
                         }
                     }
                 }
@@ -93,6 +105,9 @@ public class TictactoeController extends GameView implements Initializable{
                     int buttonid = Integer.valueOf(button.getId());
                     if(buttonid == bestMove.getIndex()){
                         button.setText(tictactoe.getCurrentPlayer());
+                        button.setStyle("-fx-font-size: 30px");
+                        changeLabel(ourturn);
+
                     }
                 }
             }
@@ -116,6 +131,7 @@ public class TictactoeController extends GameView implements Initializable{
     @Override
     void move(int place) {
         ServerHandlerWriter.writeSend("move " + place);
+        changeLabel(ourturn);
     }
 
     @Override
@@ -148,5 +164,34 @@ public class TictactoeController extends GameView implements Initializable{
             }
         });
     }
-}
 
+    public void changeLabel(boolean ourturn) {
+        if (!ourturn) {
+            changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
+            changeLabel.setStyle("-fx-background-color: RED ; ");
+        } else if(ourturn) {
+            changeLabel.setText("YOU NEED TO MAKE A MOVE");
+            changeLabel.setStyle("-fx-background-color: GREEN ; ");
+        }
+    }
+
+    // Forfeits the game and returns to lobby / connectedView
+    public void forfeitGame(ActionEvent actionEvent) {
+        forfeit();
+
+        //TODO change view to connectedView here
+
+    }
+
+    public void closeApplication(ActionEvent actionEvent) {
+        ServerHandlerWriter.writeSend("logout");
+        System.out.println("gelukt uit te loggen.. nu nog afsluiten");
+
+        //TODO close the whole application
+
+
+
+    }
+
+
+}

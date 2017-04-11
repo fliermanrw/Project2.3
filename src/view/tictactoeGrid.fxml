@@ -14,8 +14,8 @@
             <menus>
                 <Menu text="Actions">
                     <items>
-                        <MenuItem text="Play"/>
-                        <MenuItem text="Quit" />
+                        <MenuItem text="Forfeit and go to lobby" onAction="#forfeitGame"/>
+                        <MenuItem text="Close" onAction="#closeApplication"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -42,4 +42,7 @@
             </children>
         </GridPane>
     </center>
+    <bottom>
+        <Label text=" " fx:id="changeLabel"></Label>
+    </bottom>
 </BorderPane>
