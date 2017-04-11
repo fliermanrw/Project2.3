@@ -6,6 +6,7 @@ import controller.LoginController;
 import controller.PreGameView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -85,8 +86,11 @@ public class ServerHandlerReader implements Runnable {
                                 alert.setTitle("Challenge Request");
                                 alert.setContentText("You have been challenged by " + vars.get("CHALLENGER") + " for a game of " + vars.get("GAMETYPE"));
                                 alert.setOnHidden(e -> {
-                                    String challengeNumber = (String) vars.get("CHALLENGENUMBER");
-                                    ServerHandlerWriter.acceptChallenge(challengeNumber);
+                                    if(alert.getResult().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)){
+                                        //Only accept challenge when button ok is pressed
+                                        String challengeNumber = (String) vars.get("CHALLENGENUMBER");
+                                        ServerHandlerWriter.acceptChallenge(challengeNumber);
+                                    }
                                 });
                                 alert.show();
                         });
