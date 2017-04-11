@@ -64,7 +64,6 @@ public class othelloGameModel implements GameModel {
             }
         }
         othelloBoard.logic.applyMove(othelloBoard.getBoard(), othelloBoard.getCellOnBoard(x - 1, y), othelloBoard.turn);
-        othelloBoard.printBoard();
     }
 
     public String findCurrentWinner(){

@@ -101,11 +101,9 @@ public class ConnectedController extends PreGameView implements Initializable {
                     //Notify if we have to start or opponent is starting with a move, after this the gamereader will handle everything
                     othelloController.startPlayer = playerToMove;
                     othelloController.init();
-//                    if (playerToMove.equals(ServerHandler.playerName)) {
-//                        othelloController.ourturn();
-//                        othelloController.startPlayer = playerToMove;
-//
-//                    }
+                    if (playerToMove.equals(ServerHandler.playerName)) {
+                        othelloController.ourturn();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ConcurrentModificationException cme) {
