@@ -122,6 +122,28 @@ public class ConnectedController extends PreGameView implements Initializable {
         System.out.println("Logged out of the server");
         super.updateLog("logout");
         ServerHandlerWriter.writeSend("logout");
+
+        // Change view to login screen again
+        Platform.runLater(() -> {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/loginView.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) fxmlLoader.load();
+
+                //Set writer in controller
+                LoginController loginController = fxmlLoader.getController();
+                ServerHandlerReader.currentController = loginController;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ConcurrentModificationException cme) {
+                cme.printStackTrace();
+            }
+            ServerHandlerReader.stage.setTitle("Lobby");
+            ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
+        });
+
     }
 
     public void updateLog(String currentLine){
@@ -179,7 +201,13 @@ public class ConnectedController extends PreGameView implements Initializable {
         } else if (reversi.isSelected()) {
             selectedGame = "Reversi";
         }
-        ServerHandlerWriter.writeSend("challenge " + "\"" + selectedOpponent.replace(" ", "") +"\""  + " " + "\"" + selectedGame + "\"");
-    }
+        if(selectedOpponent != null){
+            logArea.setText("Invited " + selectedOpponent + " for a challenge!");
+            ServerHandlerWriter.writeSend("challenge " + "\"" + selectedOpponent.replace(" ", "") +"\""  + " " + "\"" + selectedGame + "\"");
 
+        } else {
+            logArea.setText("Select an opponent please..");
+        }
+
+    }
 }
