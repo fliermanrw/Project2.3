@@ -9,17 +9,13 @@ import java.util.*;
 public class othelloBoard {
     private static int size = 8;
     public char turn;
-    private char turnForBot;
 
     private static boardCell[][] reversiBoard = new boardCell[size][size];
     public static ArrayList<boardCell> cellsOnBoard = new ArrayList<>();
     public static othelloLogic logic = new othelloLogic(reversiBoard, size);
 
-    public othelloBoard(char turnForBot) {
-        this.turnForBot = turnForBot;
-
-        // Default first turn is B
-        turn = 'B';
+    public othelloBoard(char turn) {
+        this.turn = turn;
     }
 
     public String findCurrentWinner() {
@@ -84,6 +80,7 @@ public class othelloBoard {
         } else {
             turn = 'B';
         }
+        System.out.println("Current turn is : " + turn);
     }
 
     public void printBoard() {

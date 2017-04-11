@@ -11,18 +11,13 @@ import java.util.Arrays;
 public class othelloGameModel implements GameModel {
 
     public othelloBoard othelloBoard;
-    char turnForBot;
+    char turn;
 
-    public othelloGameModel(char turnForBot) {
-        this.turnForBot = turnForBot;
+    public othelloGameModel(char turn) {
+        this.turn = turn;
         // Make a new board and assign the colour for the bot.
         // 'B' if bot plays first 'W' if bot plays second
-        othelloBoard = new othelloBoard(turnForBot);
-//        initGrid();
-//        for (int a : getValidMoves()) {
-//            System.out.println(a);
-//        }
-//        System.out.println();
+        othelloBoard = new othelloBoard(turn);
     }
 
     public othelloBoard getOthelloBoard(){
@@ -64,6 +59,7 @@ public class othelloGameModel implements GameModel {
             }
         }
         othelloBoard.logic.applyMove(othelloBoard.getBoard(), othelloBoard.getCellOnBoard(x - 1, y), othelloBoard.turn);
+        othelloBoard.refreshBoardList();
     }
 
     public String findCurrentWinner(){
@@ -79,8 +75,6 @@ public class othelloGameModel implements GameModel {
     public void printBoard(){
         othelloBoard.printBoard();
     }
-
-
 
     public int rowColToInt(int row, int col) {
         int index = row * 8 + col;
