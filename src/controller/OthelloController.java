@@ -36,10 +36,11 @@ public class OthelloController extends GameView{
         }
         othello.initGrid();
         othello.printBoard();
+        initBoard();
         updateBoard();
     }
 
-    public void updateBoard(){
+    public void initBoard() {
         for (int row = 0; row < 8; row++) {
             othelloGameBoard.addRow(row);
             for (int col = 0; col < 8; col++) {
@@ -56,6 +57,13 @@ public class OthelloController extends GameView{
                 a.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row,col)).getCharacterInCell()));
                 othelloGameBoard.addColumn(col, a);
             }
+        }
+    }
+
+    public void updateBoard(){
+        for(boardCell cell : othello.othelloBoard.cellsOnBoard){
+            System.out.print(othelloGameBoard.getChildren());
+            break;
         }
     }
 
