@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.server_connection.*;
@@ -43,10 +44,8 @@ public class Main extends Application {
                     vars.put(matcher.group(1), matcher.group(2));
                 }
             }
-            System.out.println(vars);
             if(vars.get("server") != null){
                 this.server = vars.get("server");
-                System.out.printf("??");
             }
             if(vars.get("port") != null){
                 this.port = Integer.valueOf(vars.get("port"));
@@ -58,38 +57,22 @@ public class Main extends Application {
             ServerHandler serverHandler = new ServerHandler(telnet.getConnectionSocket(), primaryStage);
             LoginController loginController = fxmlLoader.getController();
             loginController.setStage(primaryStage);
-
-//            TelnetConnection telnet = new TelnetConnection("145.33.225.170", 7789);
-//            Socket socket = telnet.getConnectionSocket();
-//
-//            //Create a telnet writer
-//            connectionWriter = new TelnetWriter(socket);
-//            //Create a telnet reader
-//            connectionReader = new PreGameReader(socket);
-//            Thread t1 = new Thread(connectionReader);
-//            t1.start();
-//
-//            //Set writer & reader in controller
-//            LoginController loginController = fxmlLoader.getController();
-//            loginController.setConnectionWriter(connectionWriter);
-//            loginController.setConnectionReader(connectionReader);
-//            loginController.setSocket(socket);
-
-            //Set stage in LoginController
-//            loginController.setStage(primaryStage);
+            primaryStage.setTitle("Login");
+            primaryStage.setScene(new Scene(root, 200, 150));
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    System.out.println("Stage is closing, logging out");
+                    ServerHandlerWriter.writeSend("logout");
+                }
+            });
+            primaryStage.show();
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Connection to server failed");
+            alert.setContentText("Failed to connect to the server located at: " + "\n" + "server: " + server + "\n" + "port: " + port);
+            alert.show();
             e.printStackTrace();
         }
-
-        primaryStage.setTitle("Login");
-        primaryStage.setScene(new Scene(root, 200, 150));
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                System.out.println("Stage is closing, logging out");
-                ServerHandlerWriter.writeSend("logout");
-            }
-        });
-        primaryStage.show();
     }
 
 
