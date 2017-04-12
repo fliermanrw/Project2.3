@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 
@@ -135,6 +136,25 @@ public class OthelloController extends GameView implements Initializable {
     @Override
     public void ourturn() {
         ourturn = true;
+        System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
+        if(ServerHandlerReader.useBot){
+            botMove();
+            System.out.println("OthelloController: Got notified it's now our turn, our bot is going to make a turn");
+        }
+    }
+
+    public void botMove(){
+        System.out.println("Bot move turn: " + othello.getCurrentPlayer());
+        System.out.println("Bot please do a move");
+
+        ArrayList<Integer> validMoves = othello.getValidMoves();
+        Random rand = new Random();
+        int random = rand.nextInt(validMoves.size());
+        othello.move(validMoves.get(random));
+        move(validMoves.get(random));
+        updateBoard();
+        othello.switchPlayer();
+        ourturn = false;
     }
 
     @Override
