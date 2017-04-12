@@ -19,8 +19,8 @@
             <menus>
                 <Menu text="Actions">
                     <items>
-                       <!-- <MenuItem onAction="" text="Play" />-->
-                        <MenuItem text="Quit" />
+                       <MenuItem text="Play" onAction="#forfeitGame" />-->
+                        <MenuItem text="Quit" onAction="#closeApplication" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
