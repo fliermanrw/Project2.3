@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import model.games.othello.boardCell;
@@ -20,6 +21,7 @@ import model.server_connection.ServerHandler;
 import model.server_connection.ServerHandlerReader;
 import model.server_connection.ServerHandlerWriter;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -67,8 +69,26 @@ public class OthelloController extends GameView implements Initializable {
                         buttonClick(a.getId(), a);
                     }
                 });
-                a.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell()));
-                othelloGameBoard.addColumn(col, a);
+                if (othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == '#') {
+                    a.setText(" ");
+                    othelloGameBoard.addColumn(col, a);
+
+                } else if(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == 'B') {
+                    //a.setText(" ");
+                    //a.setStyle("-fx-background-image: url("../blackstone.png") ;");
+                    a.setText("B");
+                    a.setStyle("-fx-background-color: BLACK ; -fx-text-fill: white ;  -fx-font-weight: 500; -fx-border-color: lightgray ");
+                    othelloGameBoard.addColumn(col, a);
+
+                } else if(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == 'W') {
+                    a.setText("W");
+                    a.setStyle("-fx-background-color: whitesmoke ;  -fx-font-weight: 500 ; -fx-border-color: lightgray ");
+                    othelloGameBoard.addColumn(col, a);
+
+                } else {
+                    a.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell()));
+                    othelloGameBoard.addColumn(col, a);
+                }
             }
         }
     }
@@ -84,17 +104,20 @@ public class OthelloController extends GameView implements Initializable {
                 for (int i = 0; i < othello.othelloBoard.cellsOnBoard.size(); i++) {
                     Button button = (Button) othelloGameBoard.getChildren().get(i);
                     if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("B")){
-                        button.setStyle("-fx-background-color: black;");
-                    }else if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("W")){
-                        button.setStyle("-fx-background-color: white;");
+                        button.setText("B");
+                        button.setStyle("-fx-background-color: black; -fx-text-fill: white ; -fx-font-weight: 500; -fx-border-color: lightgray");
+                }else if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("W")){
+                        button.setText("W");
+                        button.setStyle("-fx-background-color: whitesmoke; -fx-font-weight: 500; -fx-border-color: lightgray");
                     }else{
                         if(othello.getValidMoves().contains(i) && ourturn){
-                            button.setStyle("-fx-background-color: aqua;");
+                            button.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
                         }else{
-                            button.setStyle("-fx-background-color: #E8E8E8;");
+                            button.setStyle(null);
                         }
                     }
-                    button.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()));
+                    //button.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()));
+                    //button.setText(" ");
                 }
             });
         }
@@ -104,6 +127,7 @@ public class OthelloController extends GameView implements Initializable {
 
         System.out.println("button text:" + button.getId());
         if (ourturn) {
+            changeLabel(ourturn);
             if (!validMoves.contains(Integer.valueOf(button.getId()))) {
                 System.out.println("not a valid move");
             } else {
@@ -116,6 +140,7 @@ public class OthelloController extends GameView implements Initializable {
             }
         } else {
             System.out.println("Niet onze beurt");
+            changeLabel(ourturn);
         }
     }
 
@@ -153,8 +178,9 @@ public class OthelloController extends GameView implements Initializable {
             changeLabel.setStyle("-fx-background-color: RED ; ");
         } else if(ourturn) {
             changeLabel.setText("YOU NEED TO MAKE A MOVE");
-            changeLabel.setStyle("-fx-background-color: BLUE ; ");
-            changeLabel.setStyle("-fx-color: WHITE ; ");
+            changeLabel.setStyle("-fx-text-fill: BLUE ; ");
+            changeLabel.setStyle("-fx-background-color: aqua;");
+
         }
     }
     public void forfeitGame(ActionEvent actionEvent) {
