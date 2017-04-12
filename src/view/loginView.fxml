@@ -30,7 +30,7 @@
                <HBox>
                    <children>
                        <Label text="Bot?" />
-                       <RadioButton fx:id="playAsBot" mnemonicParsing="false" text="Yes">
+                       <RadioButton fx:id="playAsBot" mnemonicParsing="false" text="Yes" selected="true">
                            <HBox.margin>
                                <Insets left="5.0" />
                            </HBox.margin>
@@ -38,7 +38,7 @@
                         <ToggleGroup fx:id="playAS" />
                      </toggleGroup>
                        </RadioButton>
-                       <RadioButton fx:id="playAsHuman" mnemonicParsing="false" text="No" toggleGroup="$playAS" selected="true">
+                       <RadioButton fx:id="playAsHuman" mnemonicParsing="false" text="No" toggleGroup="$playAS">
                            <HBox.margin>
                                <Insets left="5.0" />
                            </HBox.margin>

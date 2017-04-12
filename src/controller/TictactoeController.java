@@ -137,6 +137,11 @@ public class TictactoeController extends GameView implements Initializable {
     }
 
     @Override
+    public void firstTurn() {
+
+    }
+
+    @Override
     void move(int place) {
         ServerHandlerWriter.writeSend("move " + place);
         changeLabel(ourturn);
@@ -146,6 +151,12 @@ public class TictactoeController extends GameView implements Initializable {
     void forfeit() {
         ServerHandlerWriter.writeSend("forfeit");
     }
+
+    @Override
+    public boolean isLoaded() {
+        return false;
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -47,6 +47,7 @@ public class othelloGameModel implements GameModel {
     @Override
     public ArrayList<Integer> getValidMoves() {
         ArrayList<Integer> listOfMoves = new ArrayList<>();
+        System.out.println("We are now trying to get the validmoves of turn: " + othelloBoard.turn);
         for (boardCell cell : othelloBoard.logic.fetchValidMovesAsCell(othelloBoard.cellsOnBoard, othelloBoard.turn)) {
             listOfMoves.add(rowColToInt(cell.getRow(), cell.getCol()));
         }

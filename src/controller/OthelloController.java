@@ -33,6 +33,7 @@ public class OthelloController extends GameView implements Initializable {
     othelloGameModel othello;
     boolean ourturn = false;
     public String startPlayer;
+    boolean isLoaded = false;
 
     @FXML
     GridPane othelloGameBoard;
@@ -46,6 +47,7 @@ public class OthelloController extends GameView implements Initializable {
         othello.initGrid();
         othello.printBoard();
         initBoard();
+        isLoaded = true;
     }
 //    public void init() {
 //        othello = new othelloGameModel('B');
@@ -88,13 +90,14 @@ public class OthelloController extends GameView implements Initializable {
                         button.setStyle("-fx-background-color: black;");
                     }else if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("W")){
                         button.setStyle("-fx-background-color: white;");
-                    }else{
-                        if(othello.getValidMoves().contains(i) && ourturn){
-                            button.setStyle("-fx-background-color: aqua;");
-                        }else{
-                            button.setStyle("-fx-background-color: #E8E8E8;");
-                        }
                     }
+//                    else{
+//                        if(othello.getValidMoves().contains(i) && ourturn){
+//                            button.setStyle("-fx-background-color: aqua;");
+//                        }else{
+//                            button.setStyle("-fx-background-color: #E8E8E8;");
+//                        }
+//                    }
                     button.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()));
                 }
             });
@@ -112,7 +115,9 @@ public class OthelloController extends GameView implements Initializable {
                 othello.move(Integer.valueOf(button.getId()));
                 move(Integer.valueOf(button.getId()));
                 updateBoard();
+//                othello.printBoard();
                 othello.switchPlayer();
+//                System.out.println("HET IS NU IEMAND ANDERS BEURT:" + othello.getCurrentPlayer());
                 ourturn = false;
             }
         } else {
@@ -124,12 +129,13 @@ public class OthelloController extends GameView implements Initializable {
     @Override
     public void serverMove(int index, String playerName) {
         if(!ServerHandler.playerName.equals(playerName)){
+            System.out.println("new server move");
             othello.move(index);
-            othello.printBoard();
+//            othello.printBoard();
             updateBoard();
             othello.switchPlayer();
+//            System.out.println("HET IS NU IEMAND ANDERS BEURT:" + othello.getCurrentPlayer());
             ourturn();
-            System.out.println("HET IS NU IEMAND ANDERS BEURT:" + othello.getCurrentPlayer());
         }
     }
 
@@ -138,21 +144,41 @@ public class OthelloController extends GameView implements Initializable {
         ourturn = true;
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
         if(ServerHandlerReader.useBot){
-            botMove();
             System.out.println("OthelloController: Got notified it's now our turn, our bot is going to make a turn");
+            botMove();
+        }
+    }
+
+    /**
+     * Only call this when we are the first turn
+     * Does NOT switch a player first
+     */
+    @Override
+    public void firstTurn() {
+       ourturn = true;
+       updateBoard();
+        System.out.println("We are the player that is starting the game our move: " + othello.getCurrentPlayer());
+
+        System.out.println("OthelloController: --firstturn Got notified it's now our turn and we can make a move");
+        if(ServerHandlerReader.useBot){
+            System.out.println("OthelloController: --firstturn Got notified it's now our turn, our bot is going to make a turn");
+            botMove();
         }
     }
 
     public void botMove(){
-        System.out.println("Bot move turn: " + othello.getCurrentPlayer());
-        System.out.println("Bot please do a move");
-
+        othello.printBoard();
         ArrayList<Integer> validMoves = othello.getValidMoves();
+        System.out.println("Bot CURRENT PLAYER: " + othello.getCurrentPlayer());
+        System.out.println("Bot AVAIABLE MOVES: " + validMoves);
+
         Random rand = new Random();
         int random = rand.nextInt(validMoves.size());
         othello.move(validMoves.get(random));
+        System.out.println("Bot MOVE: " + String.valueOf(validMoves.get(random)));
         move(validMoves.get(random));
         updateBoard();
+        othello.printBoard();
         othello.switchPlayer();
         ourturn = false;
     }
@@ -208,6 +234,10 @@ public class OthelloController extends GameView implements Initializable {
         System.out.println("gelukt uit te loggen.. nu nog afsluiten");
 
         Platform.exit();
+    }
+
+    public boolean isLoaded(){
+        return isLoaded;
     }
 
 

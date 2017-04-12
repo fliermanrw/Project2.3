@@ -84,9 +84,20 @@ public class othelloBoard implements Cloneable {
     }
 
     public void printBoard() {
+        int index = 0;
         for (boardCell[] a : reversiBoard) {
             for (boardCell cell : a) {
-                System.out.print(cell.getCharacterInCell() + "  ");
+                if(cell.getCharacterInCell()=='#'){
+                    if(index > 9){
+                        System.out.print(index + " ");
+                    }else{
+                        System.out.print("." + index + " ");
+                    }
+
+                }else{
+                    System.out.print(cell.getCharacterInCell() + "  ");
+                }
+                index++;
             }
             System.out.print("\n");
         }
