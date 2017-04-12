@@ -119,9 +119,9 @@ public class OthelloController extends GameView implements Initializable {
             othello.printBoard();
             updateBoard();
             othello.switchPlayer();
+            ourturn();
+            System.out.println("HET IS NU IEMAND ANDERS BEURT:" + othello.getCurrentPlayer());
         }
-        System.out.println("HET IS NU IEMAND ANDERS BEURT:" + othello.getCurrentPlayer());
-        ourturn();
     }
 
     @Override
