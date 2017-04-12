@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import model.games.othello.boardCell;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
+
 public class OthelloController extends GameView implements Initializable {
     othelloGameModel othello;
     boolean ourturn = false;
@@ -27,6 +29,9 @@ public class OthelloController extends GameView implements Initializable {
 
     @FXML
     GridPane othelloGameBoard;
+
+    @FXML
+    Label changeLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -131,5 +136,15 @@ public class OthelloController extends GameView implements Initializable {
         ServerHandlerWriter.writeSend("forfeit");
     }
 
+    public void changeLabel(boolean ourturn) {
+        if (!ourturn) {
+            changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
+            changeLabel.setStyle("-fx-background-color: RED ; ");
+        } else if(ourturn) {
+            changeLabel.setText("YOU NEED TO MAKE A MOVE");
+            changeLabel.setStyle("-fx-background-color: BLUE ; ");
+            changeLabel.setStyle("-fx-color: WHITE ; ");
+        }
+    }
 }
 
