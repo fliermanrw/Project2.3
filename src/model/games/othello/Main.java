@@ -19,10 +19,9 @@ public class Main {
 
         while (true) {
 
-            othello.startMinimax();
+            //othello.startMinimax();
 
             System.out.println("Turn : " + othello.getCurrentPlayer());
-            othello.printBoard();
             ArrayList<Integer> moves = othello.getValidMoves();
             System.out.println("Available moves: " + moves);
             System.out.println("Number of moves: " + moves.size());

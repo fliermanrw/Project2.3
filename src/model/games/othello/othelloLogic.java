@@ -7,39 +7,22 @@ import java.util.*;
  */
 public class othelloLogic {
 
-    private boardCell[][] reversiBoard;
-    private final int size;
-
-    othelloLogic(boardCell[][] board, int size) {
-        reversiBoard = board;
-        this.size = size;
-    }
+    boardCell[][] temporaryBoard;
 
     private boardCell getBoardCell(int row, int col) {
-        return reversiBoard[row][col];
+        return temporaryBoard[row][col];
     }
 
     private boolean inBounds(int row, int col) {
-        return (row >= 0) && (row < size) && (col >= 0) && (col < size);
+        return (row >= 0) && (row < 8) && (col >= 0) && (col < 8);
     }
 
-    public HashSet<String> fetchValidMoves(ArrayList<boardCell> cellsOnBoard, char turn) {
-        HashSet<String> listOfValidMoves = new HashSet<>();
-        for (boardCell b : cellsOnBoard) {
-            if (b.getCharacterInCell() == turn) {
-                for (boardCell cell : getMoves(b, turn)) {
-                    listOfValidMoves.add(cell.getRow() + "," + cell.getCol());
-                }
-            }
-        }
-        return listOfValidMoves;
-    }
-
-    public ArrayList<boardCell> fetchValidMovesAsCell(ArrayList<boardCell> cellsOnBoard, char turn) {
+    public ArrayList<boardCell> fetchValidMovesAsCell(char turn, othelloBoard board) {
+        temporaryBoard = board.getBoard();
         ArrayList<boardCell> listOfValidMoves = new ArrayList<>();
-        for (boardCell b : cellsOnBoard) {
+        for (boardCell b : board.getBoardAsList()) {
             if (b.getCharacterInCell() == turn) {
-                for (boardCell cell : getMoves(b, turn)) {
+                for (boardCell cell : getMoves(b, turn, board)) {
                     listOfValidMoves.add(cell);
                 }
             }
@@ -47,191 +30,8 @@ public class othelloLogic {
         return listOfValidMoves;
     }
 
-    public boardCell[][] generateBoardWithNewMove(boardCell[][] board, boardCell b, char turn) {
-        boardCell[][] tempboard = board;
-
-        ArrayList<boardCell> templist = new ArrayList<>();
-        ArrayList<boardCell> cellsToFlip = new ArrayList();
-
-        char otherCell;
-        if (turn == 'B') {
-            otherCell = 'W';
-        } else {
-            otherCell = 'B';
-        }
-
-        // Apply turn
-        tempboard[b.getRow()][b.getCol()].setCharacterInCell(turn);
-
-        int row = b.getRow();
-        int col = b.getCol();
-
-        //up
-        for (int i = 1; i < size; i++) {
-            if (inBounds(row - i, col)) {
-                if (getBoardCell(row - i, col).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row - i, col));
-                } else if (getBoardCell(row -i, col).getCharacterInCell() == '#'){
-                    templist.clear();
-                    break;
-                } else if (getBoardCell(row - i, col).getCharacterInCell() == turn) {
-                    cellsToFlip.addAll(templist);
-                    templist.clear();
-                    break;
-                }
-            } else {
-                templist.clear();
-                break;
-            }
-        }
-
-        //down
-        for (int i = 1; i < size; i++) {
-            if (inBounds(row + i, col)) {
-                if (getBoardCell(row + i, col).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row + i, col));
-                } else if (getBoardCell(row + i, col ).getCharacterInCell() == '#'){
-                    templist.clear();
-                    break;
-                } else if (getBoardCell(row + i, col).getCharacterInCell() == turn) {
-                    cellsToFlip.addAll(templist);
-                    templist.clear();
-                    break;
-                }
-            }else {
-                templist.clear();
-                break;
-            }
-        }
-
-        //right
-        for (int i = 1; i < size; i++) {
-            if (inBounds(row, col + i)) {
-                if (getBoardCell(row, col + i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row, col + i));
-                } else if (getBoardCell(row, col + i).getCharacterInCell() == '#') {
-                    templist.clear();
-                    break;
-                } else if (getBoardCell(row, col + i).getCharacterInCell() == turn) {
-                    cellsToFlip.addAll(templist);
-                    templist.clear();
-                    break;
-                }
-            } else {
-                templist.clear();
-                break;
-            }
-        }
-
-        //left
-        for (int i = 1; i < size; i++) {
-            if (inBounds(row, col - i)) {
-                if (getBoardCell(row, col - i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row, col - i));
-                } else if (getBoardCell(row, col - i).getCharacterInCell() == '#') {
-                    templist.clear();
-                    break;
-                } else if (getBoardCell(row, col - i).getCharacterInCell() == turn) {
-                    cellsToFlip.addAll(templist);
-                    templist.clear();
-                    break;
-                }
-            } else {
-                templist.clear();
-                break;
-            }
-        }
-
-
-        //upleft
-        for (int i = 1; i < size; i++) {
-            if (inBounds(row - i, col - i)) {
-                if (getBoardCell(row - i, col - i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row - i, col - i));
-                } else if (getBoardCell(row - i, col - i).getCharacterInCell() == '#') {
-                    templist.clear();
-                    break;
-                } else if (getBoardCell(row - i, col - i).getCharacterInCell() == turn) {
-                    cellsToFlip.addAll(templist);
-                    templist.clear();
-                    break;
-                }
-            } else {
-                templist.clear();
-                break;
-            }
-        }
-
-        //upright
-        for (int i = 1; i < size; i++) {
-            if (inBounds(row - i, col + i)) {
-                if (getBoardCell(row - i, col + i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row - i, col + i));
-                } else if (getBoardCell(row - i, col + i).getCharacterInCell() == '#'){
-                    templist.clear();
-                    break;
-                } else if (getBoardCell(row - i, col + i).getCharacterInCell() == turn) {
-                    cellsToFlip.addAll(templist);
-                    templist.clear();
-                    break;
-                }
-            } else {
-                templist.clear();
-                break;
-            }
-        }
-
-        //downleft
-        for (int i = 1; i < size; i++) {
-            if (inBounds(row + i, col - i)) {
-                if (getBoardCell(row + i, col - i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row + i, col - i));
-                } else if (getBoardCell(row + i, col - i).getCharacterInCell() == '#'){
-                    templist.clear();
-                    break;
-                } else if (getBoardCell(row + i, col - i).getCharacterInCell() == turn) {
-                    cellsToFlip.addAll(templist);
-                    templist.clear();
-                    break;
-                }
-            } else {
-                templist.clear();
-                break;
-            }
-        }
-
-        //down right
-        for (int i = 1; i < size; i++) {
-            if (inBounds(row + i, col + i)) {
-                if (getBoardCell(row + i, col + i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row + i, col + i));
-                } else if (getBoardCell(row + i, col + i).getCharacterInCell() == '#'){
-                    templist.clear();
-                    break;
-                } else if (getBoardCell(row + i, col + i).getCharacterInCell() == turn) {
-                    cellsToFlip.addAll(templist);
-                    templist.clear();
-                    break;
-                }
-            } else {
-                templist.clear();
-                break;
-            }
-        }
-
-        // Flip cells
-        for (boardCell cell : cellsToFlip) {
-            if (tempboard[cell.getRow()][cell.getCol()].getCharacterInCell() == 'B') {
-                tempboard[cell.getRow()][cell.getCol()].setCharacterInCell('W');
-            } else {
-                tempboard[cell.getRow()][cell.getCol()].setCharacterInCell('B');
-            }
-        }
-        return tempboard;
-    }
-
     public boardCell[][] applyMove(boardCell[][] board, boardCell b, char turn) {
-        reversiBoard = board;
+        temporaryBoard = board;
 
         ArrayList<boardCell> templist = new ArrayList<>();
         ArrayList<boardCell> cellsToFlip = new ArrayList();
@@ -244,13 +44,13 @@ public class othelloLogic {
         }
 
         // Apply turn
-        reversiBoard[b.getRow()][b.getCol()].setCharacterInCell(turn);
+         temporaryBoard[b.getRow()][b.getCol()].setCharacterInCell(turn);
 
         int row = b.getRow();
         int col = b.getCol();
 
         //up
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (inBounds(row - i, col)) {
                 if (getBoardCell(row - i, col).getCharacterInCell() == otherCell) {
                     templist.add(getBoardCell(row - i, col));
@@ -269,7 +69,7 @@ public class othelloLogic {
         }
 
         //down
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (inBounds(row + i, col)) {
                 if (getBoardCell(row + i, col).getCharacterInCell() == otherCell) {
                     templist.add(getBoardCell(row + i, col));
@@ -288,7 +88,7 @@ public class othelloLogic {
         }
 
         //right
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (inBounds(row, col + i)) {
                 if (getBoardCell(row, col + i).getCharacterInCell() == otherCell) {
                     templist.add(getBoardCell(row, col + i));
@@ -307,7 +107,7 @@ public class othelloLogic {
         }
 
         //left
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (inBounds(row, col - i)) {
                 if (getBoardCell(row, col - i).getCharacterInCell() == otherCell) {
                     templist.add(getBoardCell(row, col - i));
@@ -327,7 +127,7 @@ public class othelloLogic {
 
 
         //upleft
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (inBounds(row - i, col - i)) {
                 if (getBoardCell(row - i, col - i).getCharacterInCell() == otherCell) {
                     templist.add(getBoardCell(row - i, col - i));
@@ -346,7 +146,7 @@ public class othelloLogic {
         }
 
         //upright
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (inBounds(row - i, col + i)) {
                 if (getBoardCell(row - i, col + i).getCharacterInCell() == otherCell) {
                     templist.add(getBoardCell(row - i, col + i));
@@ -365,7 +165,7 @@ public class othelloLogic {
         }
 
         //downleft
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (inBounds(row + i, col - i)) {
                 if (getBoardCell(row + i, col - i).getCharacterInCell() == otherCell) {
                     templist.add(getBoardCell(row + i, col - i));
@@ -384,7 +184,7 @@ public class othelloLogic {
         }
 
         //down right
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (inBounds(row + i, col + i)) {
                 if (getBoardCell(row + i, col + i).getCharacterInCell() == otherCell) {
                     templist.add(getBoardCell(row + i, col + i));
@@ -404,15 +204,14 @@ public class othelloLogic {
 
         // Flip cells
         for (boardCell cell : cellsToFlip) {
-            if (reversiBoard[cell.getRow()][cell.getCol()].getCharacterInCell() == 'B') {
-                reversiBoard[cell.getRow()][cell.getCol()].setCharacterInCell('W');
+            if ( temporaryBoard[cell.getRow()][cell.getCol()].getCharacterInCell() == 'B') {
+                 temporaryBoard[cell.getRow()][cell.getCol()].setCharacterInCell('W');
             } else {
-                reversiBoard[cell.getRow()][cell.getCol()].setCharacterInCell('B');
+                 temporaryBoard[cell.getRow()][cell.getCol()].setCharacterInCell('B');
             }
         }
-        return reversiBoard;
+        return  temporaryBoard;
     }
-
 
     private static boolean passedOther = false;
 
@@ -446,7 +245,7 @@ public class othelloLogic {
         return false;
     }
 
-    public ArrayList<boardCell> getMoves(boardCell root, char turn) {
+    public ArrayList<boardCell> getMoves(boardCell root, char turn, othelloBoard board) {
         ArrayList<boardCell> PossibleMoves = new ArrayList<>();
 
         char otherCell;
@@ -460,7 +259,7 @@ public class othelloLogic {
         int col = root.getCol();
 
         //up
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (sameCell(row - i, col, turn)) {
                 break;
             } else if (recursiveMoveCheck(row - i, col, otherCell)) {
@@ -473,7 +272,7 @@ public class othelloLogic {
 
 
         //down
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (sameCell(row + i, col, turn)) {
                 break;
             } else if (recursiveMoveCheck(row + i, col, otherCell)) {
@@ -486,7 +285,7 @@ public class othelloLogic {
 
 
         //right
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (sameCell(row, col + i, turn)) {
                 break;
             } else if (recursiveMoveCheck(row, col + i, otherCell)) {
@@ -499,7 +298,7 @@ public class othelloLogic {
 
 
         //left
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (sameCell(row, col - i, turn)) {
                 break;
             } else if (recursiveMoveCheck(row, col - i, otherCell)) {
@@ -511,7 +310,7 @@ public class othelloLogic {
         }
 
         //up left
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (sameCell(row - i, col - i, turn)) {
                 break;
             } else if (recursiveMoveCheck(row - i, col - i, otherCell)) {
@@ -523,7 +322,7 @@ public class othelloLogic {
         }
 
         //up right
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (sameCell(row - i, col + i, turn)) {
                 break;
             } else if (recursiveMoveCheck(row - i, col + i, otherCell)) {
@@ -535,7 +334,7 @@ public class othelloLogic {
         }
 
         //down left
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (sameCell(row + i, col - i, turn)) {
                 break;
             } else if (recursiveMoveCheck(row + i, col - i, otherCell)) {
@@ -547,7 +346,7 @@ public class othelloLogic {
         }
 
         //down right
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < 8; i++) {
             if (sameCell(row + i, col + i, turn)) {
                 break;
             } else if (recursiveMoveCheck(row + i, col + i, otherCell)) {

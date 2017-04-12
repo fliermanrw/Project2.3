@@ -5,27 +5,25 @@ import model.games.tictactoe.Move;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by 347727 on 5-4-2017.
  */
 public class othelloGameModel implements GameModel {
-
+    othelloLogic logic = new othelloLogic();
     public othelloBoard othelloBoard;
-    char turn;
-    private int depth;
-    ArrayList<Integer> grid;
+    public char turn;
 
-    private boardCell[][] copyOfBoard;
+    private static int size = 8;
 
     public othelloGameModel(char turn) {
         this.turn = turn;
         // Make a new board and assign the colour for the bot.
         // 'B' if bot plays first 'W' if bot plays second
-        othelloBoard = new othelloBoard(turn);
     }
 
-    public othelloBoard getOthelloBoard(){
+    public othelloBoard getOthelloBoard() {
         return othelloBoard;
     }
 
@@ -36,26 +34,18 @@ public class othelloGameModel implements GameModel {
 
     @Override
     public String getCurrentPlayer() {
-        return Character.toString(othelloBoard.turn);
+        return Character.toString(turn);
     }
 
     @Override
     public void switchPlayer() {
-        othelloBoard.swapTurn();
+        swapTurn();
     }
 
     @Override
     public ArrayList<Integer> getValidMoves() {
         ArrayList<Integer> listOfMoves = new ArrayList<>();
-        for (boardCell cell : othelloBoard.logic.fetchValidMovesAsCell(othelloBoard.cellsOnBoard, othelloBoard.turn)) {
-            listOfMoves.add(rowColToInt(cell.getRow(), cell.getCol()));
-        }
-        return listOfMoves;
-    }
-
-    public ArrayList<Integer> getValidMoves(othelloBoard board) {
-        ArrayList<Integer> listOfMoves = new ArrayList<>();
-        for (boardCell cell : board.logic.fetchValidMovesAsCell(board.cellsOnBoard, board.turn)) {
+        for (boardCell cell : logic.fetchValidMovesAsCell(turn, othelloBoard)) {
             listOfMoves.add(rowColToInt(cell.getRow(), cell.getCol()));
         }
         return listOfMoves;
@@ -70,36 +60,31 @@ public class othelloGameModel implements GameModel {
                 x++;
             }
         }
-        othelloBoard.logic.applyMove(othelloBoard.getBoard(), othelloBoard.getCellOnBoard(x - 1, y), othelloBoard.turn);
+        othelloBoard.setOthelloBoard(logic.applyMove(othelloBoard.getBoard(), othelloBoard.getCellOnBoard(x - 1, y), turn));
         othelloBoard.refreshBoardList();
-    }
-
-    public othelloBoard moveAndCopy(int move) {
-        othelloBoard clone = othelloBoard.clone();
-        int y = move % 8;
-        int x = 0;
-        for (int j = 0; j < move + 1; j++) {
-            if (j % 8 == 0) {
-                x++;
-            }
-        }
-        clone.logic.applyMove(othelloBoard.getBoard(), othelloBoard.getCellOnBoard(x - 1, y), othelloBoard.turn);
-        clone.refreshBoardList();
-        return clone;
-    }
-
-    public String findCurrentWinner(){
-        return othelloBoard.findCurrentWinner();
     }
 
     @Override
     public void initGrid() {
-        othelloBoard.generateNewBoard();
+        boardCell[][] newBoard = new boardCell[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int b = 0; b < size; b++) {
+                if (i == 3 && b == 3 || i == 4 && b == 4) {
+                    // white
+                    newBoard[i][b] = new boardCell(i, b, 'W');
+                } else if ((i == 3 && b == 4) || (i == 4 && b == 3)) {
+                    // black
+                    newBoard[i][b] = new boardCell(i, b, 'B');
+                } else {
+                    // empty
+                    newBoard[i][b] = new boardCell(i, b, '#');
+                }
+            }
+        }
+        // Generate a board object.
+        othelloBoard = new othelloBoard(newBoard);
+        // Make a list based on the new board.
         othelloBoard.refreshBoardList();
-    }
-
-    public void printBoard(){
-        othelloBoard.printBoard();
     }
 
     public int rowColToInt(int row, int col) {
@@ -117,86 +102,74 @@ public class othelloGameModel implements GameModel {
         return result;
     }
 
-    public ArrayList<String> convertBoardToArrayList() {
-        ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                int row = othelloBoard.getBoard()[i][j].getRow();
-                int col = othelloBoard.getBoard()[i][j].getCol();
+    public int getMiniMaxMove(othelloBoard board, char turn) {
+        System.out.println("board send to minimax : ");
+        printBoard(board.getBoard());
+        return new othelloMiniMax(board, turn, 10).calculateBestMove();
+    }
 
-                if (othelloBoard.getBoard()[i][j].getCharacterInCell() == '#') {
-                    result.add(Integer.toString(rowColToInt(row, col)));
-                } else {
-                    result.add(Character.toString(othelloBoard.getBoard()[i][j].getCharacterInCell()));
+    public String findCurrentWinner() {
+        HashMap<String, Integer> map = getCurrentPoints();
+        int whitePoints = map.get("W");
+        int blackPoints = map.get("B");
+
+        if (whitePoints > blackPoints) {
+            return "W"; // White wins
+        } else if (blackPoints > whitePoints) {
+            return "B"; // Black wins
+        }
+        return "T"; // Tie
+    }
+
+    public HashMap<String, Integer> getCurrentPoints() {
+        int whitePoints = 0;
+        int blackPoints = 0;
+        for (boardCell[] a : othelloBoard.getBoard()) {
+            for (boardCell b : a) {
+                switch (b.getCharacterInCell()) {
+                    case 'W':
+                        whitePoints++;
+                        break;
+                    case 'B':
+                        blackPoints++;
+                        break;
+                    default:
+                        break;
                 }
             }
         }
-        return result;
+
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("W", whitePoints);
+        map.put("B", blackPoints);
+
+        return map;
     }
 
-    public int getMiniMaxMove(boardCell[][] board, char turn){
-        othelloMiniMax miniMax = new othelloMiniMax(board, turn, 10);
-        return miniMax.calculateBestMove();
-    }
-
-    public void startMinimax() {
-        ArrayList<String> boardArrayList = convertBoardToArrayList();
-        minimax(othelloBoard.getBoard(), getCurrentPlayer(), new Move(0));
-    }
-
-    public void minimax(boardCell[][] newBoard, String player, Move m) {
-        // Increment the depth (or function call) by 1
-        this.depth++;
-
-        // Get the empty spots
-        ArrayList<Integer> availableSpots = getValidMoves();
-
-        if (othelloBoard.getTurn() == turn && othelloBoard.findCurrentWinner().equals(Character.toString(othelloBoard.getTurn()))) {
-//            // Win
-//            // @todo setScore & return
-            System.out.println("WIN");
-
-            //return;
-        } else if (othelloBoard.getTurn() != turn && othelloBoard.findCurrentWinner().equals(Character.toString(othelloBoard.getTurn()))) {
-//            // Loss
-//            // @todo setScore & return
-            System.out.println("LOSS");
-            //return;
-        } else if (othelloBoard.findCurrentWinner().equals("T") && availableSpots.size() == 0) {
-            // Tie
-            // @todo setScore & return
-            System.out.println("TIE");
-            //return;
+    public void swapTurn() {
+        if (turn == 'B') {
+            turn = 'W';
+        } else {
+            turn = 'B';
         }
+        //System.out.println("Current turn is : " + turn);
+    }
 
-        // Create an ArrayList with Move objects
-        ArrayList<Move> moves = new ArrayList<>();
-        System.out.println(availableSpots);
-
-        for (int i = 0; i < availableSpots.size(); i++) {
-
-            Move move = new Move(availableSpots.get(i));
-
-            // Since the moves with index are saved, we can overwrite the spot with the current player
-//            newBoard[copyBoard[i]] = player;
-//            newBoard.remove(Integer.parseInt(availableSpots.get(i)));
-//            newBoard.add(Integer.parseInt(availableSpots.get(i)), player);
-            //move(availableSpots.get(i));
-            //othelloBoard copyBoard = moveAndCopy(availableSpots.get(i));
-            boardCell[][] test = newBoard.clone();
-            move(availableSpots.get(i));
-
-            if (othelloBoard.getTurn() == turn) {
-                othelloBoard.swapTurn();
-                minimax(test, getCurrentPlayer(), move);
-            } else {
-                othelloBoard.swapTurn();
-                minimax(test, getCurrentPlayer(), move);
+    public void printBoard(boardCell[][] board) {
+        for (boardCell[] a : board) {
+            for (boardCell cell : a) {
+                System.out.print(cell.getCharacterInCell() + "  ");
             }
-//            moveAndCopy(availableSpots.get(i));
-
+            System.out.print("\n");
         }
-        System.out.println(depth);
-
     }
+
+    public boardCell[][] getBoard() {
+        return othelloBoard.getBoard();
+    }
+
+    public ArrayList<boardCell> getBoardAsList() {
+        return othelloBoard.getBoardAsList();
+    }
+
 }

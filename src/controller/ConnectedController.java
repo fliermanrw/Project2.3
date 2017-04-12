@@ -98,7 +98,7 @@ public class ConnectedController extends PreGameView implements Initializable {
                     OthelloController othelloController = fxmlLoader.getController();
                     ServerHandlerReader.currentGameView = othelloController;
 
-//                    othelloController.init();
+//                  othelloController.init();
                     if (playerToMove.equals(ServerHandler.playerName)) {
                         othelloController.ourturn();
                     }
