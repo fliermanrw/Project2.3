@@ -83,6 +83,9 @@ public class OthelloController extends GameView implements Initializable {
                     if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("W")){
                         button.setStyle("-fx-background-color: white;");
                     }
+                    if(othello.getValidMoves().contains(i)){
+                        button.setStyle("-fx-background-color: aqua;");
+                    }
                     button.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()));
                 }
             });
