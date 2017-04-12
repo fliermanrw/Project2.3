@@ -14,6 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.games.tictactoe.Move;
 import model.server_connection.ServerHandler;
@@ -174,10 +176,12 @@ public class TictactoeController extends GameView implements Initializable {
     public void changeLabel(boolean ourturn) {
         if (!ourturn) {
             changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
-            changeLabel.setStyle("-fx-background-color: RED ; ");
+            changeLabel.setTextFill(Color.WHITE);
+            changeLabel.setStyle("-fx-background-color: RED;");
         } else if(ourturn) {
             changeLabel.setText("YOU NEED TO MAKE A MOVE");
-            changeLabel.setStyle("-fx-background-color: GREEN ; ");
+            changeLabel.setTextFill(Color.WHITE);
+            changeLabel.setStyle("-fx-background-color: GREEN;");
         }
     }
 
