@@ -8,15 +8,15 @@ import java.util.Arrays;
  */
 public class othelloMiniMax {
 
-    othelloBoard rootBoard;
+    boardCell[][] rootBoard;
     char rootTurn;
     int maxDepth;
 
-    public othelloMiniMax(othelloBoard rootBoard, char rootTurn, int maxDepth) {
+    public othelloMiniMax(boardCell[][] rootBoard, char rootTurn, int maxDepth) {
         this.rootBoard = rootBoard;
         this.rootTurn = rootTurn;
         this.maxDepth = maxDepth;
-        System.out.println("board according to minimax : " + Arrays.deepToString(rootBoard.getBoard()));
+        System.out.println("board according to minimax : " + Arrays.deepToString(rootBoard));
         System.out.println("turn according to minimax : " + rootTurn);
     }
 
@@ -65,8 +65,8 @@ public class othelloMiniMax {
             // get the available moves from the current board
             for (boardCell a : othelloBoard.logic.fetchValidMovesAsCell(resultBoard, tempTurn)) {
                 // for each board recursive search a new board with the move
-                othelloBoard.logic.applyMove(tempBoard, a, tempTurn);
-                recursiveMiniMax(tempBoard, getOtherTurn(tempTurn), depth++);
+                boardCell[][] newTempBoard = othelloBoard.logic.generateBoardWithNewMove(tempBoard, a, tempTurn);
+                recursiveMiniMax(newTempBoard, getOtherTurn(tempTurn), depth++);
             }
         }
         return evaluateMove(tempBoard, tempTurn);
@@ -77,11 +77,19 @@ public class othelloMiniMax {
         int bestMove = 0;
         // for every valid move calcualate recursive moves.
         System.out.println("Calculating best move using minimax.");
-        for (boardCell a : othelloBoard.logic.fetchValidMovesAsCell(rootBoard.getBoardList(), rootTurn)) {
+        // generate list from [][] array
+        ArrayList<boardCell> resultBoard = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            for (int b = 0; b < 8; b++) {
+                resultBoard.add(new boardCell(i, b, rootBoard[i][b].getCharacterInCell()));
+            }
+        }
+
+        for (boardCell a : othelloBoard.logic.fetchValidMovesAsCell(resultBoard, rootTurn)) {
             // generate a tempboard
-            boardCell[][] tempboard = rootBoard.getBoard();
+            boardCell[][] tempboard = rootBoard;
             // apply the move to the board
-            tempboard = othelloBoard.logic.applyMove(tempboard, a, rootTurn);
+            tempboard = othelloBoard.logic.generateBoardWithNewMove(tempboard, a, rootTurn);
             // check recursively what the score of the board is for a move at said depth.
             int scoreFromMove = recursiveMiniMax(tempboard, getOtherTurn(rootTurn), 0);
             System.out.println("score for move " + a.rowColToInt(a.getRow(), a.getCol()) + " was " + scoreFromMove);
@@ -89,6 +97,7 @@ public class othelloMiniMax {
                 bestMove = a.rowColToInt(a.getRow(), a.getCol());
             }
         }
+
         System.out.println("Best move was : " + bestMove);
         return bestMove;
     }

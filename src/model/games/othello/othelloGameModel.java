@@ -134,11 +134,10 @@ public class othelloGameModel implements GameModel {
         return result;
     }
 
-    public int getMiniMaxMove(othelloBoard board, char turn){
+    public int getMiniMaxMove(boardCell[][] board, char turn){
         othelloMiniMax miniMax = new othelloMiniMax(board, turn, 10);
         return miniMax.calculateBestMove();
     }
-
 
     public void startMinimax() {
         ArrayList<String> boardArrayList = convertBoardToArrayList();

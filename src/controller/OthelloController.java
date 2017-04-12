@@ -182,7 +182,7 @@ public class OthelloController extends GameView implements Initializable {
         System.out.println("Bot move turn: " + othello.getCurrentPlayer());
         System.out.println("Bot please do a move");
 
-        int move = othello.getMiniMaxMove(othello.getOthelloBoard(), othello.getOthelloBoard().turn);
+        int move = othello.getMiniMaxMove(othello.getOthelloBoard().getBoard(), othello.getOthelloBoard().turn);
 
         othello.move(move);
         move(move);

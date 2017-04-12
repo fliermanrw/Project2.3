@@ -47,6 +47,189 @@ public class othelloLogic {
         return listOfValidMoves;
     }
 
+    public boardCell[][] generateBoardWithNewMove(boardCell[][] board, boardCell b, char turn) {
+        boardCell[][] tempboard = board;
+
+        ArrayList<boardCell> templist = new ArrayList<>();
+        ArrayList<boardCell> cellsToFlip = new ArrayList();
+
+        char otherCell;
+        if (turn == 'B') {
+            otherCell = 'W';
+        } else {
+            otherCell = 'B';
+        }
+
+        // Apply turn
+        tempboard[b.getRow()][b.getCol()].setCharacterInCell(turn);
+
+        int row = b.getRow();
+        int col = b.getCol();
+
+        //up
+        for (int i = 1; i < size; i++) {
+            if (inBounds(row - i, col)) {
+                if (getBoardCell(row - i, col).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row - i, col));
+                } else if (getBoardCell(row -i, col).getCharacterInCell() == '#'){
+                    templist.clear();
+                    break;
+                } else if (getBoardCell(row - i, col).getCharacterInCell() == turn) {
+                    cellsToFlip.addAll(templist);
+                    templist.clear();
+                    break;
+                }
+            } else {
+                templist.clear();
+                break;
+            }
+        }
+
+        //down
+        for (int i = 1; i < size; i++) {
+            if (inBounds(row + i, col)) {
+                if (getBoardCell(row + i, col).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row + i, col));
+                } else if (getBoardCell(row + i, col ).getCharacterInCell() == '#'){
+                    templist.clear();
+                    break;
+                } else if (getBoardCell(row + i, col).getCharacterInCell() == turn) {
+                    cellsToFlip.addAll(templist);
+                    templist.clear();
+                    break;
+                }
+            }else {
+                templist.clear();
+                break;
+            }
+        }
+
+        //right
+        for (int i = 1; i < size; i++) {
+            if (inBounds(row, col + i)) {
+                if (getBoardCell(row, col + i).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row, col + i));
+                } else if (getBoardCell(row, col + i).getCharacterInCell() == '#') {
+                    templist.clear();
+                    break;
+                } else if (getBoardCell(row, col + i).getCharacterInCell() == turn) {
+                    cellsToFlip.addAll(templist);
+                    templist.clear();
+                    break;
+                }
+            } else {
+                templist.clear();
+                break;
+            }
+        }
+
+        //left
+        for (int i = 1; i < size; i++) {
+            if (inBounds(row, col - i)) {
+                if (getBoardCell(row, col - i).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row, col - i));
+                } else if (getBoardCell(row, col - i).getCharacterInCell() == '#') {
+                    templist.clear();
+                    break;
+                } else if (getBoardCell(row, col - i).getCharacterInCell() == turn) {
+                    cellsToFlip.addAll(templist);
+                    templist.clear();
+                    break;
+                }
+            } else {
+                templist.clear();
+                break;
+            }
+        }
+
+
+        //upleft
+        for (int i = 1; i < size; i++) {
+            if (inBounds(row - i, col - i)) {
+                if (getBoardCell(row - i, col - i).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row - i, col - i));
+                } else if (getBoardCell(row - i, col - i).getCharacterInCell() == '#') {
+                    templist.clear();
+                    break;
+                } else if (getBoardCell(row - i, col - i).getCharacterInCell() == turn) {
+                    cellsToFlip.addAll(templist);
+                    templist.clear();
+                    break;
+                }
+            } else {
+                templist.clear();
+                break;
+            }
+        }
+
+        //upright
+        for (int i = 1; i < size; i++) {
+            if (inBounds(row - i, col + i)) {
+                if (getBoardCell(row - i, col + i).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row - i, col + i));
+                } else if (getBoardCell(row - i, col + i).getCharacterInCell() == '#'){
+                    templist.clear();
+                    break;
+                } else if (getBoardCell(row - i, col + i).getCharacterInCell() == turn) {
+                    cellsToFlip.addAll(templist);
+                    templist.clear();
+                    break;
+                }
+            } else {
+                templist.clear();
+                break;
+            }
+        }
+
+        //downleft
+        for (int i = 1; i < size; i++) {
+            if (inBounds(row + i, col - i)) {
+                if (getBoardCell(row + i, col - i).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row + i, col - i));
+                } else if (getBoardCell(row + i, col - i).getCharacterInCell() == '#'){
+                    templist.clear();
+                    break;
+                } else if (getBoardCell(row + i, col - i).getCharacterInCell() == turn) {
+                    cellsToFlip.addAll(templist);
+                    templist.clear();
+                    break;
+                }
+            } else {
+                templist.clear();
+                break;
+            }
+        }
+
+        //down right
+        for (int i = 1; i < size; i++) {
+            if (inBounds(row + i, col + i)) {
+                if (getBoardCell(row + i, col + i).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row + i, col + i));
+                } else if (getBoardCell(row + i, col + i).getCharacterInCell() == '#'){
+                    templist.clear();
+                    break;
+                } else if (getBoardCell(row + i, col + i).getCharacterInCell() == turn) {
+                    cellsToFlip.addAll(templist);
+                    templist.clear();
+                    break;
+                }
+            } else {
+                templist.clear();
+                break;
+            }
+        }
+
+        // Flip cells
+        for (boardCell cell : cellsToFlip) {
+            if (tempboard[cell.getRow()][cell.getCol()].getCharacterInCell() == 'B') {
+                tempboard[cell.getRow()][cell.getCol()].setCharacterInCell('W');
+            } else {
+                tempboard[cell.getRow()][cell.getCol()].setCharacterInCell('B');
+            }
+        }
+        return tempboard;
+    }
+
     public boardCell[][] applyMove(boardCell[][] board, boardCell b, char turn) {
         reversiBoard = board;
 
