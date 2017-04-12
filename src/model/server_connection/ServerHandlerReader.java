@@ -7,6 +7,7 @@ import controller.PreGameView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -118,6 +119,36 @@ public class ServerHandlerReader implements Runnable {
                         if (vars.get("MOVE") != null) {
                             currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")), String.valueOf(vars.get("PLAYER")));
                         }
+                    }
+
+                    if(currentLine.contains("SVR GAME LOSS")){
+                        System.out.println("Game is over.. we need to switch back to the Lobby");
+
+                        Platform.runLater(()->{
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("You have lost..");
+                            alert.setHeaderText("Do you want to do a rematch or return to lobby?");
+                            alert.setContentText("Choose from the buttons below");
+
+                            ButtonType buttonTypeRematch = new ButtonType("Rematch!");
+                            ButtonType buttonTypeLobby = new ButtonType("Back to Lobby");
+                            ButtonType buttonTypeCancel = new ButtonType("Cancel and see why I lost", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                            alert.getButtonTypes().setAll(buttonTypeRematch, buttonTypeLobby, buttonTypeCancel);
+
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.isPresent() && (result.get() == buttonTypeRematch)){
+                                //TODO immediately ask for rematch
+                                System.out.println("REMATCH");
+                            } else if (result.isPresent() && (result.get() == buttonTypeLobby)) {
+                                //TODO call function to switch view to lobby
+                                System.out.println("LOBBY");
+                            } else {
+                                // ... user chose CANCEL or closed the dialog
+                                //System.out.println("xx");
+                            }
+                        });
+
                     }
 
 
