@@ -24,7 +24,7 @@
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </Label>
-                        <RadioButton fx:id="bke" mnemonicParsing="false" selected="true" text="BKE">
+                        <RadioButton fx:id="bke" mnemonicParsing="false" text="BKE">
                             <VBox.margin>
                                 <Insets top="8.0" />
                                 <Insets bottom="8.0" />
@@ -33,7 +33,7 @@
                         <ToggleGroup fx:id="game" />
                      </toggleGroup>
                         </RadioButton>
-                       <RadioButton fx:id="reversi" mnemonicParsing="false" text="Orthello" toggleGroup="$game">
+                       <RadioButton fx:id="reversi" mnemonicParsing="false" selected="true" text="Orthello" toggleGroup="$game">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />

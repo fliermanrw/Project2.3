@@ -96,11 +96,11 @@ public class OthelloController extends GameView implements Initializable {
                 move(Integer.valueOf(button.getId()));
                 updateBoard();
                 othello.switchPlayer();
+                ourturn = false;
             }
         } else {
             System.out.println("Niet onze beurt");
         }
-        ourturn = false;
     }
 
     // er komt een move binnen van de server.
@@ -112,14 +112,8 @@ public class OthelloController extends GameView implements Initializable {
             updateBoard();
             othello.switchPlayer();
         }
-//        othello.move(index);
-//        othello.printBoard();
-//        updateBoard();
-//        othello.switchPlayer();
-        System.out.println("HET IS NU IEMAND ANDERS BEURT");
+        System.out.println("HET IS NU IEMAND ANDERS BEURT:" + othello.getCurrentPlayer());
         ourturn();
-//        ServerHandler.playerName // je eigen naam
-        //playerName == de naam die nu aan de beurt is
     }
 
     @Override
