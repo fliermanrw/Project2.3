@@ -117,6 +117,10 @@ public class othelloBoard implements Cloneable {
         return reversiBoard;
     }
 
+    public ArrayList<boardCell> getBoardList() {
+        return cellsOnBoard;
+    }
+
     @Override
     public othelloBoard clone() {
         try {

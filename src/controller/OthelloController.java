@@ -95,12 +95,6 @@ public class OthelloController extends GameView implements Initializable {
     }
 
     public void updateBoard() {
-        // for cell
-
-            // for every cell in the list update the text of the button
-            // to be equal to the character in the cell.
-
-
             Platform.runLater(()->{
                 for (int i = 0; i < othello.othelloBoard.cellsOnBoard.size(); i++) {
                     Button button = (Button) othelloGameBoard.getChildren().get(i);
@@ -156,6 +150,15 @@ public class OthelloController extends GameView implements Initializable {
             ourturn();
             System.out.println("HET IS NU IEMAND ANDERS BEURT:" + othello.getCurrentPlayer());
         }
+//        if (ServerHandlerReader.useBot && ourturn){
+//            Random rand = new Random;
+//
+//            othello.move(I);
+//            move(Integer.valueOf(button.getId()));
+//            updateBoard();
+//            othello.switchPlayer();
+//            ourturn = false;
+//        }
     }
 
     @Override
@@ -163,9 +166,22 @@ public class OthelloController extends GameView implements Initializable {
         ourturn = true;
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
         if(ServerHandlerReader.useBot){
-            botMove();
-            System.out.println("OthelloController: Got notified it's now our turn, our bot is going to make a turn");
+            // botMove();
+            minimaxMove();
         }
+    }
+
+    public void minimaxMove(){
+        System.out.println("Bot move turn: " + othello.getCurrentPlayer());
+        System.out.println("Bot please do a move");
+
+        int move = othello.getMiniMaxMove(othello.getOthelloBoard(), othello.getOthelloBoard().turn);
+
+        othello.move(move);
+        move(move);
+        updateBoard();
+        othello.switchPlayer();
+        ourturn = false;
     }
 
     public void botMove(){

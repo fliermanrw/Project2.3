@@ -107,6 +107,16 @@ public class othelloGameModel implements GameModel {
         return index;
     }
 
+    public ArrayList<boardCell> convertBoardToArrayListOfCells(boardCell[][] list) {
+        ArrayList<boardCell> result = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            for (int b = 0; b < 8; b++) {
+                result.add(new boardCell(i, b, list[i][b].getCharacterInCell()));
+            }
+        }
+        return result;
+    }
+
     public ArrayList<String> convertBoardToArrayList() {
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
@@ -122,6 +132,11 @@ public class othelloGameModel implements GameModel {
             }
         }
         return result;
+    }
+
+    public int getMiniMaxMove(othelloBoard board, char turn){
+        othelloMiniMax miniMax = new othelloMiniMax(board, turn, 10);
+        return miniMax.calculateBestMove();
     }
 
 
