@@ -30,7 +30,7 @@ public class Main extends Application {
         try {
 
             // Remote
-            //TelnetConnection telnet = new TelnetConnection("145.33.225.170", 7789);
+          //  TelnetConnection telnet = new TelnetConnection("145.33.225.170", 7789);
 
             //Read file and change server and port when it is set in the ifle
             //File should be format key: "value"
