@@ -57,9 +57,8 @@ public class Main {
             Random rand = new Random();
             int random = rand.nextInt(validMoves.size());
             System.out.println("Bot MOVE: " + String.valueOf(validMoves.get(random)));
-            ;
+
             othello.move(validMoves.get(random));
-            othello.printBoard();
             othello.switchPlayer();
         }
         System.out.println("Winner is:" + othello.findCurrentWinner());

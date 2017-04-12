@@ -137,7 +137,7 @@ public class TictactoeController extends GameView implements Initializable {
     }
 
     @Override
-    public void firstTurn() {
+    public void ourTurnAgain() {
 
     }
 

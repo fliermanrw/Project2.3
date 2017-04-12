@@ -126,11 +126,11 @@ public class ServerHandlerReader implements Runnable {
                 if(currentLine.contains("SVR GAME YOURTURN") && previousLine.contains("SVR GAME MATCH ")){
                     System.out.println("IF 1");
                     //@todo object is not initalized so firstturn = null
-                    currentGameView.firstTurn();
+                    currentGameView.ourturn();
                 }
                 if(currentLine.contains("SVR GAME YOURTURN") && previousLine.contains("SVR GAME MOVE ")){
                     System.out.println("IF 2, previousline is" + previousLine);
-                    if(!receivedMoves.contains(previousLine)){
+                    if(!receivedMoves.contains(previousLine)) {
                         //MAKE SURE ITS NOT A DUPLICATE MOVE
                         //@TODO CLEAR receivedMoves after game!!
                         //@todo maybe handle this in the controller?
@@ -139,12 +139,19 @@ public class ServerHandlerReader implements Runnable {
                         System.out.println("GameReader: we received a new move");
                         Map<String, String> vars = stringToMap(previousLine); //convert string to map with "Key": "Value" format
 
-                        if (vars.get("MOVE") != null) {
-                            currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")), String.valueOf(vars.get("PLAYER")));
+                        if (!String.valueOf(vars.get("PLAYER")).equals(ServerHandler.playerName)) {
+                            System.out.println("Processing the turn of an opponent");
+                            //The last move was made by the opponent
+                            if (vars.get("MOVE") != null) {
+                                currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")), String.valueOf(vars.get("PLAYER")));
+                            }
+                        }else{
+                            System.out.println("Hmm thats weird, it's our turn again after we made a turn");
+                            //The lastmove was by us
+                            //So it's probably a situation where there are no move left for our opponent
+                            //Its ur turn again
+                            currentGameView.ourTurnAgain();
                         }
-                    }else{
-                        //probably a deadlock situation make it our turn again
-                        currentGameView.firstTurn();
                     }
                 }
 

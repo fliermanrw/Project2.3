@@ -40,10 +40,13 @@ public class othelloLogic {
         for (boardCell b : cellsOnBoard) {
             if (b.getCharacterInCell() == turn) {
                 for (boardCell cell : getMoves(b, turn)) {
-                    listOfValidMoves.add(cell);
+                    if(!listOfValidMoves.contains(cell)){
+                        listOfValidMoves.add(cell);
+                    }
                 }
             }
         }
+//        System.out.println("FETCH VALID MOVES: " + listOfValidMoves);
         return listOfValidMoves;
     }
 
@@ -275,6 +278,7 @@ public class othelloLogic {
 
         int row = root.getRow();
         int col = root.getCol();
+//        System.out.println("root=" + root.getCol() + root.getRow());
 
         //up
         for (int i = 1; i < size; i++) {
@@ -374,6 +378,7 @@ public class othelloLogic {
                 break;
             }
         }
+//        System.out.println("PAS OP DUBBELE MOVES OORZAAK = HIER list of moves: " + PossibleMoves);
         return PossibleMoves;
     }
 }

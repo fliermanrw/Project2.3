@@ -142,6 +142,7 @@ public class OthelloController extends GameView implements Initializable {
     @Override
     public void ourturn() {
         ourturn = true;
+        updateBoard();
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
         if(ServerHandlerReader.useBot){
             System.out.println("OthelloController: Got notified it's now our turn, our bot is going to make a turn");
@@ -150,12 +151,14 @@ public class OthelloController extends GameView implements Initializable {
     }
 
     /**
-     * Only call this when we are the first turn
-     * Does NOT switch a player first
+     * When we did a turn and the opponent has no moves left
+     * The server notifies this method thats its our turn again
+     * Ofcourse we have to switch te player (to our own)
      */
     @Override
-    public void firstTurn() {
+    public void ourTurnAgain() {
        ourturn = true;
+       othello.switchPlayer();
        updateBoard();
         System.out.println("We are the player that is starting the game our move: " + othello.getCurrentPlayer());
 

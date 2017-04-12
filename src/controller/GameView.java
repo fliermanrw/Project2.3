@@ -8,7 +8,7 @@ public abstract class GameView{
 
     public abstract void ourturn();
 
-    public abstract void firstTurn();
+    public abstract void ourTurnAgain();
 
     abstract void move(int place);
 
