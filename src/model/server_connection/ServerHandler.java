@@ -24,7 +24,7 @@ public class ServerHandler {
 
     public ServerHandler(Socket socket, Stage stage){
         Thread t1 = new Thread(new ServerHandlerReader(socket, stage));
-        ServerHandlerWriter test = new ServerHandlerWriter();
+        ServerHandlerWriter test = new ServerHandlerWriter(socket);
         t1.start();
         //ServerHandlerWriter.help();
 

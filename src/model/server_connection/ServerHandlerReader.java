@@ -35,30 +35,34 @@ public class ServerHandlerReader implements Runnable {
     public void run() {
         String currentLine;
         try {
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+//            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            while (true) {
-                //Process commands that are set by the ServerHandlerWriter
-                if(!ServerHandler.queue.empty()){
-                    //execute command
-                    currentCommand = ServerHandler.queue.pop();
-                    System.out.println(currentCommand);
-                    ServerHandler.log += currentCommand + "\n";
-                    bw.write(currentCommand);
-                    bw.newLine(); //==ENTER
-                    bw.flush();
-                }
+            while ((currentLine = reader.readLine()) != null) {
+//                System.out.println("aaa");
+//                //Process commands that are set by the ServerHandlerWriter
+//                if(!ServerHandler.queue.empty()){
+//                    //execute command
+//                    currentCommand = ServerHandler.queue.pop();
+//                    System.out.println(currentCommand);
+//                    ServerHandler.log += currentCommand + "\n";
+//                    bw.write(currentCommand);
+//                    bw.newLine(); //==ENTER
+//                    bw.flush();
+//                }
 
 
-                //A string is ready to be read
-                if(reader.ready()){
-                    currentLine = reader.readLine();
+//                //A string is ready to be read
+//                if(reader.ready()){
+//                    currentLine = reader.readLine();
                     //Read + add every new line to the log
                     System.out.println(currentLine);
                     ServerHandler.log += currentLine + "\n";
 
                     if(currentLine.contains("OK")){
+                        currentCommand = ServerHandler.queue.pop();
+                        System.out.println(currentCommand);
+                        ServerHandler.log += currentCommand + "\n";
                         if(currentCommand.contains("login")){
                             String username = currentCommand.replaceAll("(login )", "");
                             System.out.println("username: " + username);
@@ -120,10 +124,12 @@ public class ServerHandlerReader implements Runnable {
 
                 }
 
-            }
+//            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("FUCK UIT DE WHILE LOOp");
     }
 
     /**
