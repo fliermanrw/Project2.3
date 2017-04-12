@@ -185,15 +185,17 @@ public class TictactoeController extends GameView implements Initializable {
     }
 
     public void changeLabel(boolean ourturn) {
-        if (!ourturn) {
-            changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
-            changeLabel.setTextFill(Color.WHITE);
-            changeLabel.setStyle("-fx-background-color: RED;");
-        } else if(ourturn) {
-            changeLabel.setText("YOU NEED TO MAKE A MOVE");
-            changeLabel.setTextFill(Color.WHITE);
-            changeLabel.setStyle("-fx-background-color: GREEN;");
-        }
+        Platform.runLater(()->{
+            if (!ourturn) {
+                changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
+                changeLabel.setTextFill(Color.WHITE);
+                changeLabel.setStyle("-fx-background-color: RED;");
+            } else if(ourturn) {
+                changeLabel.setText("YOU NEED TO MAKE A MOVE");
+                changeLabel.setTextFill(Color.WHITE);
+                changeLabel.setStyle("-fx-background-color: GREEN;");
+            }
+        });
     }
 
     // Forfeits the game and returns to lobby / connectedView

@@ -91,6 +91,8 @@ public class OthelloController extends GameView implements Initializable {
                     }else if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("W")){
                         button.setStyle("-fx-background-color: white;");
                     }
+                    //@todo following commented code results in a bug. Can only call getValidMoves from one position else -> CONCURRENT MODIFICATION EXCEPTION
+                    //@todo please fix quick, will bug in alot of situation
 //                    else{
 //                        if(othello.getValidMoves().contains(i) && ourturn){
 //                            button.setStyle("-fx-background-color: aqua;");
