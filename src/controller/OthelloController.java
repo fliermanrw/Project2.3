@@ -71,9 +71,14 @@ public class OthelloController extends GameView implements Initializable {
                     }
                 });
                 if (othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == '#') {
-                    a.setText(" ");
-                    othelloGameBoard.addColumn(col, a);
+                    if(othello.getValidMoves().contains(othello.rowColToInt(row,col)) && ourturn){
+                        a.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
+                        othelloGameBoard.addColumn(col, a);
+                    } else {
 
+                        a.setText(" ");
+                        othelloGameBoard.addColumn(col, a);
+                    }
                 } else if(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == 'B') {
                     //a.setText(" ");
                     //a.setStyle("-fx-background-image: url("../blackstone.png") ;");
@@ -90,7 +95,9 @@ public class OthelloController extends GameView implements Initializable {
                     a.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell()));
                     othelloGameBoard.addColumn(col, a);
                 }
+
             }
+
         }
     }
 
