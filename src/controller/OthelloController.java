@@ -116,6 +116,7 @@ public class OthelloController extends GameView implements Initializable {
 //        othello.printBoard();
 //        updateBoard();
 //        othello.switchPlayer();
+        System.out.println("HET IS NU IEMAND ANDERS BEURT");
         ourturn();
 //        ServerHandler.playerName // je eigen naam
         //playerName == de naam die nu aan de beurt is

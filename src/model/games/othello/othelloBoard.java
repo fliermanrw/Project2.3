@@ -6,7 +6,7 @@ import java.util.*;
  * Created by Cyriel on 30-3-2017.
  */
 
-public class othelloBoard {
+public class othelloBoard implements Cloneable {
     private static int size = 8;
     public char turn;
 
@@ -24,11 +24,11 @@ public class othelloBoard {
        int blackPoints = map.get("B");
 
         if (whitePoints > blackPoints) {
-            return "White";
+            return "W"; // White wins
         } else if (blackPoints > whitePoints) {
-            return "Black";
+            return "B"; // Black wins
         }
-        return "Tie";
+        return "T"; // Tie
     }
 
     public HashMap<String,Integer> getCurrentPoints(){
@@ -80,7 +80,7 @@ public class othelloBoard {
         } else {
             turn = 'B';
         }
-        System.out.println("Current turn is : " + turn);
+        //System.out.println("Current turn is : " + turn);
     }
 
     public void printBoard() {
@@ -90,6 +90,10 @@ public class othelloBoard {
             }
             System.out.print("\n");
         }
+    }
+
+    public char getTurn() {
+        return turn;
     }
 
     public void generateNewBoard() {
@@ -111,5 +115,14 @@ public class othelloBoard {
 
     public boardCell[][] getBoard() {
         return reversiBoard;
+    }
+
+    @Override
+    public othelloBoard clone() {
+        try {
+            return (othelloBoard)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new AssertionError();
+        }
     }
 }

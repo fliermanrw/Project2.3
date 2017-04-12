@@ -30,4 +30,15 @@ public class boardCell {
     public char getCharacterInCell() {
         return characterInCell;
     }
+
+    public int rowColToInt(int row, int col) {
+        int index = row * 8 + col;
+        return index;
+    }
+
+    @Override
+    public String toString() {
+        String result = "row: [" + this.row + "] col: [" + this.col + "] value: " + this.characterInCell;
+        return result;
+    }
 }

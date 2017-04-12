@@ -198,6 +198,7 @@ public class Tictactoe implements GameModel {
             // Reset the board
             newBoard.remove(Integer.parseInt(availableSpots.get(i)));
             newBoard.add(Integer.parseInt(availableSpots.get(i)), Integer.toString(move.getIndex()));
+            // newBoard[availableSpots[i]] = move.index; >> FOR ARRAYS
 
             // Add the move to the ArrayList
             moves.add(move);

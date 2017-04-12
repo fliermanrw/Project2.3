@@ -10,6 +10,7 @@ public class Move {
 
     public Move(int i) {
         index = i;
+        score = 0;
     }
 
     public void setScore(int s) {
@@ -22,6 +23,10 @@ public class Move {
 
     public int getIndex() {
         return index;
+    }
+
+    public void addScore(int s) {
+        score += s;
     }
 
 }

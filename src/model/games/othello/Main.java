@@ -18,6 +18,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+
+            othello.startMinimax();
+
             System.out.println("Turn : " + othello.getCurrentPlayer());
             othello.printBoard();
             ArrayList<Integer> moves = othello.getValidMoves();
