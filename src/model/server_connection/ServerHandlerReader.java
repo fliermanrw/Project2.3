@@ -121,6 +121,9 @@ public class ServerHandlerReader implements Runnable {
                         }
                     }
 
+                    //TODO we need to change this to SVR GAME LOSS || WIN
+                    //TODO and then change the variables with win and lose..
+
                     if(currentLine.contains("SVR GAME LOSS")){
                         System.out.println("Game is over.. we need to switch back to the Lobby");
 
