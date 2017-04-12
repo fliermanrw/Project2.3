@@ -33,7 +33,7 @@
                         <ToggleGroup fx:id="game" />
                      </toggleGroup>
                         </RadioButton>
-                       <RadioButton fx:id="reversi" mnemonicParsing="false" selected="true" text="Orthello" toggleGroup="$game">
+                       <RadioButton fx:id="reversi" mnemonicParsing="false" selected="true" text="Othello / Reversi" toggleGroup="$game">
                            <VBox.margin>
                                <Insets top="8.0" />
                                <Insets bottom="8.0" />
