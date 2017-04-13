@@ -55,7 +55,6 @@ public class othelloMiniMax {
     }
 
     public int recursiveMiniMax(othelloBoard board, char tempTurn, int depth) {
-        // if the maxdepth is higher or equal to the currentdepth calulate for a new board
         if (maxDepth >= depth) {
             System.out.println("depth is " + depth);
             // get the available moves from the current board
