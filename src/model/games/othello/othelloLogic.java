@@ -23,7 +23,9 @@ public class othelloLogic {
         for (boardCell b : board.getBoardAsList()) {
             if (b.getCharacterInCell() == turn) {
                 for (boardCell cell : getMoves(b, turn, board)) {
-                    listOfValidMoves.add(cell);
+                    if (!listOfValidMoves.contains(cell)) {
+                        listOfValidMoves.add(cell);
+                    }
                 }
             }
         }

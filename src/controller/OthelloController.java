@@ -161,6 +161,20 @@ public class OthelloController extends GameView implements Initializable {
         }
     }
 
+    @Override
+    public void ourTurnAgain() {
+        ourturn = true;
+        othelloGameModel.switchPlayer();
+        updateBoard();
+        System.out.println("We are the player that is starting the game our move: " + othelloGameModel.getCurrentPlayer());
+
+        System.out.println("OthelloController: --firstturn Got notified it's now our turn and we can make a move");
+        if(ServerHandlerReader.useBot){
+            System.out.println("OthelloController: --firstturn Got notified it's now our turn, our bot is going to make a turn");
+            botMove();
+        }
+    }
+
     public void minimaxMove(){
         System.out.println("Bot move turn: " + othelloGameModel.getCurrentPlayer());
         System.out.println("Bot please do a move");
@@ -179,17 +193,18 @@ public class OthelloController extends GameView implements Initializable {
     }
 
     public void botMove(){
-        System.out.println("Bot move turn: " + othelloGameModel.getCurrentPlayer());
-        System.out.println("Bot please do a move");
-
+        othelloGameModel.othelloBoard.printBoard();
         ArrayList<Integer> validMoves = othelloGameModel.getValidMoves();
+        System.out.println("Bot CURRENT PLAYER: " + othelloGameModel.getCurrentPlayer());
+        System.out.println("Bot AVAIABLE MOVES: " + validMoves);
+
         Random rand = new Random();
         int random = rand.nextInt(validMoves.size());
-
         othelloGameModel.move(validMoves.get(random));
+        System.out.println("Bot MOVE: " + String.valueOf(validMoves.get(random)));
         move(validMoves.get(random));
-
         updateBoard();
+        othelloGameModel.othelloBoard.printBoard();
         othelloGameModel.switchPlayer();
         ourturn = false;
     }
@@ -202,6 +217,11 @@ public class OthelloController extends GameView implements Initializable {
     @Override
     void forfeit() {
         ServerHandlerWriter.writeSend("forfeit");
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return false;
     }
 
     public void changeLabel(boolean ourturn) {

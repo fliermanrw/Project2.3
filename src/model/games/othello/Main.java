@@ -25,7 +25,7 @@ public class Main {
 //            othello.startMinimax();
 
             System.out.println("Turn : " + othello.getCurrentPlayer());
-            othello.printBoard();
+            othello.othelloBoard.printBoard();
             ArrayList<Integer> moves = othello.getValidMoves();
             System.out.println("Available moves: " + moves);
             System.out.println("Number of moves: " + moves.size());
@@ -49,7 +49,7 @@ public class Main {
 
     public static void randomMove(){
         while(!othello.getValidMoves().isEmpty()) {
-            othello.printBoard();
+            othello.othelloBoard.printBoard();
             ArrayList<Integer> validMoves = othello.getValidMoves();
             System.out.println("Bot CURRENT PLAYER: " + othello.getCurrentPlayer());
             System.out.println("Bot AVAIABLE MOVES: " + validMoves);
