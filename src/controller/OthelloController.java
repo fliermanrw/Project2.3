@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
 
 
 public class OthelloController extends GameView implements Initializable {
-    private static othelloGameModel othelloGameModel;
+    private othelloGameModel othelloGameModel;
     boolean ourturn = false;
 
     @FXML
@@ -104,13 +104,16 @@ public class OthelloController extends GameView implements Initializable {
                 }else if(String.valueOf(othelloGameModel.getBoardAsList().get(i).getCharacterInCell()).equals("W")){
                         button.setText("W");
                         button.setStyle("-fx-background-color: whitesmoke; -fx-font-weight: 500; -fx-border-color: lightgray");
-                    }else{
-                        if(othelloGameModel.getValidMoves().contains(i) && ourturn){
-                            button.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
-                        }else{
-                            button.setStyle(null);
-                        }
-                    }
+                }
+//                else{
+//                    //@todo following commented code results in a bug. Can only call getValidMoves from one position else -> CONCURRENT MODIFICATION EXCEPTION
+//                    //@todo please fix quick, will bug in alot of situation
+//                    if(othelloGameModel.getValidMoves().contains(i) && ourturn){
+//                        button.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
+//                    }else{
+//                        button.setStyle(null);
+//                    }
+//                }
                     //button.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()));
                     //button.setText(" ");
                 }
@@ -154,10 +157,11 @@ public class OthelloController extends GameView implements Initializable {
     @Override
     public void ourturn() {
         ourturn = true;
+        updateBoard();
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
         if(ServerHandlerReader.useBot){
-          //   botMove();
-            minimaxMove();
+             botMove();
+//            minimaxMove();
         }
     }
 
