@@ -6,18 +6,17 @@ import java.util.Arrays;
 /**
  * Created by arch on 4/12/17.
  */
-public class othelloMiniMax {
+public class othelloMiniMax extends othelloLogic {
 
     static othelloBoard rootBoard;
     char rootTurn;
     static int maxDepth;
-    othelloLogic newLogic;
 
     public othelloMiniMax(othelloBoard rootBoard, char rootTurn, int maxDepth) {
         othelloMiniMax.rootBoard = rootBoard;
         this.rootTurn = rootTurn;
         othelloMiniMax.maxDepth = maxDepth;
-        newLogic = new othelloLogic();
+
         System.out.println("board according to minimax : " + Arrays.deepToString(rootBoard.getBoard()));
         System.out.println("turn according to minimax : " + rootTurn);
     }
@@ -58,7 +57,7 @@ public class othelloMiniMax {
         if (maxDepth >= depth) {
             System.out.println("depth is " + depth);
             // get the available moves from the current board
-            ArrayList<boardCell> listOfMoves = newLogic.fetchValidMovesAsCell(tempTurn, board);
+            ArrayList<boardCell> listOfMoves = fetchValidMovesAsCell(tempTurn, board);
             System.out.println("checking board : ");
             board.printBoard();
             System.out.println("moves was : ");
@@ -70,7 +69,7 @@ public class othelloMiniMax {
             for (boardCell a : listOfMoves) {
                 // for each board recursive search a new board with the move
                 othelloBoard newBoard = new othelloBoard(board.getBoard());
-                newLogic.applyMove(newBoard, a, tempTurn);
+                applyMove(newBoard, a, tempTurn);
                 recursiveMiniMax(newBoard, getOtherTurn(tempTurn), depth++);
             }
         }

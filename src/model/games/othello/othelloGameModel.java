@@ -10,8 +10,7 @@ import java.util.HashMap;
 /**
  * Created by 347727 on 5-4-2017.
  */
-public class othelloGameModel implements GameModel {
-    othelloLogic logic = new othelloLogic();
+public class othelloGameModel extends othelloLogic implements GameModel {
     public othelloBoard othelloBoard;
     public char turn;
 
@@ -45,7 +44,7 @@ public class othelloGameModel implements GameModel {
     @Override
     public ArrayList<Integer> getValidMoves() {
         ArrayList<Integer> listOfMoves = new ArrayList<>();
-        for (boardCell cell : logic.fetchValidMovesAsCell(turn, othelloBoard)) {
+        for (boardCell cell : fetchValidMovesAsCell(turn, othelloBoard)) {
             listOfMoves.add(rowColToInt(cell.getRow(), cell.getCol()));
         }
         return listOfMoves;
@@ -60,7 +59,7 @@ public class othelloGameModel implements GameModel {
                 x++;
             }
         }
-        logic.applyMove(othelloBoard, othelloBoard.getCellOnBoard(x - 1, y), turn);
+        applyMove(othelloBoard, othelloBoard.getCellOnBoard(x - 1, y), turn);
         othelloBoard.refreshBoardList();
     }
 
