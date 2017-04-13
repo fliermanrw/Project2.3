@@ -11,8 +11,8 @@ import java.util.HashMap;
  * Created by 347727 on 5-4-2017.
  */
 public class othelloGameModel extends othelloLogic implements GameModel {
-    public othelloBoard othelloBoard;
-    public char turn;
+    private othelloBoard othelloBoard;
+    private char turn;
 
     private int size = 8;
 
@@ -39,6 +39,10 @@ public class othelloGameModel extends othelloLogic implements GameModel {
     @Override
     public void switchPlayer() {
         swapTurn();
+    }
+
+    public char getTurn(){
+        return turn;
     }
 
     @Override

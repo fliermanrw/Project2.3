@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class othelloLogic {
 
-    boardCell[][] temporaryBoard;
+    private boardCell[][] temporaryBoard;
 
     private boardCell getBoardCell(int row, int col) {
         return temporaryBoard[row][col];

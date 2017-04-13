@@ -7,9 +7,9 @@ import java.util.*;
  */
 
 public class othelloBoard {
-    boardCell[][] othelloBoard;
-    public ArrayList<boardCell> cellsOnBoard = new ArrayList<>();
-    int size = 8;
+    private boardCell[][] othelloBoard;
+    private ArrayList<boardCell> cellsOnBoard = new ArrayList<>();
+    private int size = 8;
 
     public othelloBoard(boardCell[][] board) {
         othelloBoard = board;

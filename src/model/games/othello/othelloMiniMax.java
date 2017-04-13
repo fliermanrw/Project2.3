@@ -8,14 +8,14 @@ import java.util.Arrays;
  */
 public class othelloMiniMax extends othelloLogic {
 
-    static othelloBoard rootBoard;
-    char rootTurn;
-    static int maxDepth;
+    private othelloBoard rootBoard;
+    private char rootTurn;
+    private int maxDepth;
 
     public othelloMiniMax(othelloBoard rootBoard, char rootTurn, int maxDepth) {
-        othelloMiniMax.rootBoard = rootBoard;
+        this.rootBoard = rootBoard;
         this.rootTurn = rootTurn;
-        othelloMiniMax.maxDepth = maxDepth;
+        this.maxDepth = maxDepth;
 
         System.out.println("board according to minimax : " + Arrays.deepToString(rootBoard.getBoard()));
         System.out.println("turn according to minimax : " + rootTurn);
