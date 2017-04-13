@@ -121,11 +121,13 @@ public class ServerHandlerReader implements Runnable {
                         }
                     }
 
-                    if(currentLine.contains("SVR GAME LOSS") || (currentLine.contains("SVR GAME WIN"))){
+                    if(currentLine.contains("SVR GAME LOSS") || (currentLine.contains("SVR GAME WIN")) || (currentLine.contains("SVR GAME DRAW"))){
                         // change String var to win or lost
-                        String winLose = "lost";
+                        String winLose = "have lost";
                         if(currentLine.contains("SVR GAME WIN")){
-                            winLose = "won";
+                            winLose = " have won";
+                        }else if(currentLine.contains("SVR GAME DRAW")){
+                            winLose = "have drawn";
                         }
 
                         System.out.println("Game is over.. we need to switch back to the Lobby");
@@ -139,7 +141,7 @@ public class ServerHandlerReader implements Runnable {
 
                             ButtonType buttonTypeRematch = new ButtonType("Rematch!");
                             ButtonType buttonTypeLobby = new ButtonType("Back to Lobby");
-                            ButtonType buttonTypeCancel = new ButtonType("Cancel and see how I " + finalWinLose, ButtonBar.ButtonData.CANCEL_CLOSE);
+                            ButtonType buttonTypeCancel = new ButtonType("Cancel and see the game " + finalWinLose, ButtonBar.ButtonData.CANCEL_CLOSE);
 
                             alert.getButtonTypes().setAll(buttonTypeRematch, buttonTypeLobby, buttonTypeCancel);
 
