@@ -121,21 +121,25 @@ public class ServerHandlerReader implements Runnable {
                         }
                     }
 
-                    //TODO we need to change this to SVR GAME LOSS || WIN
-                    //TODO and then change the variables with win and lose..
+                    if(currentLine.contains("SVR GAME LOSS") || (currentLine.contains("SVR GAME WIN"))){
+                        // change String var to win or lost
+                        String winLose = "lost";
+                        if(currentLine.contains("SVR GAME WIN")){
+                            winLose = "won";
+                        }
 
-                    if(currentLine.contains("SVR GAME LOSS")){
                         System.out.println("Game is over.. we need to switch back to the Lobby");
 
+                        String finalWinLose = winLose;
                         Platform.runLater(()->{
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("You have lost..");
+                            alert.setTitle("You have " + finalWinLose + "!");
                             alert.setHeaderText("Do you want to do a rematch or return to lobby?");
                             alert.setContentText("Choose from the buttons below");
 
                             ButtonType buttonTypeRematch = new ButtonType("Rematch!");
                             ButtonType buttonTypeLobby = new ButtonType("Back to Lobby");
-                            ButtonType buttonTypeCancel = new ButtonType("Cancel and see why I lost", ButtonBar.ButtonData.CANCEL_CLOSE);
+                            ButtonType buttonTypeCancel = new ButtonType("Cancel and see how I " + finalWinLose, ButtonBar.ButtonData.CANCEL_CLOSE);
 
                             alert.getButtonTypes().setAll(buttonTypeRematch, buttonTypeLobby, buttonTypeCancel);
 
@@ -146,9 +150,6 @@ public class ServerHandlerReader implements Runnable {
                             } else if (result.isPresent() && (result.get() == buttonTypeLobby)) {
                                 //TODO call function to switch view to lobby
                                 System.out.println("LOBBY");
-                            } else {
-                                // ... user chose CANCEL or closed the dialog
-                                //System.out.println("xx");
                             }
                         });
 
