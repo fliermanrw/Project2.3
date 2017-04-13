@@ -30,8 +30,8 @@ public class othelloLogic {
         return listOfValidMoves;
     }
 
-    public boardCell[][] applyMove(boardCell[][] board, boardCell b, char turn) {
-        temporaryBoard = board;
+    public void applyMove(othelloBoard board, boardCell b, char turn) {
+        temporaryBoard = board.getBoard();
 
         ArrayList<boardCell> templist = new ArrayList<>();
         ArrayList<boardCell> cellsToFlip = new ArrayList();
@@ -210,7 +210,7 @@ public class othelloLogic {
                  temporaryBoard[cell.getRow()][cell.getCol()].setCharacterInCell('B');
             }
         }
-        return  temporaryBoard;
+        board.setOthelloBoard(temporaryBoard);
     }
 
     private static boolean passedOther = false;

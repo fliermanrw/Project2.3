@@ -37,6 +37,15 @@ public class othelloBoard {
         }
     }
 
+    public void printBoard() {
+        for (boardCell[] a : othelloBoard) {
+            for (boardCell cell : a) {
+                System.out.print(cell.getCharacterInCell() + "  ");
+            }
+            System.out.print("\n");
+        }
+    }
+
     public boardCell getCellOnBoard(int row, int col) {
         for (boardCell b : othelloBoard[row]) {
             if (b.getRow() == row && b.getCol() == col) {

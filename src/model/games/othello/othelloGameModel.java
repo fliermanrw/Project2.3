@@ -60,7 +60,7 @@ public class othelloGameModel implements GameModel {
                 x++;
             }
         }
-        othelloBoard.setOthelloBoard(logic.applyMove(othelloBoard.getBoard(), othelloBoard.getCellOnBoard(x - 1, y), turn));
+        logic.applyMove(othelloBoard, othelloBoard.getCellOnBoard(x - 1, y), turn);
         othelloBoard.refreshBoardList();
     }
 
@@ -104,7 +104,7 @@ public class othelloGameModel implements GameModel {
 
     public int getMiniMaxMove(othelloBoard board, char turn) {
         System.out.println("board send to minimax : ");
-        printBoard(board.getBoard());
+        board.printBoard();
         return new othelloMiniMax(board, turn, 10).calculateBestMove();
     }
 
@@ -153,15 +153,6 @@ public class othelloGameModel implements GameModel {
             turn = 'B';
         }
         //System.out.println("Current turn is : " + turn);
-    }
-
-    public void printBoard(boardCell[][] board) {
-        for (boardCell[] a : board) {
-            for (boardCell cell : a) {
-                System.out.print(cell.getCharacterInCell() + "  ");
-            }
-            System.out.print("\n");
-        }
     }
 
     public boardCell[][] getBoard() {

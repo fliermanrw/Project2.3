@@ -156,7 +156,7 @@ public class OthelloController extends GameView implements Initializable {
         ourturn = true;
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
         if(ServerHandlerReader.useBot){
-             botMove();
+          //   botMove();
             minimaxMove();
         }
     }
