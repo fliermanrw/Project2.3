@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
 
 
 public class OthelloController extends GameView implements Initializable {
-    private static othelloGameModel othelloGameModel;
+    private othelloGameModel othelloGameModel;
     boolean ourturn = false;
 
     @FXML
@@ -156,8 +156,8 @@ public class OthelloController extends GameView implements Initializable {
         ourturn = true;
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
         if(ServerHandlerReader.useBot){
-          //   botMove();
-            minimaxMove();
+             botMove();
+         //   minimaxMove();
         }
     }
 

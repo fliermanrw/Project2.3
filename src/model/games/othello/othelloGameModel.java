@@ -14,7 +14,7 @@ public class othelloGameModel extends othelloLogic implements GameModel {
     public othelloBoard othelloBoard;
     public char turn;
 
-    private static int size = 8;
+    private int size = 8;
 
     public othelloGameModel(char turn) {
         this.turn = turn;
