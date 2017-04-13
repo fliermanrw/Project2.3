@@ -21,7 +21,9 @@ public class othelloBoard {
     }
 
     public ArrayList<boardCell> getBoardAsList(){
-        return cellsOnBoard;
+        synchronized (cellsOnBoard) {
+            return cellsOnBoard;
+        }
     }
 
     public void setOthelloBoard(boardCell[][] othelloBoard) {
@@ -29,10 +31,12 @@ public class othelloBoard {
     }
 
     public void refreshBoardList() {
-        cellsOnBoard.clear();
-        for (int i = 0; i < size; i++) {
-            for (int b = 0; b < size; b++) {
-                cellsOnBoard.add(new boardCell(i, b, getCellOnBoard(i, b).getCharacterInCell()));
+        synchronized (cellsOnBoard) {
+            cellsOnBoard.clear();
+            for (int i = 0; i < size; i++) {
+                for (int b = 0; b < size; b++) {
+                    cellsOnBoard.add(new boardCell(i, b, getCellOnBoard(i, b).getCharacterInCell()));
+                }
             }
         }
     }

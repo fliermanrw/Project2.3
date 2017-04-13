@@ -23,7 +23,9 @@ public class othelloGameModel extends othelloLogic implements GameModel {
     }
 
     public othelloBoard getOthelloBoard() {
-        return othelloBoard;
+        synchronized (othelloBoard) {
+            return othelloBoard;
+        }
     }
 
     @Override
@@ -48,10 +50,12 @@ public class othelloGameModel extends othelloLogic implements GameModel {
     @Override
     public ArrayList<Integer> getValidMoves() {
         ArrayList<Integer> listOfMoves = new ArrayList<>();
-        for (boardCell cell : fetchValidMovesAsCell(turn, othelloBoard)) {
-            listOfMoves.add(rowColToInt(cell.getRow(), cell.getCol()));
+        synchronized (othelloBoard){
+            for (boardCell cell : fetchValidMovesAsCell(turn, othelloBoard)) {
+                listOfMoves.add(rowColToInt(cell.getRow(), cell.getCol()));
+            }
+            return listOfMoves;
         }
-        return listOfMoves;
     }
 
     @Override
@@ -63,8 +67,10 @@ public class othelloGameModel extends othelloLogic implements GameModel {
                 x++;
             }
         }
-        applyMove(othelloBoard, othelloBoard.getCellOnBoard(x - 1, y), turn);
-        othelloBoard.refreshBoardList();
+        synchronized (othelloBoard){
+            applyMove(othelloBoard, othelloBoard.getCellOnBoard(x - 1, y), turn);
+            othelloBoard.refreshBoardList();
+        }
     }
 
     @Override
@@ -84,10 +90,12 @@ public class othelloGameModel extends othelloLogic implements GameModel {
                 }
             }
         }
-        // Generate a board object.
-        othelloBoard = new othelloBoard(newBoard);
-        // Make a list based on the new board.
-        othelloBoard.refreshBoardList();
+            // Generate a board object.
+            othelloBoard = new othelloBoard(newBoard);
+        synchronized (othelloBoard){
+            // Make a list based on the new board.
+            othelloBoard.refreshBoardList();
+        }
     }
 
     public int rowColToInt(int row, int col) {
@@ -127,17 +135,19 @@ public class othelloGameModel extends othelloLogic implements GameModel {
     public HashMap<String, Integer> getCurrentPoints() {
         int whitePoints = 0;
         int blackPoints = 0;
-        for (boardCell[] a : othelloBoard.getBoard()) {
-            for (boardCell b : a) {
-                switch (b.getCharacterInCell()) {
-                    case 'W':
-                        whitePoints++;
-                        break;
-                    case 'B':
-                        blackPoints++;
-                        break;
-                    default:
-                        break;
+        synchronized (othelloBoard) {
+            for (boardCell[] a : othelloBoard.getBoard()) {
+                for (boardCell b : a) {
+                    switch (b.getCharacterInCell()) {
+                        case 'W':
+                            whitePoints++;
+                            break;
+                        case 'B':
+                            blackPoints++;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -159,11 +169,15 @@ public class othelloGameModel extends othelloLogic implements GameModel {
     }
 
     public boardCell[][] getBoard() {
-        return othelloBoard.getBoard();
+        synchronized (othelloBoard) {
+            return othelloBoard.getBoard();
+        }
     }
 
     public ArrayList<boardCell> getBoardAsList() {
-        return othelloBoard.getBoardAsList();
+        synchronized (othelloBoard) {
+            return othelloBoard.getBoardAsList();
+        }
     }
 
 }
