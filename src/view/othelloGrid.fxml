@@ -19,7 +19,7 @@
             <menus>
                 <Menu text="Actions">
                     <items>
-                       <MenuItem text="Play" onAction="#forfeitGame" />
+                       <MenuItem text="Return to Lobby" onAction="#forfeitGame" />
                         <MenuItem text="Quit" onAction="#closeApplication" />
                     </items>
                 </Menu>
