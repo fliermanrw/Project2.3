@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import model.games.othello.boardCell;
+import model.games.othello.othelloBoard;
 import model.games.othello.othelloGameModel;
 import model.server_connection.ServerHandler;
 import model.server_connection.ServerHandlerReader;
@@ -70,7 +71,7 @@ public class OthelloController extends GameView implements Initializable {
                         buttonClick(a.getId(), a);
                     }
                 });
-                if (othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == '#') {
+                if (othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == '#') {
                     if(othello.getValidMoves().contains(othello.rowColToInt(row,col)) && ourturn){
                         a.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
                         othelloGameBoard.addColumn(col, a);
@@ -79,20 +80,20 @@ public class OthelloController extends GameView implements Initializable {
                         a.setText(" ");
                         othelloGameBoard.addColumn(col, a);
                     }
-                } else if(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == 'B') {
+                } else if(othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == 'B') {
                     //a.setText(" ");
                     //a.setStyle("-fx-background-image: url("../blackstone.png") ;");
                     a.setText("B");
-                    a.setStyle("-fx-background-color: BLACK ; -fx-text-fill: white ;  -fx-font-weight: 500; -fx-border-color: lightgray ");
+                    a.setStyle("-fx-background-color: BLACK ; -fx-text-fill: white ;  -fx-font-weight: 500px; -fx-border-color: lightgray ");
                     othelloGameBoard.addColumn(col, a);
 
-                } else if(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == 'W') {
+                } else if(othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell() == 'W') {
                     a.setText("W");
-                    a.setStyle("-fx-background-color: whitesmoke ;  -fx-font-weight: 500 ; -fx-border-color: lightgray ");
+                    a.setStyle("-fx-background-color: whitesmoke ;  -fx-font-weight: 500px ; -fx-border-color: lightgray ");
                     othelloGameBoard.addColumn(col, a);
 
                 } else {
-                    a.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell()));
+                    a.setText(Character.toString(othelloBoard.cellsOnBoard.get(othello.rowColToInt(row, col)).getCharacterInCell()));
                     othelloGameBoard.addColumn(col, a);
                 }
 
@@ -103,14 +104,14 @@ public class OthelloController extends GameView implements Initializable {
 
     public void updateBoard() {
             Platform.runLater(()->{
-                for (int i = 0; i < othello.othelloBoard.cellsOnBoard.size(); i++) {
+                for (int i = 0; i < othelloBoard.cellsOnBoard.size(); i++) {
                     Button button = (Button) othelloGameBoard.getChildren().get(i);
-                    if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("B")){
+                    if(String.valueOf(othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("B")){
                         button.setText("B");
-                        button.setStyle("-fx-background-color: black; -fx-text-fill: white ; -fx-font-weight: 500; -fx-border-color: lightgray");
-                }else if(String.valueOf(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("W")){
+                        button.setStyle("-fx-background-color: black; -fx-text-fill: white ; -fx-font-weight: 500px; -fx-border-color: lightgray");
+                }else if(String.valueOf(othelloBoard.cellsOnBoard.get(i).getCharacterInCell()).equals("W")){
                         button.setText("W");
-                        button.setStyle("-fx-background-color: whitesmoke; -fx-font-weight: 500; -fx-border-color: lightgray");
+                        button.setStyle("-fx-background-color: whitesmoke; -fx-font-weight: 500px; -fx-border-color: lightgray");
                     }else{
                         if(othello.getValidMoves().contains(i) && ourturn){
                             button.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
@@ -124,7 +125,7 @@ public class OthelloController extends GameView implements Initializable {
             });
         }
 
-    public void buttonClick(String id, Button button) {
+    private void buttonClick(String id, Button button) {
         ArrayList<Integer> validMoves = othello.getValidMoves();
 
         System.out.println("button text:" + button.getId());
@@ -235,16 +236,13 @@ public class OthelloController extends GameView implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/connectedView.fxml"));
             Parent root = null;
             try {
-                root = (Parent) fxmlLoader.load();
+                root = fxmlLoader.load();
 
                 //Set writer in controller
-                ConnectedController connectedController = fxmlLoader.getController();
-                ServerHandlerReader.currentController = connectedController;
+                ServerHandlerReader.currentController = fxmlLoader.<ConnectedController>getController();
 
-            } catch (IOException e) {
+            } catch (IOException | ConcurrentModificationException e) {
                 e.printStackTrace();
-            } catch (ConcurrentModificationException cme) {
-                cme.printStackTrace();
             }
             ServerHandlerReader.stage.setTitle("Lobby");
             ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
@@ -256,7 +254,7 @@ public class OthelloController extends GameView implements Initializable {
         ServerHandlerWriter.writeSend("logout");
         System.out.println("gelukt uit te loggen.. nu nog afsluiten");
 
-        Platform.exit();
+        ServerHandlerReader.stage.close();
     }
 
 
