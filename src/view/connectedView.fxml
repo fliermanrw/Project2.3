@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <TabPane prefHeight="400" prefWidth="300" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConnectedController">
@@ -57,10 +58,27 @@
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </ComboBox>
+                       <HBox>
+                           <children>
+                               <Label text="Bot?" />
+                               <RadioButton fx:id="playAsBot" mnemonicParsing="false" text="Yes">
+                                   <HBox.margin>
+                                       <Insets left="5.0" />
+                                   </HBox.margin>
+                                   <toggleGroup>
+                                       <ToggleGroup fx:id="playAS" />
+                                   </toggleGroup>
+                               </RadioButton>
+                               <RadioButton fx:id="playAsHuman" mnemonicParsing="false" selected="true" text="No" toggleGroup="$playAS">
+                                   <HBox.margin>
+                                       <Insets left="5.0" />
+                                   </HBox.margin>
+                               </RadioButton>
+                           </children>
+                       </HBox>
                        <Button minWidth="110" mnemonicParsing="false" onAction="#invPlayer" text="Challenge">
                            <VBox.margin>
-                               <Insets top="8.0" />
-                               <Insets bottom="8.0" />
+                               <Insets top="15.0" />
                            </VBox.margin>
                        </Button>
                    </VBox>

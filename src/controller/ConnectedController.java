@@ -26,6 +26,12 @@ public class ConnectedController extends PreGameView implements Initializable {
     @FXML TextArea logArea;
     @FXML ToggleGroup test;
     @FXML Label loggedInAs;
+
+    @FXML
+    RadioButton playAsBot;
+   /* @FXML
+    RadioButton playAsHuman;*/
+
     private String selectedOpponent;
     boolean succesfull = false;
     String command = "no command yet"; //@todo create command class
@@ -53,7 +59,9 @@ public class ConnectedController extends PreGameView implements Initializable {
         final Timeline timeline = new Timeline(kf1, kf2);
         Platform.runLater(timeline::play);
 
+        botPlayer();
         loggedInAs.setText("Logged in as: " + ServerHandler.playerName);
+
     }
 
     @Override
@@ -158,6 +166,17 @@ public class ConnectedController extends PreGameView implements Initializable {
 
     public void getOpponents(){
         ServerHandlerWriter.getPlayerList();
+    }
+
+    public void botPlayer(){
+        //Get playing style
+        if (playAsBot.isSelected()) {
+            //Play as a bot
+            ServerHandlerReader.useBot = true;
+        } else {
+            //Play as a human
+            ServerHandlerReader.useBot = false;
+        }
     }
 
     private void updateOpponentSelection(){

@@ -18,26 +18,12 @@ import java.util.ConcurrentModificationException;
 public class LoginController extends PreGameView {
     @FXML
     TextField textField;
-    @FXML
-    RadioButton playAsBot;
-    @FXML
-    RadioButton playAsHuman;
+
     boolean succesfull = false;
 
     public void loginButton() {
         //Get name
         String playerName = textField.getText();
-
-        //Get playing style
-        if (playAsBot.isSelected()) {
-            //Play as a bot
-            ServerHandlerReader.useBot = true;
-        } else {
-            //Play as a human
-            ServerHandlerReader.useBot = false;
-        }
-
-
 
         //Login
         ServerHandlerWriter.login(playerName);

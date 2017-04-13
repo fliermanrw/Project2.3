@@ -27,24 +27,7 @@
                        <Insets bottom="8.0" />
                    </VBox.margin>
                </TextField>
-               <HBox>
-                   <children>
-                       <Label text="Bot?" />
-                       <RadioButton fx:id="playAsBot" mnemonicParsing="false" text="Yes">
-                           <HBox.margin>
-                               <Insets left="5.0" />
-                           </HBox.margin>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="playAS" />
-                     </toggleGroup>
-                       </RadioButton>
-                       <RadioButton fx:id="playAsHuman" mnemonicParsing="false" text="No" toggleGroup="$playAS" selected="true">
-                           <HBox.margin>
-                               <Insets left="5.0" />
-                           </HBox.margin>
-                       </RadioButton>
-                   </children>
-               </HBox>
+
                <Button fx:id="login" mnemonicParsing="false" defaultButton="true" onAction="#loginButton" text="Login">
                    <VBox.margin>
                        <Insets top="8.0" />
