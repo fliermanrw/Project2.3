@@ -141,7 +141,7 @@ public class ServerHandlerReader implements Runnable {
 
                             ButtonType buttonTypeRematch = new ButtonType("Rematch!");
                             ButtonType buttonTypeLobby = new ButtonType("Back to Lobby");
-                            ButtonType buttonTypeCancel = new ButtonType("Cancel and see the game " + finalWinLose, ButtonBar.ButtonData.CANCEL_CLOSE);
+                            ButtonType buttonTypeCancel = new ButtonType("Cancel and see the game ", ButtonBar.ButtonData.CANCEL_CLOSE);
 
                             alert.getButtonTypes().setAll(buttonTypeRematch, buttonTypeLobby, buttonTypeCancel);
 

@@ -59,13 +59,15 @@ public class ConnectedController extends PreGameView implements Initializable {
         final Timeline timeline = new Timeline(kf1, kf2);
         Platform.runLater(timeline::play);
 
-        botPlayer();
+        //botPlayer();
+
         loggedInAs.setText("Logged in as: " + ServerHandler.playerName);
 
     }
 
     @Override
     public void startGame(String game, String playerToMove) {
+        botPlayer();
         System.out.println("startgame wel aangeroepen?");
         System.out.println(game);
         System.out.println(playerToMove);
@@ -173,9 +175,11 @@ public class ConnectedController extends PreGameView implements Initializable {
         if (playAsBot.isSelected()) {
             //Play as a bot
             ServerHandlerReader.useBot = true;
+            System.out.println("true bot");
         } else {
             //Play as a human
             ServerHandlerReader.useBot = false;
+            System.out.println("false human");
         }
     }
 
