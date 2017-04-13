@@ -121,26 +121,8 @@ public class ConnectedController extends PreGameView implements Initializable {
         super.updateLog("logout");
         ServerHandlerWriter.writeSend("logout");
 
-        // Change view to login screen again
-        Platform.runLater(() -> {
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/loginView.fxml"));
-            Parent root = null;
-            try {
-                root = (Parent) fxmlLoader.load();
-
-                //Set writer in controller
-                LoginController loginController = fxmlLoader.getController();
-                ServerHandlerReader.currentController = loginController;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ConcurrentModificationException cme) {
-                cme.printStackTrace();
-            }
-            ServerHandlerReader.stage.setTitle("Lobby");
-            ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
-        });
+       // and finally close the stage
+       ServerHandlerReader.stage.close();
 
     }
 
