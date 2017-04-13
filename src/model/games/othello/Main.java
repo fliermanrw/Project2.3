@@ -15,13 +15,17 @@ public class Main {
         othello = new othelloGameModel('B');
         othello.initGrid();
 
+        randomMove();
+    }
+    public void humanMove(){
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
 
-            //othello.startMinimax();
+//            othello.startMinimax();
 
             System.out.println("Turn : " + othello.getCurrentPlayer());
+            othello.printBoard();
             ArrayList<Integer> moves = othello.getValidMoves();
             System.out.println("Available moves: " + moves);
             System.out.println("Number of moves: " + moves.size());
@@ -41,5 +45,22 @@ public class Main {
                 }
             }
         }
+    }
+
+    public static void randomMove(){
+        while(!othello.getValidMoves().isEmpty()) {
+            othello.printBoard();
+            ArrayList<Integer> validMoves = othello.getValidMoves();
+            System.out.println("Bot CURRENT PLAYER: " + othello.getCurrentPlayer());
+            System.out.println("Bot AVAIABLE MOVES: " + validMoves);
+
+            Random rand = new Random();
+            int random = rand.nextInt(validMoves.size());
+            System.out.println("Bot MOVE: " + String.valueOf(validMoves.get(random)));
+
+            othello.move(validMoves.get(random));
+            othello.switchPlayer();
+        }
+        System.out.println("Winner is:" + othello.findCurrentWinner());
     }
 }

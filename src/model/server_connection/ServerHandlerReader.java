@@ -7,12 +7,12 @@ import controller.PreGameView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +26,7 @@ public class ServerHandlerReader implements Runnable {
     public static PreGameView currentController;
     public static GameView currentGameView;
     public static boolean useBot = false;
+    private ArrayList<String> receivedMoves = new ArrayList<>();
 
     public ServerHandlerReader(Socket socket, Stage stage) {
         this.socket = socket;
@@ -35,6 +36,7 @@ public class ServerHandlerReader implements Runnable {
     @Override
     public void run() {
         String currentLine;
+        String previousLine = "";
         try {
 //            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -56,108 +58,140 @@ public class ServerHandlerReader implements Runnable {
 //                //A string is ready to be read
 //                if(reader.ready()){
 //                    currentLine = reader.readLine();
-                    //Read + add every new line to the log
-                    System.out.println(currentLine);
-                    ServerHandler.log += currentLine + "\n";
+                //Read + add every new line to the log
+                System.out.println(currentLine);
+                ServerHandler.log += currentLine + "\n";
 
-                    if(currentLine.contains("OK")){
-                        currentCommand = ServerHandler.queue.pop();
-                        System.out.println(currentCommand);
-                        ServerHandler.log += currentCommand + "\n";
-                        if(currentCommand.contains("login")){
-                            String username = currentCommand.replaceAll("(login )", "");
-                            System.out.println("username: " + username);
-                            LoginController lc = new LoginController();
-                            lc.setStage(this.stage);
-                            lc.login();
-                        }
+                if (currentLine.contains("OK")) {
+                    currentCommand = ServerHandler.queue.pop();
+                    System.out.println(currentCommand);
+                    ServerHandler.log += currentCommand + "\n";
+                    if (currentCommand.contains("login")) {
+                        String username = currentCommand.replaceAll("(login )", "");
+                        System.out.println("username: " + username);
+                        LoginController lc = new LoginController();
+                        lc.setStage(this.stage);
+                        lc.login();
                     }
+                }
 
 
+                if (currentLine.contains("PLAYERLIST")) {
+                    String playerlist = currentLine.replaceAll("(\\[|\\SVR PLAYERLIST|\\]|\")", "");
+                    List<String> players = Arrays.asList(playerlist.split(","));
+                    currentController.setPlayerList(players);
+                }
 
-                    if(currentLine.contains("PLAYERLIST")){
-                        String playerlist = currentLine.replaceAll("(\\[|\\SVR PLAYERLIST|\\]|\")", "");
-                        List<String> players = Arrays.asList(playerlist.split(","));
-                        currentController.setPlayerList(players);
-                    }
+                if (currentLine.contains("CHALLENGE")) {
+                    Map<String, String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
 
-                    if (currentLine.contains("CHALLENGE")) {
-                        Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
+                    System.out.println(vars);
 
-                        System.out.println(vars);
-
-                        Platform.runLater(()->{
-                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setTitle("Challenge Request");
-                                alert.setContentText("You have been challenged by " + vars.get("CHALLENGER") + " for a game of " + vars.get("GAMETYPE"));
-                                alert.setOnHidden(e -> {
-                                    if(alert.getResult().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)){
-                                        //Only accept challenge when button ok is pressed
-                                        String challengeNumber = (String) vars.get("CHALLENGENUMBER");
-                                        ServerHandlerWriter.acceptChallenge(challengeNumber);
-                                    }
-                                });
-                                alert.show();
-                        });
-                    }
-
-                    // Match if a game is found
-                    if(currentLine.contains("MATCH")){
-                        Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
-
-                        if (vars.get("PLAYERTOMOVE") != null) {
-                            currentController.startGame(String.valueOf(vars.get("GAMETYPE")), String.valueOf(vars.get("PLAYERTOMOVE")));
-                        }
-                    }
-
-
-
-                    if(currentLine.contains("SVR GAME MOVE")){
-                        System.out.println("GameReader: we received a new move");
-                        Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
-
-                        if (vars.get("MOVE") != null) {
-                            currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")), String.valueOf(vars.get("PLAYER")));
-                        }
-                    }
-
-                    //TODO we need to change this to SVR GAME LOSS || WIN
-                    //TODO and then change the variables with win and lose..
-
-                    if(currentLine.contains("SVR GAME LOSS")){
-                        System.out.println("Game is over.. we need to switch back to the Lobby");
-
-                        Platform.runLater(()->{
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("You have lost..");
-                            alert.setHeaderText("Do you want to do a rematch or return to lobby?");
-                            alert.setContentText("Choose from the buttons below");
-
-                            ButtonType buttonTypeRematch = new ButtonType("Rematch!");
-                            ButtonType buttonTypeLobby = new ButtonType("Back to Lobby");
-                            ButtonType buttonTypeCancel = new ButtonType("Cancel and see why I lost", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-                            alert.getButtonTypes().setAll(buttonTypeRematch, buttonTypeLobby, buttonTypeCancel);
-
-                            Optional<ButtonType> result = alert.showAndWait();
-                            if (result.isPresent() && (result.get() == buttonTypeRematch)){
-                                //TODO immediately ask for rematch
-                                System.out.println("REMATCH");
-                            } else if (result.isPresent() && (result.get() == buttonTypeLobby)) {
-                                //TODO call function to switch view to lobby
-                                System.out.println("LOBBY");
-                            } else {
-                                // ... user chose CANCEL or closed the dialog
-                                //System.out.println("xx");
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Challenge Request");
+                        alert.setContentText("You have been challenged by " + vars.get("CHALLENGER") + " for a game of " + vars.get("GAMETYPE"));
+                        alert.setOnHidden(e -> {
+                            if (alert.getResult().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
+                                //Only accept challenge when button ok is pressed
+                                String challengeNumber = (String) vars.get("CHALLENGENUMBER");
+                                ServerHandlerWriter.acceptChallenge(challengeNumber);
                             }
                         });
+                        alert.show();
+                    });
+                }
 
+                // Match if a game is found
+                if (currentLine.contains("MATCH")) {
+                    Map<String, String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
+
+                    if (vars.get("PLAYERTOMOVE") != null) {
+                        currentController.startGame(String.valueOf(vars.get("GAMETYPE")), String.valueOf(vars.get("PLAYERTOMOVE")));
                     }
 
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                        //@TODO PLEASE FIX THIS AS SOON AS POSSIBLE
+                        //We should check if the controller is loaded
+                        //This is a wasted second, coulnd't find another solution right now
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
 
                 }
 
+
+                if(currentLine.contains("SVR GAME YOURTURN") && previousLine.contains("SVR GAME MATCH ")){
+                    System.out.println("IF 1");
+                    //@todo object is not initalized so firstturn = null
+                    currentGameView.ourturn();
+                }
+                if(currentLine.contains("SVR GAME YOURTURN") && previousLine.contains("SVR GAME MOVE ")){
+                    System.out.println("IF 2, previousline is" + previousLine);
+                    if(!receivedMoves.contains(previousLine)) {
+                        //MAKE SURE ITS NOT A DUPLICATE MOVE
+                        //@TODO CLEAR receivedMoves after game!!
+                        //@todo maybe handle this in the controller?
+                        receivedMoves.add(currentLine);
+
+                        System.out.println("GameReader: we received a new move");
+                        Map<String, String> vars = stringToMap(previousLine); //convert string to map with "Key": "Value" format
+
+                        if (!String.valueOf(vars.get("PLAYER")).equals(ServerHandler.playerName)) {
+                            System.out.println("Processing the turn of an opponent");
+                            //The last move was made by the opponent
+                            if (vars.get("MOVE") != null) {
+                                currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")), String.valueOf(vars.get("PLAYER")));
+                            }
+                        }else{
+                            System.out.println("Hmm thats weird, it's our turn again after we made a turn");
+                            //The lastmove was by us
+                            //So it's probably a situation where there are no move left for our opponent
+                            //Its ur turn again
+                            currentGameView.ourTurnAgain();
+                        }
+                    }
+                }
+
+//                if (currentLine.contains("SVR GAME YOURTURN")) {
+//                    try {
+//                        TimeUnit.SECONDS.sleep(1);
+//                        //@todo remove this later, TAKES a second!!
+//                        //@todo problem is that controller is not loaded? how can we check this?
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    System.out.println("previousline=" + previousLine);
+//                    //Its our turn
+//                        currentGameView.ourturn();
+//                    if (previousLine.contains("SVR GAME MOVE")) {
+//                        if(!receivedMoves.contains(previousLine)){
+//                            //MAKE SURE ITS NOT A DUPLICATE MOVE
+//                            //@TODO CLEAR receivedMoves after game!!
+//                            //@todo maybe handle this in the controller?
+//                            System.out.println("GameReader: we received a new move");
+//                            Map<String, String> vars = stringToMap(previousLine); //convert string to map with "Key": "Value" format
+//
+//                            if (vars.get("MOVE") != null) {
+//                                currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")), String.valueOf(vars.get("PLAYER")));
+//                            }
+//                        }
+//                    }
+//                }
+
+//                    if(previousLine.contains("SVR GAME MOVE")){
+//                        System.out.println("GameReader: we received a new move");
+//                        Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
+//
+//                        if (vars.get("MOVE") != null) {
+//                            currentGameView.serverMove(Integer.valueOf(vars.get("MOVE")), String.valueOf(vars.get("PLAYER")));
+//                        }
+//                    }
+
+                previousLine = currentLine;
+            }
 //            }
         } catch (IOException e) {
             e.printStackTrace();
