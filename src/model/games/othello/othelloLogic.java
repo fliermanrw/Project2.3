@@ -7,10 +7,8 @@ import java.util.*;
  */
 public class othelloLogic {
 
-    private boardCell[][] temporaryBoard;
-
-    private boardCell getBoardCell(int row, int col) {
-        return temporaryBoard[row][col];
+    private boardCell getBoardCell(int row, int col, othelloBoard board) {
+        return board.getBoard()[row][col];
     }
 
     private boolean inBounds(int row, int col) {
@@ -18,7 +16,6 @@ public class othelloLogic {
     }
 
     public ArrayList<boardCell> fetchValidMovesAsCell(char turn, othelloBoard board) {
-        temporaryBoard = board.getBoard();
         ArrayList<boardCell> listOfValidMoves = new ArrayList<>();
         for (boardCell b : board.getBoardAsList()) {
             if (b.getCharacterInCell() == turn) {
@@ -33,8 +30,6 @@ public class othelloLogic {
     }
 
     public void applyMove(othelloBoard board, boardCell b, char turn) {
-        temporaryBoard = board.getBoard();
-
         ArrayList<boardCell> templist = new ArrayList<>();
         ArrayList<boardCell> cellsToFlip = new ArrayList();
 
@@ -46,7 +41,7 @@ public class othelloLogic {
         }
 
         // Apply turn
-         temporaryBoard[b.getRow()][b.getCol()].setCharacterInCell(turn);
+         board.getBoard()[b.getRow()][b.getCol()].setCharacterInCell(turn);
 
         int row = b.getRow();
         int col = b.getCol();
@@ -54,12 +49,12 @@ public class othelloLogic {
         //up
         for (int i = 1; i < 8; i++) {
             if (inBounds(row - i, col)) {
-                if (getBoardCell(row - i, col).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row - i, col));
-                } else if (getBoardCell(row -i, col).getCharacterInCell() == '#'){
+                if (getBoardCell(row - i, col, board).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row - i, col, board));
+                } else if (getBoardCell(row -i, col, board).getCharacterInCell() == '#'){
                     templist.clear();
                     break;
-                } else if (getBoardCell(row - i, col).getCharacterInCell() == turn) {
+                } else if (getBoardCell(row - i, col, board).getCharacterInCell() == turn) {
                     cellsToFlip.addAll(templist);
                     templist.clear();
                     break;
@@ -73,12 +68,12 @@ public class othelloLogic {
         //down
         for (int i = 1; i < 8; i++) {
             if (inBounds(row + i, col)) {
-                if (getBoardCell(row + i, col).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row + i, col));
-                } else if (getBoardCell(row + i, col ).getCharacterInCell() == '#'){
+                if (getBoardCell(row + i, col, board).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row + i, col, board));
+                } else if (getBoardCell(row + i, col , board).getCharacterInCell() == '#'){
                     templist.clear();
                     break;
-                } else if (getBoardCell(row + i, col).getCharacterInCell() == turn) {
+                } else if (getBoardCell(row + i, col, board).getCharacterInCell() == turn) {
                     cellsToFlip.addAll(templist);
                     templist.clear();
                     break;
@@ -92,12 +87,12 @@ public class othelloLogic {
         //right
         for (int i = 1; i < 8; i++) {
             if (inBounds(row, col + i)) {
-                if (getBoardCell(row, col + i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row, col + i));
-                } else if (getBoardCell(row, col + i).getCharacterInCell() == '#') {
+                if (getBoardCell(row, col + i, board).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row, col + i, board));
+                } else if (getBoardCell(row, col + i, board).getCharacterInCell() == '#') {
                     templist.clear();
                     break;
-                } else if (getBoardCell(row, col + i).getCharacterInCell() == turn) {
+                } else if (getBoardCell(row, col + i, board).getCharacterInCell() == turn) {
                     cellsToFlip.addAll(templist);
                     templist.clear();
                     break;
@@ -111,12 +106,12 @@ public class othelloLogic {
         //left
         for (int i = 1; i < 8; i++) {
             if (inBounds(row, col - i)) {
-                if (getBoardCell(row, col - i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row, col - i));
-                } else if (getBoardCell(row, col - i).getCharacterInCell() == '#') {
+                if (getBoardCell(row, col - i, board).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row, col - i, board));
+                } else if (getBoardCell(row, col - i, board).getCharacterInCell() == '#') {
                     templist.clear();
                     break;
-                } else if (getBoardCell(row, col - i).getCharacterInCell() == turn) {
+                } else if (getBoardCell(row, col - i, board).getCharacterInCell() == turn) {
                     cellsToFlip.addAll(templist);
                     templist.clear();
                     break;
@@ -131,12 +126,12 @@ public class othelloLogic {
         //upleft
         for (int i = 1; i < 8; i++) {
             if (inBounds(row - i, col - i)) {
-                if (getBoardCell(row - i, col - i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row - i, col - i));
-                } else if (getBoardCell(row - i, col - i).getCharacterInCell() == '#') {
+                if (getBoardCell(row - i, col - i, board).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row - i, col - i, board));
+                } else if (getBoardCell(row - i, col - i, board).getCharacterInCell() == '#') {
                     templist.clear();
                     break;
-                } else if (getBoardCell(row - i, col - i).getCharacterInCell() == turn) {
+                } else if (getBoardCell(row - i, col - i, board).getCharacterInCell() == turn) {
                     cellsToFlip.addAll(templist);
                     templist.clear();
                     break;
@@ -150,12 +145,12 @@ public class othelloLogic {
         //upright
         for (int i = 1; i < 8; i++) {
             if (inBounds(row - i, col + i)) {
-                if (getBoardCell(row - i, col + i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row - i, col + i));
-                } else if (getBoardCell(row - i, col + i).getCharacterInCell() == '#'){
+                if (getBoardCell(row - i, col + i, board).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row - i, col + i, board));
+                } else if (getBoardCell(row - i, col + i, board).getCharacterInCell() == '#'){
                     templist.clear();
                     break;
-                } else if (getBoardCell(row - i, col + i).getCharacterInCell() == turn) {
+                } else if (getBoardCell(row - i, col + i, board).getCharacterInCell() == turn) {
                     cellsToFlip.addAll(templist);
                     templist.clear();
                     break;
@@ -169,12 +164,12 @@ public class othelloLogic {
         //downleft
         for (int i = 1; i < 8; i++) {
             if (inBounds(row + i, col - i)) {
-                if (getBoardCell(row + i, col - i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row + i, col - i));
-                } else if (getBoardCell(row + i, col - i).getCharacterInCell() == '#'){
+                if (getBoardCell(row + i, col - i, board).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row + i, col - i, board));
+                } else if (getBoardCell(row + i, col - i, board).getCharacterInCell() == '#'){
                     templist.clear();
                     break;
-                } else if (getBoardCell(row + i, col - i).getCharacterInCell() == turn) {
+                } else if (getBoardCell(row + i, col - i, board).getCharacterInCell() == turn) {
                     cellsToFlip.addAll(templist);
                     templist.clear();
                     break;
@@ -188,12 +183,12 @@ public class othelloLogic {
         //down right
         for (int i = 1; i < 8; i++) {
             if (inBounds(row + i, col + i)) {
-                if (getBoardCell(row + i, col + i).getCharacterInCell() == otherCell) {
-                    templist.add(getBoardCell(row + i, col + i));
-                } else if (getBoardCell(row + i, col + i).getCharacterInCell() == '#'){
+                if (getBoardCell(row + i, col + i, board).getCharacterInCell() == otherCell) {
+                    templist.add(getBoardCell(row + i, col + i, board));
+                } else if (getBoardCell(row + i, col + i, board).getCharacterInCell() == '#'){
                     templist.clear();
                     break;
-                } else if (getBoardCell(row + i, col + i).getCharacterInCell() == turn) {
+                } else if (getBoardCell(row + i, col + i, board).getCharacterInCell() == turn) {
                     cellsToFlip.addAll(templist);
                     templist.clear();
                     break;
@@ -206,43 +201,44 @@ public class othelloLogic {
 
         // Flip cells
         for (boardCell cell : cellsToFlip) {
-            if ( temporaryBoard[cell.getRow()][cell.getCol()].getCharacterInCell() == 'B') {
-                 temporaryBoard[cell.getRow()][cell.getCol()].setCharacterInCell('W');
+            if (board.getBoard()[cell.getRow()][cell.getCol()].getCharacterInCell() == 'B') {
+                board.getBoard()[cell.getRow()][cell.getCol()].setCharacterInCell('W');
             } else {
-                 temporaryBoard[cell.getRow()][cell.getCol()].setCharacterInCell('B');
+                board.getBoard()[cell.getRow()][cell.getCol()].setCharacterInCell('B');
             }
         }
-        board.setOthelloBoard(temporaryBoard);
+        System.out.println("setting ");
+        board.printBoard();
     }
 
     private static boolean passedOther = false;
 
-    private boolean recursiveMoveCheck(int row, int col, char otherCell) {
+    private boolean recursiveMoveCheck(int row, int col, char otherCell, othelloBoard board) {
         if (!inBounds(row, col)) {
             return false;
-        } else if (getBoardCell(row, col).getCharacterInCell() == otherCell) {
+        } else if (getBoardCell(row, col, board).getCharacterInCell() == otherCell) {
             passedOther = true;
-        } else if (getBoardCell(row, col).getCharacterInCell() == '#' && passedOther) {
+        } else if (getBoardCell(row, col, board).getCharacterInCell() == '#' && passedOther) {
             passedOther = false;
             return true;
         }
         return false;
     }
 
-    private boolean sameCell(int row, int col, char turn) {
+    private boolean sameCell(int row, int col, char turn, othelloBoard board) {
         if (!inBounds(row, col)) {
             passedOther = false;
             return false;
-        } else if (getBoardCell(row, col).getCharacterInCell() == turn) {
+        } else if (getBoardCell(row, col, board).getCharacterInCell() == turn) {
             passedOther = false;
             return true;
         }
         return false;
     }
 
-    private boolean isDeadCell(int row, int col) {
+    private boolean isDeadCell(int row, int col, othelloBoard board) {
         if (inBounds(row, col)) {
-            return getBoardCell(row, col).getCharacterInCell() == '#';
+            return getBoardCell(row, col, board).getCharacterInCell() == '#';
         }
         return false;
     }
@@ -262,12 +258,12 @@ public class othelloLogic {
 
         //up
         for (int i = 1; i < 8; i++) {
-            if (sameCell(row - i, col, turn)) {
+            if (sameCell(row - i, col, turn, board)) {
                 break;
-            } else if (recursiveMoveCheck(row - i, col, otherCell)) {
-                PossibleMoves.add(getBoardCell(row - i, col));
+            } else if (recursiveMoveCheck(row - i, col, otherCell, board)) {
+                PossibleMoves.add(getBoardCell(row - i, col, board));
                 break;
-            } else if (isDeadCell(row - i, col)) {
+            } else if (isDeadCell(row - i, col, board)) {
                 break;
             }
         }
@@ -275,12 +271,12 @@ public class othelloLogic {
 
         //down
         for (int i = 1; i < 8; i++) {
-            if (sameCell(row + i, col, turn)) {
+            if (sameCell(row + i, col, turn, board)) {
                 break;
-            } else if (recursiveMoveCheck(row + i, col, otherCell)) {
-                PossibleMoves.add(getBoardCell(row + i, col));
+            } else if (recursiveMoveCheck(row + i, col, otherCell, board)) {
+                PossibleMoves.add(getBoardCell(row + i, col, board));
                 break;
-            } else if (isDeadCell(row + i, col)) {
+            } else if (isDeadCell(row + i, col, board)) {
                 break;
             }
         }
@@ -288,12 +284,12 @@ public class othelloLogic {
 
         //right
         for (int i = 1; i < 8; i++) {
-            if (sameCell(row, col + i, turn)) {
+            if (sameCell(row, col + i, turn, board)) {
                 break;
-            } else if (recursiveMoveCheck(row, col + i, otherCell)) {
-                PossibleMoves.add(getBoardCell(row, col + i));
+            } else if (recursiveMoveCheck(row, col + i, otherCell, board)) {
+                PossibleMoves.add(getBoardCell(row, col + i, board));
                 break;
-            } else if (isDeadCell(row, col + i)) {
+            } else if (isDeadCell(row, col + i, board)) {
                 break;
             }
         }
@@ -301,60 +297,60 @@ public class othelloLogic {
 
         //left
         for (int i = 1; i < 8; i++) {
-            if (sameCell(row, col - i, turn)) {
+            if (sameCell(row, col - i, turn, board)) {
                 break;
-            } else if (recursiveMoveCheck(row, col - i, otherCell)) {
-                PossibleMoves.add(getBoardCell(row, col - i));
+            } else if (recursiveMoveCheck(row, col - i, otherCell, board)) {
+                PossibleMoves.add(getBoardCell(row, col - i, board));
                 break;
-            } else if (isDeadCell(row, col - i)) {
+            } else if (isDeadCell(row, col - i, board)) {
                 break;
             }
         }
 
         //up left
         for (int i = 1; i < 8; i++) {
-            if (sameCell(row - i, col - i, turn)) {
+            if (sameCell(row - i, col - i, turn, board)) {
                 break;
-            } else if (recursiveMoveCheck(row - i, col - i, otherCell)) {
-                PossibleMoves.add(getBoardCell(row - i, col - i));
+            } else if (recursiveMoveCheck(row - i, col - i, otherCell, board)) {
+                PossibleMoves.add(getBoardCell(row - i, col - i, board));
                 break;
-            } else if (isDeadCell(row - i, col - i)) {
+            } else if (isDeadCell(row - i, col - i, board)) {
                 break;
             }
         }
 
         //up right
         for (int i = 1; i < 8; i++) {
-            if (sameCell(row - i, col + i, turn)) {
+            if (sameCell(row - i, col + i, turn, board)) {
                 break;
-            } else if (recursiveMoveCheck(row - i, col + i, otherCell)) {
-                PossibleMoves.add(getBoardCell(row - i, col + i));
+            } else if (recursiveMoveCheck(row - i, col + i, otherCell, board)) {
+                PossibleMoves.add(getBoardCell(row - i, col + i, board));
                 break;
-            } else if (isDeadCell(row - i, col + i)) {
+            } else if (isDeadCell(row - i, col + i, board)) {
                 break;
             }
         }
 
         //down left
         for (int i = 1; i < 8; i++) {
-            if (sameCell(row + i, col - i, turn)) {
+            if (sameCell(row + i, col - i, turn, board)) {
                 break;
-            } else if (recursiveMoveCheck(row + i, col - i, otherCell)) {
-                PossibleMoves.add(getBoardCell(row + i, col - i));
+            } else if (recursiveMoveCheck(row + i, col - i, otherCell, board)) {
+                PossibleMoves.add(getBoardCell(row + i, col - i, board));
                 break;
-            } else if (isDeadCell(row + i, col - i)) {
+            } else if (isDeadCell(row + i, col - i, board)) {
                 break;
             }
         }
 
         //down right
         for (int i = 1; i < 8; i++) {
-            if (sameCell(row + i, col + i, turn)) {
+            if (sameCell(row + i, col + i, turn, board)) {
                 break;
-            } else if (recursiveMoveCheck(row + i, col + i, otherCell)) {
-                PossibleMoves.add(getBoardCell(row + i, col + i));
+            } else if (recursiveMoveCheck(row + i, col + i, otherCell, board)) {
+                PossibleMoves.add(getBoardCell(row + i, col + i, board));
                 break;
-            } else if (isDeadCell(row + i, col + i)) {
+            } else if (isDeadCell(row + i, col + i, board)) {
                 break;
             }
         }

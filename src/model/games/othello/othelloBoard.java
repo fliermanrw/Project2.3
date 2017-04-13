@@ -7,17 +7,12 @@ import java.util.*;
  */
 
 public class othelloBoard {
-    private boardCell[][] othelloBoard;
+    private boardCell[][] othelloBoard1;
     private ArrayList<boardCell> cellsOnBoard = new ArrayList<>();
     private int size = 8;
 
-    public othelloBoard(boardCell[][] board) {
-        othelloBoard = board;
-        refreshBoardList();
-    }
-
     public boardCell[][] getBoard(){
-        return othelloBoard;
+        return othelloBoard1;
     }
 
     public ArrayList<boardCell> getBoardAsList(){
@@ -27,7 +22,8 @@ public class othelloBoard {
     }
 
     public void setOthelloBoard(boardCell[][] othelloBoard) {
-        this.othelloBoard = othelloBoard;
+        othelloBoard1 = othelloBoard;
+        refreshBoardList();
     }
 
     public void refreshBoardList() {
@@ -41,8 +37,10 @@ public class othelloBoard {
         }
     }
 
+
+
     public void printBoard() {
-        for (boardCell[] a : othelloBoard) {
+        for (boardCell[] a : othelloBoard1) {
             for (boardCell cell : a) {
                 System.out.print(cell.getCharacterInCell() + "  ");
             }
@@ -51,7 +49,7 @@ public class othelloBoard {
     }
 
     public boardCell getCellOnBoard(int row, int col) {
-        for (boardCell b : othelloBoard[row]) {
+        for (boardCell b : othelloBoard1[row]) {
             if (b.getRow() == row && b.getCol() == col) {
                 return b;
             }

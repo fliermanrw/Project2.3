@@ -105,17 +105,15 @@ public class OthelloController extends GameView implements Initializable {
                         button.setText("W");
                         button.setStyle("-fx-background-color: whitesmoke; -fx-font-weight: 500; -fx-border-color: lightgray");
                 }
-//                else{
-//                    //@todo following commented code results in a bug. Can only call getValidMoves from one position else -> CONCURRENT MODIFICATION EXCEPTION
-//                    //@todo please fix quick, will bug in alot of situation
-//                    if(othelloGameModel.getValidMoves().contains(i) && ourturn){
-//                        button.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
-//                    }else{
-//                        button.setStyle(null);
-//                    }
-//                }
-                    //button.setText(Character.toString(othello.othelloBoard.cellsOnBoard.get(i).getCharacterInCell()));
-                    //button.setText(" ");
+                else{
+                    //@todo following commented code results in a bug. Can only call getValidMoves from one position else -> CONCURRENT MODIFICATION EXCEPTION
+                    //@todo please fix quick, will bug in alot of situation
+                    if(othelloGameModel.getValidMoves().contains(i) && ourturn){
+                        button.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
+                    }else{
+                        button.setStyle(null);
+                    }
+                }
                 }
             });
         }
@@ -160,8 +158,8 @@ public class OthelloController extends GameView implements Initializable {
         updateBoard();
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
         if(ServerHandlerReader.useBot){
-             botMove();
-//            minimaxMove();
+         //    botMove();
+            minimaxMove();
         }
     }
 
@@ -175,7 +173,8 @@ public class OthelloController extends GameView implements Initializable {
         System.out.println("OthelloController: --firstturn Got notified it's now our turn and we can make a move");
         if(ServerHandlerReader.useBot){
             System.out.println("OthelloController: --firstturn Got notified it's now our turn, our bot is going to make a turn");
-            botMove();
+            //botMove();
+            minimaxMove();
         }
     }
 
@@ -183,9 +182,9 @@ public class OthelloController extends GameView implements Initializable {
         System.out.println("Bot move turn: " + othelloGameModel.getCurrentPlayer());
         System.out.println("Bot please do a move");
 
-        othelloBoard board = othelloGameModel.othelloBoard;
+        othelloBoard board = othelloGameModel.getOthelloBoard();
 
-        char turn = othelloGameModel.turn;
+        char turn = othelloGameModel.getTurn();
         int move = othelloGameModel.getMiniMaxMove(board, turn);
 
         othelloGameModel.move(move);
@@ -197,7 +196,7 @@ public class OthelloController extends GameView implements Initializable {
     }
 
     public void botMove(){
-        othelloGameModel.othelloBoard.printBoard();
+        othelloGameModel.getOthelloBoard().printBoard();
         ArrayList<Integer> validMoves = othelloGameModel.getValidMoves();
         System.out.println("Bot CURRENT PLAYER: " + othelloGameModel.getCurrentPlayer());
         System.out.println("Bot AVAIABLE MOVES: " + validMoves);
@@ -208,7 +207,7 @@ public class OthelloController extends GameView implements Initializable {
         System.out.println("Bot MOVE: " + String.valueOf(validMoves.get(random)));
         move(validMoves.get(random));
         updateBoard();
-        othelloGameModel.othelloBoard.printBoard();
+        othelloGameModel.getOthelloBoard().printBoard();
         othelloGameModel.switchPlayer();
         ourturn = false;
     }

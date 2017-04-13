@@ -43,14 +43,14 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         swapTurn();
     }
 
-    public char getTurn(){
+    public char getTurn() {
         return turn;
     }
 
     @Override
     public ArrayList<Integer> getValidMoves() {
         ArrayList<Integer> listOfMoves = new ArrayList<>();
-        synchronized (othelloBoard){
+        synchronized (othelloBoard) {
             for (boardCell cell : fetchValidMovesAsCell(turn, othelloBoard)) {
                 listOfMoves.add(rowColToInt(cell.getRow(), cell.getCol()));
             }
@@ -67,7 +67,7 @@ public class othelloGameModel extends othelloLogic implements GameModel {
                 x++;
             }
         }
-        synchronized (othelloBoard){
+        synchronized (othelloBoard) {
             applyMove(othelloBoard, othelloBoard.getCellOnBoard(x - 1, y), turn);
             othelloBoard.refreshBoardList();
         }
@@ -90,9 +90,10 @@ public class othelloGameModel extends othelloLogic implements GameModel {
                 }
             }
         }
-            // Generate a board object.
-            othelloBoard = new othelloBoard(newBoard);
-        synchronized (othelloBoard){
+        // Generate a board object.
+        othelloBoard = new othelloBoard();
+        othelloBoard.setOthelloBoard(newBoard);
+        synchronized (othelloBoard) {
             // Make a list based on the new board.
             othelloBoard.refreshBoardList();
         }
