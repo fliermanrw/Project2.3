@@ -14,8 +14,8 @@
             <menus>
                 <Menu text="Actions">
                     <items>
-                        <MenuItem text="Go to lobby" onAction="#forfeitGame"/>
-                        <MenuItem text="Close entire application" onAction="#closeApplication"/>
+                        <MenuItem text="Return to Lobby" onAction="#forfeitGame"/>
+                        <MenuItem text="Quit" onAction="#closeApplication"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
