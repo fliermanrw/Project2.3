@@ -11,7 +11,7 @@ import java.util.HashMap;
  * Created by 347727 on 5-4-2017.
  */
 public class othelloGameModel extends othelloLogic implements GameModel {
-    private othelloBoard othelloBoard;
+    private ArrayList<boardCell> othelloBoard;
     private char turn;
 
     private int size = 8;
@@ -22,7 +22,7 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         // 'B' if bot plays first 'W' if bot plays second
     }
 
-    public othelloBoard getOthelloBoard() {
+    public ArrayList<boardCell> getOthelloBoard() {
         synchronized (othelloBoard) {
             return othelloBoard;
         }
@@ -60,16 +60,15 @@ public class othelloGameModel extends othelloLogic implements GameModel {
 
     @Override
     public void move(int move) {
-        int y = move % 8;
-        int x = 0;
-        for (int j = 0; j < move + 1; j++) {
-            if (j % 8 == 0) {
-                x++;
-            }
-        }
+//        int y = move % 8;
+//        int x = 0;
+//        for (int j = 0; j < move + 1; j++) {
+//            if (j % 8 == 0) {
+//                x++;
+//            }
+//        }
         synchronized (othelloBoard) {
-            applyMove(othelloBoard, othelloBoard.getCellOnBoard(x - 1, y), turn);
-            othelloBoard.refreshBoardList();
+            applyMove(othelloBoard, othelloBoard.get(move), turn);
         }
     }
 
@@ -91,17 +90,19 @@ public class othelloGameModel extends othelloLogic implements GameModel {
             }
         }
         // Generate a board object.
-        othelloBoard = new othelloBoard();
-        othelloBoard.setOthelloBoard(newBoard);
-        synchronized (othelloBoard) {
-            // Make a list based on the new board.
-            othelloBoard.refreshBoardList();
-        }
+        othelloBoard = twoDArrayToList(newBoard);
+//        synchronized (othelloBoard) {
+//            // Make a list based on the new board.
+//            othelloBoard = new othelloBoard(twoDArrayToList(newBoard));
+//        }
     }
 
-    public int rowColToInt(int row, int col) {
-        int index = row * 8 + col;
-        return index;
+    public ArrayList<boardCell> twoDArrayToList(boardCell[][] twoDArray) {
+        ArrayList<boardCell> list = new ArrayList<boardCell>();
+        for (boardCell[] array : twoDArray) {
+            list.addAll(Arrays.asList(array));
+        }
+        return list;
     }
 
     public ArrayList<boardCell> convertBoardToArrayListOfCells(boardCell[][] list) {
@@ -114,10 +115,10 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         return result;
     }
 
-    public int getMiniMaxMove(othelloBoard board, char turn) {
+    public int getMiniMaxMove(char turn) {
         System.out.println("board send to minimax : ");
-        board.printBoard();
-        return new othelloMiniMax(board, turn, 10).calculateBestMove();
+        printArraylistBoard(othelloBoard);
+        return new othelloMiniMax().calculateBestMove(othelloBoard, turn, 2);
     }
 
     public String findCurrentWinner() {
@@ -137,9 +138,8 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         int whitePoints = 0;
         int blackPoints = 0;
         synchronized (othelloBoard) {
-            for (boardCell[] a : othelloBoard.getBoard()) {
-                for (boardCell b : a) {
-                    switch (b.getCharacterInCell()) {
+            for (boardCell a : othelloBoard) {
+                    switch (a.getCharacterInCell()) {
                         case 'W':
                             whitePoints++;
                             break;
@@ -150,7 +150,6 @@ public class othelloGameModel extends othelloLogic implements GameModel {
                             break;
                     }
                 }
-            }
         }
 
         HashMap<String, Integer> map = new HashMap<>();
@@ -169,16 +168,16 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         //System.out.println("Current turn is : " + turn);
     }
 
-    public boardCell[][] getBoard() {
+    public ArrayList<boardCell> getBoard() {
         synchronized (othelloBoard) {
-            return othelloBoard.getBoard();
+            return othelloBoard;
         }
     }
 
-    public ArrayList<boardCell> getBoardAsList() {
-        synchronized (othelloBoard) {
-            return othelloBoard.getBoardAsList();
-        }
-    }
+//    public ArrayList<boardCell> getBoardAsList() {
+//        synchronized (othelloBoard) {
+//            return othelloBoard.getBoard();
+//        }
+//    }
 
 }

@@ -25,7 +25,7 @@ public class Main {
 //            othello.startMinimax();
 
             System.out.println("Turn : " + othello.getCurrentPlayer());
-            othello.getOthelloBoard().printBoard();
+            othello.getOthelloBoard();
             ArrayList<Integer> moves = othello.getValidMoves();
             System.out.println("Available moves: " + moves);
             System.out.println("Number of moves: " + moves.size());
@@ -49,7 +49,7 @@ public class Main {
 
     public static void randomMove(){
         while(!othello.getValidMoves().isEmpty()) {
-            othello.getOthelloBoard().printBoard();
+            othello.getOthelloBoard();
             ArrayList<Integer> validMoves = othello.getValidMoves();
             Thread t = new Thread(()->{
                 othello.getValidMoves(); //@todo this is to prove that running validmoves in multiple threads is bugging, please fix this

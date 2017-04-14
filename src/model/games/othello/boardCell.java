@@ -3,7 +3,7 @@ package model.games.othello;
 /**
  * Created by Cyriel on 21-3-2017.
  */
-public class boardCell {
+public class boardCell implements Cloneable{
 
     private final int row;
     private final int col;
@@ -13,6 +13,12 @@ public class boardCell {
         this.row = row;
         this.col = col;
         this.characterInCell = characterInCell;
+    }
+
+    protected Object clone() throws CloneNotSupportedException {
+        boardCell clone=(boardCell)super.clone();
+        return clone;
+
     }
 
     public void setCharacterInCell (char c){
@@ -31,8 +37,8 @@ public class boardCell {
         return characterInCell;
     }
 
-    public int rowColToInt(int row, int col) {
-        int index = row * 8 + col;
+    public int getIndexForCell() {
+        int index = (row * 8) + col;
         return index;
     }
 

@@ -7,17 +7,18 @@ import java.util.*;
  */
 public class othelloLogic {
 
-    private boardCell getBoardCell(int row, int col, othelloBoard board) {
-        return board.getBoard()[row][col];
+    private boardCell getBoardCell(int row, int col, ArrayList<boardCell> board) {
+        int index = row * 8 + col;
+        return board.get(index);
     }
 
     private boolean inBounds(int row, int col) {
         return (row >= 0) && (row < 8) && (col >= 0) && (col < 8);
     }
 
-    public ArrayList<boardCell> fetchValidMovesAsCell(char turn, othelloBoard board) {
+    public ArrayList<boardCell> fetchValidMovesAsCell(char turn, ArrayList<boardCell> board) {
         ArrayList<boardCell> listOfValidMoves = new ArrayList<>();
-        for (boardCell b : board.getBoardAsList()) {
+        for (boardCell b : board) {
             if (b.getCharacterInCell() == turn) {
                 for (boardCell cell : getMoves(b, turn, board)) {
                     if (!listOfValidMoves.contains(cell)) {
@@ -29,7 +30,7 @@ public class othelloLogic {
         return listOfValidMoves;
     }
 
-    public void applyMove(othelloBoard board, boardCell b, char turn) {
+    public void applyMove(ArrayList<boardCell> board, boardCell b, char turn) {
         ArrayList<boardCell> templist = new ArrayList<>();
         ArrayList<boardCell> cellsToFlip = new ArrayList();
 
@@ -41,7 +42,8 @@ public class othelloLogic {
         }
 
         // Apply turn
-         board.getBoard()[b.getRow()][b.getCol()].setCharacterInCell(turn);
+        board.get(b.getRow() * 8 + b.getCol()).setCharacterInCell(turn);
+         //board.getBoard()[b.getRow()][b.getCol()].setCharacterInCell(turn);
 
         int row = b.getRow();
         int col = b.getCol();
@@ -201,19 +203,26 @@ public class othelloLogic {
 
         // Flip cells
         for (boardCell cell : cellsToFlip) {
-            if (board.getBoard()[cell.getRow()][cell.getCol()].getCharacterInCell() == 'B') {
-                board.getBoard()[cell.getRow()][cell.getCol()].setCharacterInCell('W');
+            if (board.get(cell.getRow() * 8 + cell.getCol()).getCharacterInCell() == 'B') {
+                board.get(cell.getRow() * 8 + cell.getCol()).setCharacterInCell('W');
             } else {
-                board.getBoard()[cell.getRow()][cell.getCol()].setCharacterInCell('B');
+                board.get(cell.getRow() * 8 + cell.getCol()).setCharacterInCell('B');
             }
         }
-        System.out.println("setting ");
-        board.printBoard();
+    }
+
+    public void printArraylistBoard(ArrayList<boardCell> board) {
+        for (int row = 0; row < 8 ;row++) {
+            for (int col = 0; col < 8 ;col++) {
+                System.out.print(board.get((row * 8 + col)).getCharacterInCell() + "  ");
+            }
+            System.out.print("\n");
+        }
     }
 
     private static boolean passedOther = false;
 
-    private boolean recursiveMoveCheck(int row, int col, char otherCell, othelloBoard board) {
+    private boolean recursiveMoveCheck(int row, int col, char otherCell, ArrayList<boardCell> board) {
         if (!inBounds(row, col)) {
             return false;
         } else if (getBoardCell(row, col, board).getCharacterInCell() == otherCell) {
@@ -225,7 +234,7 @@ public class othelloLogic {
         return false;
     }
 
-    private boolean sameCell(int row, int col, char turn, othelloBoard board) {
+    private boolean sameCell(int row, int col, char turn, ArrayList<boardCell> board) {
         if (!inBounds(row, col)) {
             passedOther = false;
             return false;
@@ -236,14 +245,19 @@ public class othelloLogic {
         return false;
     }
 
-    private boolean isDeadCell(int row, int col, othelloBoard board) {
+    private boolean isDeadCell(int row, int col, ArrayList<boardCell> board) {
         if (inBounds(row, col)) {
             return getBoardCell(row, col, board).getCharacterInCell() == '#';
         }
         return false;
     }
 
-    public ArrayList<boardCell> getMoves(boardCell root, char turn, othelloBoard board) {
+    public int rowColToInt(int row, int col) {
+        int index = row * 8 + col;
+        return index;
+    }
+
+    public ArrayList<boardCell> getMoves(boardCell root, char turn, ArrayList<boardCell> board) {
         ArrayList<boardCell> PossibleMoves = new ArrayList<>();
 
         char otherCell;
