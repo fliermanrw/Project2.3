@@ -1,20 +1,18 @@
 package model.games.othello;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Created by arch on 4/12/17.
  */
 public class othelloMiniMax extends othelloLogic {
     int totalDepth;
-    int maxDepth;
+    int maxDepth = 15;
     char rootTurn;
 
-    public int evaluateMove(ArrayList<boardCell> board, char turn) {
-        int score = 0;
+    long scoreForBranch = 0;
+    public long evaluateMove(ArrayList<boardCell> board, char turn) {
+        int scoreForBoard = 0;
         int[][] weights = {
                 {100, 5, 50, 20, 20, 50, 5, 100},
                 {5, 1, 50, 15, 15, 50, 1, 5},
@@ -30,12 +28,12 @@ public class othelloMiniMax extends othelloLogic {
             for (int j = 0; j < 8; j++) {
                 int index = rowColToInt(i,j);
                 if (board.get(index).getCharacterInCell() == turn) {
-                    score += weights[i][j];
+                    scoreForBoard += weights[i][j];
                 }
             }
         }
-
-        return score;
+        scoreForBranch += scoreForBoard;
+        return scoreForBranch;
     }
 
     public char getOtherTurn(char currentTurn) {
@@ -46,7 +44,7 @@ public class othelloMiniMax extends othelloLogic {
         }
     }
 
-    public int recursiveMiniMax(ArrayList<boardCell> board, char tempTurn, int depth) {
+    public long recursiveMiniMax(ArrayList<boardCell> board, char tempTurn, int depth) {
         totalDepth++;
         if (maxDepth > depth) {
             // get the available moves from the current board
@@ -59,20 +57,19 @@ public class othelloMiniMax extends othelloLogic {
                         e.printStackTrace();
                     }
                 }
-
                 // for each board recursive search a new board with the new move
                 applyMove(newBoard, a, tempTurn);
+                evaluateMove(newBoard,rootTurn);
                 recursiveMiniMax(newBoard, getOtherTurn(tempTurn), depth+=1);
             }
         }
         return evaluateMove(board, rootTurn);
     }
 
-    public int calculateBestMove(ArrayList<boardCell> rootBoard, char turn, int maxDepth) {
-        this.maxDepth = maxDepth;
+    public int calculateBestMove(ArrayList<boardCell> rootBoard, char turn) {
         this.rootTurn = turn;
 
-        int bestScore = 0;
+        long bestScore = 0;
         int bestMove = 0;
         // for every valid move calcualate recursive moves.
         System.out.println("Calculating best move using minimax.");
@@ -92,18 +89,17 @@ public class othelloMiniMax extends othelloLogic {
                     e.printStackTrace();
                 }
             }
-            // Apply move to generated board
-            applyMove(newRootBoard, cell, turn);
-//            System.out.println("generated");
-//            printArraylistBoard(newRootBoard);
 
-            int scoreFromMove = recursiveMiniMax(newRootBoard, getOtherTurn(turn), 0);
+            applyMove(newRootBoard, cell, turn);
+
+            long scoreFromMove = recursiveMiniMax(newRootBoard, getOtherTurn(turn), 0);
             System.out.println("score for move " + cell.getIndexForCell() + " was " + scoreFromMove);
             // check recursively what the score of the board is for a move at said depth.
             if (scoreFromMove >= bestScore) {
                 bestMove = cell.getIndexForCell();
                 bestScore = scoreFromMove;
             }
+            scoreForBranch = 0;
         }
         System.out.println("Best move was : " + bestMove);
         System.out.println("Totaldepth: " + totalDepth);

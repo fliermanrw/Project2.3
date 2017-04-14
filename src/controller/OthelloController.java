@@ -24,7 +24,6 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 
-
 public class OthelloController extends GameView implements Initializable {
     private othelloGameModel othelloGameModel;
     boolean ourturn = false;
@@ -58,21 +57,21 @@ public class OthelloController extends GameView implements Initializable {
                 });
 
                 if (othelloGameModel.getBoard().get(othelloGameModel.rowColToInt(row, col)).getCharacterInCell() == '#') {
-                    if(othelloGameModel.getValidMoves().contains(othelloGameModel.rowColToInt(row,col)) && ourturn){
+                    if (othelloGameModel.getValidMoves().contains(othelloGameModel.rowColToInt(row, col)) && ourturn) {
                         a.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
                         othelloGameBoard.addColumn(col, a);
                     } else {
                         a.setText(" ");
                         othelloGameBoard.addColumn(col, a);
                     }
-                } else if(othelloGameModel.getBoard().get(othelloGameModel.rowColToInt(row, col)).getCharacterInCell() == 'B') {
+                } else if (othelloGameModel.getBoard().get(othelloGameModel.rowColToInt(row, col)).getCharacterInCell() == 'B') {
                     //a.setText(" ");
                     //a.setStyle("-fx-background-image: url("../blackstone.png") ;");
                     a.setText("B");
                     a.setStyle("-fx-background-color: BLACK ; -fx-text-fill: white ;  -fx-font-weight: 500; -fx-border-color: lightgray ");
                     othelloGameBoard.addColumn(col, a);
 
-                } else if(othelloGameModel.getBoard().get(othelloGameModel.rowColToInt(row, col)).getCharacterInCell() == 'W') {
+                } else if (othelloGameModel.getBoard().get(othelloGameModel.rowColToInt(row, col)).getCharacterInCell() == 'W') {
                     a.setText("W");
                     a.setStyle("-fx-background-color: whitesmoke ;  -fx-font-weight: 500 ; -fx-border-color: lightgray ");
                     othelloGameBoard.addColumn(col, a);
@@ -82,34 +81,36 @@ public class OthelloController extends GameView implements Initializable {
                     othelloGameBoard.addColumn(col, a);
                 }
 
+                if (ServerHandlerReader.useBot){
+                    a.setDisable(true);
+                }
             }
 
         }
     }
 
     public void updateBoard() {
-            Platform.runLater(()->{
-                for (int i = 0; i < othelloGameModel.getBoard().size(); i++) {
-                    Button button = (Button) othelloGameBoard.getChildren().get(i);
-                    if(String.valueOf(othelloGameModel.getBoard().get(i).getCharacterInCell()).equals("B")){
-                        button.setText("B");
-                        button.setStyle("-fx-background-color: black; -fx-text-fill: white ; -fx-font-weight: 500; -fx-border-color: lightgray");
-                }else if(String.valueOf(othelloGameModel.getBoard().get(i).getCharacterInCell()).equals("W")){
-                        button.setText("W");
-                        button.setStyle("-fx-background-color: whitesmoke; -fx-font-weight: 500; -fx-border-color: lightgray");
-                }
-                else{
+        Platform.runLater(() -> {
+            for (int i = 0; i < othelloGameModel.getBoard().size(); i++) {
+                Button button = (Button) othelloGameBoard.getChildren().get(i);
+                if (String.valueOf(othelloGameModel.getBoard().get(i).getCharacterInCell()).equals("B")) {
+                    button.setText("B");
+                    button.setStyle("-fx-background-color: black; -fx-text-fill: white ; -fx-font-weight: 500; -fx-border-color: lightgray");
+                } else if (String.valueOf(othelloGameModel.getBoard().get(i).getCharacterInCell()).equals("W")) {
+                    button.setText("W");
+                    button.setStyle("-fx-background-color: whitesmoke; -fx-font-weight: 500; -fx-border-color: lightgray");
+                } else {
                     //@todo following commented code results in a bug. Can only call getValidMoves from one position else -> CONCURRENT MODIFICATION EXCEPTION
                     //@todo please fix quick, will bug in alot of situation
-                    if(othelloGameModel.getValidMoves().contains(i) && ourturn){
+                    if (othelloGameModel.getValidMoves().contains(i) && ourturn) {
                         button.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
-                    }else{
+                    } else {
                         button.setStyle(null);
                     }
                 }
-                }
-            });
-        }
+            }
+        });
+    }
 
     public void buttonClick(Button button) {
         ArrayList<Integer> validMoves = othelloGameModel.getValidMoves();
@@ -136,7 +137,7 @@ public class OthelloController extends GameView implements Initializable {
     // er komt een move binnen van de server.
     @Override
     public void serverMove(int index, String playerName) {
-        if(!ServerHandler.playerName.equals(playerName)){
+        if (!ServerHandler.playerName.equals(playerName)) {
             othelloGameModel.move(index);
             updateBoard();
             othelloGameModel.switchPlayer();
@@ -150,8 +151,8 @@ public class OthelloController extends GameView implements Initializable {
         ourturn = true;
         updateBoard();
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
-        if(ServerHandlerReader.useBot){
-         //    botMove();
+        if (ServerHandlerReader.useBot) {
+            //    botMove();
             minimaxMove();
         }
     }
@@ -164,14 +165,14 @@ public class OthelloController extends GameView implements Initializable {
         System.out.println("We are the player that is starting the game our move: " + othelloGameModel.getCurrentPlayer());
 
         System.out.println("OthelloController: --firstturn Got notified it's now our turn and we can make a move");
-        if(ServerHandlerReader.useBot){
+        if (ServerHandlerReader.useBot) {
             System.out.println("OthelloController: --firstturn Got notified it's now our turn, our bot is going to make a turn");
             //botMove();
             minimaxMove();
         }
     }
 
-    public void minimaxMove(){
+    public void minimaxMove() {
         System.out.println("Bot move turn: " + othelloGameModel.getCurrentPlayer());
         System.out.println("Bot please do a move");
 
@@ -186,7 +187,7 @@ public class OthelloController extends GameView implements Initializable {
         ourturn = false;
     }
 
-    public void botMove(){
+    public void botMove() {
         othelloGameModel.getOthelloBoard();
         ArrayList<Integer> validMoves = othelloGameModel.getValidMoves();
         System.out.println("Bot CURRENT PLAYER: " + othelloGameModel.getCurrentPlayer());
@@ -222,13 +223,14 @@ public class OthelloController extends GameView implements Initializable {
         if (!ourturn) {
             changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
             changeLabel.setStyle("-fx-background-color: RED ; ");
-        } else if(ourturn) {
+        } else if (ourturn) {
             changeLabel.setText("YOU NEED TO MAKE A MOVE");
             changeLabel.setStyle("-fx-text-fill: BLUE ; ");
             changeLabel.setStyle("-fx-background-color: aqua;");
 
         }
     }
+
     public void forfeitGame(ActionEvent actionEvent) {
         forfeit();
 

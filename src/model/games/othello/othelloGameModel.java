@@ -116,9 +116,7 @@ public class othelloGameModel extends othelloLogic implements GameModel {
     }
 
     public int getMiniMaxMove(char turn) {
-        System.out.println("board send to minimax : ");
-        printArraylistBoard(othelloBoard);
-        return new othelloMiniMax().calculateBestMove(othelloBoard, turn, 5);
+        return new othelloMiniMax().calculateBestMove(othelloBoard, turn);
     }
 
     public String findCurrentWinner() {
