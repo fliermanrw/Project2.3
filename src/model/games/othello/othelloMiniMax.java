@@ -74,11 +74,6 @@ public class othelloMiniMax extends othelloLogic {
         int bestMove = 0;
         // for every valid move calcualate recursive moves.
         System.out.println("Calculating best move using minimax.");
-        System.out.println("valid moves : ");
-
-        for (boardCell c : fetchValidMovesAsCell(turn, rootBoard)) {
-            System.out.print(c.getIndexForCell() + " ");
-        }
 
         // Generate new boards based on available moves from rootboard.
         for (boardCell cell : fetchValidMovesAsCell(turn, rootBoard)) {
