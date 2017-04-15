@@ -203,8 +203,10 @@ public class TictactoeController extends GameView implements Initializable {
         } catch (IOException | ConcurrentModificationException e) {
             e.printStackTrace();
         }
-            ServerHandlerReader.stage.setTitle("Lobby");
+
+        ServerHandlerReader.stage.setTitle("Lobby");
         ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
+
     });
     }
 
