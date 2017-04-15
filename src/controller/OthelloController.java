@@ -249,6 +249,7 @@ public class OthelloController extends GameView implements Initializable {
             }
             ServerHandlerReader.stage.setTitle("Lobby");
             ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
+
         });
     }
 
