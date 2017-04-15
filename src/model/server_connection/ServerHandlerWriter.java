@@ -47,4 +47,8 @@ public class ServerHandlerWriter{
     public static void acceptChallenge(String challengeNumber) {
         ServerHandlerWriter.writeSend("challenge accept " + challengeNumber);
     }
+
+    public static void denyChallenge(String challengeNumber) {
+        ServerHandlerWriter.writeSend("challenge deny " + challengeNumber);
+    }
 }
