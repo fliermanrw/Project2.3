@@ -229,14 +229,17 @@ public class OthelloController extends GameView implements Initializable {
     }
     public void forfeitGame(ActionEvent actionEvent) {
         forfeit();
+       backToLobby();
 
-        //Perform this in the javafx thread
+    }
+
+    public void backToLobby(){
         Platform.runLater(() -> {
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/connectedView.fxml"));
             Parent root = null;
             try {
-                root = fxmlLoader.load();
+                root = (Parent) fxmlLoader.load();
 
                 //Set writer in controller
                 ServerHandlerReader.currentController = fxmlLoader.<ConnectedController>getController();

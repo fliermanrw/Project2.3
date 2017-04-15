@@ -1,10 +1,14 @@
 package model.server_connection;
 
 
+import controller.ConnectedController;
 import controller.GameView;
 import controller.LoginController;
 import controller.PreGameView;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -152,19 +156,30 @@ public class ServerHandlerReader implements Runnable {
                             alert.setHeaderText("Do you want to do a rematch or return to lobby?");
                             alert.setContentText("Choose from the buttons below");
 
-                            ButtonType buttonTypeRematch = new ButtonType("Rematch!");
+
                             ButtonType buttonTypeLobby = new ButtonType("Back to Lobby");
                             ButtonType buttonTypeCancel = new ButtonType("Cancel and see the game ", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-                            alert.getButtonTypes().setAll(buttonTypeRematch, buttonTypeLobby, buttonTypeCancel);
+                            alert.getButtonTypes().setAll(buttonTypeLobby, buttonTypeCancel);
 
                             Optional<ButtonType> result = alert.showAndWait();
-                            if (result.isPresent() && (result.get() == buttonTypeRematch)){
-                                //TODO immediately ask for rematch
-                                System.out.println("REMATCH");
-                            } else if (result.isPresent() && (result.get() == buttonTypeLobby)) {
+                            if (result.isPresent() && (result.get() == buttonTypeLobby)) {
                                 //TODO call function to switch view to lobby
                                 System.out.println("LOBBY");
+
+                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/connectedView.fxml"));
+                                Parent root = null;
+                                try {
+                                    root = (Parent) fxmlLoader.load();
+
+                                    //Set writer in controller
+                                    ServerHandlerReader.currentController = fxmlLoader.<ConnectedController>getController();
+
+                                } catch (IOException | ConcurrentModificationException e) {
+                                    e.printStackTrace();
+                                }
+                                ServerHandlerReader.stage.setTitle("Lobby");
+                                ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
                             }
                         });
 
