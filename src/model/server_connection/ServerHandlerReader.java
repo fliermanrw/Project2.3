@@ -78,18 +78,20 @@ public class ServerHandlerReader implements Runnable {
                     }
 
 
-
+                    // If the server sends the playerlist
                     if(currentLine.contains("PLAYERLIST")){
                         String playerlist = currentLine.replaceAll("(\\[|\\SVR PLAYERLIST|\\]|\")", "");
                         List<String> players = Arrays.asList(playerlist.split(","));
                         currentController.setPlayerList(players);
                     }
 
+                    // If another player challenges us
                     if (currentLine.contains("CHALLENGE")) {
                         Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
 
                         System.out.println(vars);
 
+                        // Call a confirmation screen with accept or cancel options
                         Platform.runLater(()->{
                                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                                 alert.setTitle("Challenge Request");
@@ -128,7 +130,7 @@ public class ServerHandlerReader implements Runnable {
                     }
 
 
-
+                    // Receive a move from server
                     if(currentLine.contains("SVR GAME MOVE")){
                         System.out.println("GameReader: we received a new move");
                         Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
@@ -138,22 +140,25 @@ public class ServerHandlerReader implements Runnable {
                         }
                     }
 
+                    // When game is ended. win/lose/draw options
                     if(currentLine.contains("SVR GAME LOSS") || (currentLine.contains("SVR GAME WIN")) || (currentLine.contains("SVR GAME DRAW"))){
-                        // change String var to win or lost
-                        String winLose = "have lost";
+                        // change String winLose to win, lost or draw
+                        String winLose = "lost";
                         if(currentLine.contains("SVR GAME WIN")){
-                            winLose = " have won";
+                            winLose = "won";
                         }else if(currentLine.contains("SVR GAME DRAW")){
-                            winLose = "have drawn";
+                            winLose = "drawn";
                         }
 
                         System.out.println("Game is over.. we need to switch back to the Lobby");
 
                         String finalWinLose = winLose;
+
+                        // Change the view to ConnectedView
                         Platform.runLater(()->{
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("You have " + finalWinLose + "!");
-                            alert.setHeaderText("Do you want to do a rematch or return to lobby?");
+                            alert.setHeaderText("Do you want to review the game return to lobby?");
                             alert.setContentText("Choose from the buttons below");
 
 
@@ -164,7 +169,6 @@ public class ServerHandlerReader implements Runnable {
 
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.isPresent() && (result.get() == buttonTypeLobby)) {
-                                //TODO call function to switch view to lobby
                                 System.out.println("LOBBY");
 
                                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/connectedView.fxml"));
