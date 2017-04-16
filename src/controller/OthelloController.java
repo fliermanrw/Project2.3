@@ -61,6 +61,7 @@ public class OthelloController extends GameView implements Initializable {
                         a.setStyle("-fx-background-color: aquamarine; -fx-border-color: lightgray");
                         othelloGameBoard.addColumn(col, a);
                     } else {
+
                         a.setText(" ");
                         othelloGameBoard.addColumn(col, a);
                     }
@@ -233,8 +234,11 @@ public class OthelloController extends GameView implements Initializable {
 
     public void forfeitGame(ActionEvent actionEvent) {
         forfeit();
+       backToLobby();
 
-        //Perform this in the javafx thread
+    }
+
+    public void backToLobby(){
         Platform.runLater(() -> {
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/connectedView.fxml"));
@@ -243,16 +247,14 @@ public class OthelloController extends GameView implements Initializable {
                 root = (Parent) fxmlLoader.load();
 
                 //Set writer in controller
-                ConnectedController connectedController = fxmlLoader.getController();
-                ServerHandlerReader.currentController = connectedController;
+                ServerHandlerReader.currentController = fxmlLoader.<ConnectedController>getController();
 
-            } catch (IOException e) {
+            } catch (IOException | ConcurrentModificationException e) {
                 e.printStackTrace();
-            } catch (ConcurrentModificationException cme) {
-                cme.printStackTrace();
             }
             ServerHandlerReader.stage.setTitle("Lobby");
             ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
+
         });
     }
 
@@ -260,7 +262,7 @@ public class OthelloController extends GameView implements Initializable {
         ServerHandlerWriter.writeSend("logout");
         System.out.println("gelukt uit te loggen.. nu nog afsluiten");
 
-        Platform.exit();
+        ServerHandlerReader.stage.close();
     }
 }
 

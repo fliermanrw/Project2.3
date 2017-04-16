@@ -26,6 +26,12 @@ public class ConnectedController extends PreGameView implements Initializable {
     @FXML TextArea logArea;
     @FXML ToggleGroup test;
     @FXML Label loggedInAs;
+
+    @FXML
+    RadioButton playAsBot;
+   /* @FXML
+    RadioButton playAsHuman;*/
+
     private String selectedOpponent;
     boolean succesfull = false;
     String command = "no command yet"; //@todo create command class
@@ -53,11 +59,15 @@ public class ConnectedController extends PreGameView implements Initializable {
         final Timeline timeline = new Timeline(kf1, kf2);
         Platform.runLater(timeline::play);
 
+        //botPlayer();
+
         loggedInAs.setText("Logged in as: " + ServerHandler.playerName);
+
     }
 
     @Override
     public void startGame(String game, String playerToMove) {
+        botPlayer();
         System.out.println("startgame wel aangeroepen?");
         System.out.println(game);
         System.out.println(playerToMove);
@@ -121,26 +131,8 @@ public class ConnectedController extends PreGameView implements Initializable {
         super.updateLog("logout");
         ServerHandlerWriter.writeSend("logout");
 
-        // Change view to login screen again
-        Platform.runLater(() -> {
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/loginView.fxml"));
-            Parent root = null;
-            try {
-                root = (Parent) fxmlLoader.load();
-
-                //Set writer in controller
-                LoginController loginController = fxmlLoader.getController();
-                ServerHandlerReader.currentController = loginController;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ConcurrentModificationException cme) {
-                cme.printStackTrace();
-            }
-            ServerHandlerReader.stage.setTitle("Lobby");
-            ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
-        });
+       // and finally close the stage
+       ServerHandlerReader.stage.close();
 
     }
 
@@ -176,6 +168,19 @@ public class ConnectedController extends PreGameView implements Initializable {
 
     public void getOpponents(){
         ServerHandlerWriter.getPlayerList();
+    }
+
+    public void botPlayer(){
+        //Get playing style
+        if (playAsBot.isSelected()) {
+            //Play as a bot
+            ServerHandlerReader.useBot = true;
+            System.out.println("true bot");
+        } else {
+            //Play as a human
+            ServerHandlerReader.useBot = false;
+            System.out.println("false human");
+        }
     }
 
     private void updateOpponentSelection(){

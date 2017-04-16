@@ -9,9 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.server_connection.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -31,19 +29,9 @@ public class Main extends Application {
 
             // Remote
           //  TelnetConnection telnet = new TelnetConnection("145.33.225.170", 7789);
+            // get the server and port data from the txt file
+           Map<String, String> vars = TelnetConnection.getServerFromTxt();
 
-            //Read file and change server and port when it is set in the ifle
-            //File should be format key: "value"
-            BufferedReader br = new BufferedReader(new FileReader(new File("settings.txt").getAbsoluteFile()));
-            String currentLine;
-            Map<String, String> vars = new HashMap<>();
-            while ((currentLine = br.readLine()) != null) {
-                Pattern pattern = Pattern.compile("([A-Za-z]+): \"([^\"]*)\"");
-                Matcher matcher = pattern.matcher(currentLine);
-                while (matcher.find()) {
-                    vars.put(matcher.group(1), matcher.group(2));
-                }
-            }
             if(vars.get("server") != null){
                 this.server = vars.get("server");
             }

@@ -53,7 +53,7 @@ public class TictactoeController extends GameView implements Initializable {
 
     public void buttonClick(ActionEvent actionEvent) {
         Button btn = (Button) actionEvent.getSource();
-        Integer index = Integer.valueOf(btn.getId().toString());
+        Integer index = Integer.valueOf(btn.getId());
         System.out.println("INDEX: " + index);
         ArrayList<Integer> validMoves = tictactoe.getValidMoves();
         System.out.println("Validmoves" + validMoves);
@@ -211,16 +211,15 @@ public class TictactoeController extends GameView implements Initializable {
             root = (Parent) fxmlLoader.load();
 
             //Set writer in controller
-            ConnectedController connectedController = fxmlLoader.getController();
-            ServerHandlerReader.currentController = connectedController;
+            ServerHandlerReader.currentController = fxmlLoader.<ConnectedController>getController();
 
-        } catch (IOException e) {
+        } catch (IOException | ConcurrentModificationException e) {
             e.printStackTrace();
-        } catch (ConcurrentModificationException cme) {
-            cme.printStackTrace();
         }
+
         ServerHandlerReader.stage.setTitle("Lobby");
         ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
+
     });
     }
 
@@ -229,7 +228,7 @@ public class TictactoeController extends GameView implements Initializable {
         ServerHandlerWriter.writeSend("logout");
         System.out.println("gelukt uit te loggen.. nu nog afsluiten");
 
-        Platform.exit();
+        ServerHandlerReader.stage.close();
     }
 
 
