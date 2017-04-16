@@ -139,7 +139,6 @@ public class OthelloController extends GameView implements Initializable {
 
         System.out.println("button text:" + button.getId());
         if (ourturn) {
-            changeLabel(ourturn);
             if (!validMoves.contains(Integer.valueOf(button.getId()))) {
                 System.out.println("not a valid move");
             } else {
@@ -149,6 +148,7 @@ public class OthelloController extends GameView implements Initializable {
                 updateBoard();
                 othelloGameModel.switchPlayer();
                 ourturn = false;
+                changeLabel(ourturn);
             }
         } else {
             System.out.println("Niet onze beurt");
