@@ -58,32 +58,35 @@
                                <Insets bottom="8.0" />
                            </VBox.margin>
                        </ComboBox>
-                       <HBox>
-                           <children>
-                               <Label text="Bot?" />
-                               <RadioButton fx:id="playAsBot" mnemonicParsing="false" text="Yes">
-                                   <HBox.margin>
-                                       <Insets left="5.0" />
-                                   </HBox.margin>
-                                   <toggleGroup>
-                                       <ToggleGroup fx:id="playAS" />
-                                   </toggleGroup>
-                               </RadioButton>
-                               <RadioButton fx:id="playAsHuman" mnemonicParsing="false" selected="true" text="No" toggleGroup="$playAS">
-                                   <HBox.margin>
-                                       <Insets left="5.0" />
-                                   </HBox.margin>
-                               </RadioButton>
-                           </children>
-                       </HBox>
                        <Button minWidth="110" mnemonicParsing="false" onAction="#invPlayer" text="Challenge">
-                           <VBox.margin>
-                               <Insets top="15.0" />
-                           </VBox.margin>
                        </Button>
                    </VBox>
                    <Button minWidth="100" mnemonicParsing="false" onAction="#quit" text="Quit" AnchorPane.bottomAnchor="114" AnchorPane.rightAnchor="14" />
                     <TextArea fx:id="logArea" prefHeight="100" text="" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" />
+               </AnchorPane>
+           </content>
+       </Tab>
+       <Tab closable="false" text="Settings">
+           <content>
+               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500" prefWidth="300">
+                   <VBox AnchorPane.leftAnchor="14" AnchorPane.topAnchor="14">
+                       <children>
+                           <Label text="Do you want to use a bot?" />
+                           <RadioButton fx:id="playAsBot" mnemonicParsing="false" text="Yes">
+                               <HBox.margin>
+                                   <Insets left="5.0" />
+                               </HBox.margin>
+                               <toggleGroup>
+                                   <ToggleGroup fx:id="playAS" />
+                               </toggleGroup>
+                           </RadioButton>
+                           <RadioButton fx:id="playAsHuman" mnemonicParsing="false" selected="true" text="No" toggleGroup="$playAS">
+                               <HBox.margin>
+                                   <Insets left="5.0" />
+                               </HBox.margin>
+                           </RadioButton>
+                       </children>
+                   </VBox>
                </AnchorPane>
            </content>
        </Tab>

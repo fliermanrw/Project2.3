@@ -99,9 +99,9 @@ public class ServerHandlerReader implements Runnable {
                         alert.setTitle("Challenge Request");
                         alert.setContentText("You have been challenged by " + vars.get("CHALLENGER") + " for a game of " + vars.get("GAMETYPE"));
 
-                        ButtonType buttonTypeAcceptPlayer = new ButtonType("ACCEPT AS PLAYER");
-                        ButtonType buttonTypeAcceptBot = new ButtonType("ACCEPT AS BOT");
-                        ButtonType buttonTypeCancel = new ButtonType("CANCEL", ButtonBar.ButtonData.CANCEL_CLOSE);
+                        ButtonType buttonTypeAcceptPlayer = new ButtonType("Accept (play yourself)");
+                        ButtonType buttonTypeAcceptBot = new ButtonType("Accept (use a bot)");
+                        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
                         // Get the challengeNumber
                         String challengeNumber = (String) vars.get("CHALLENGENUMBER");
