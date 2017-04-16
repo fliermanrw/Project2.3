@@ -111,11 +111,11 @@ public class ServerHandlerReader implements Runnable {
                         Optional<ButtonType> result = alert.showAndWait();
                         if (result.isPresent() && (result.get() == buttonTypeAcceptPlayer)){
                             ServerHandlerWriter.acceptChallenge(challengeNumber);
-                            currentController.useBot();
+                            currentController.useBot(false);
                             System.out.println("PLAYING AS PLAYER");
                         } else if (result.isPresent() && (result.get() == buttonTypeAcceptBot)) {
                             ServerHandlerWriter.acceptChallenge(challengeNumber);
-                            currentController.useBot();
+                            currentController.useBot(true);
                             System.out.println("PLAYING AS BOT");
 
                         }
@@ -152,6 +152,11 @@ public class ServerHandlerReader implements Runnable {
                 if(currentLine.contains("SVR GAME LOSS")){
                     currentGameView.weLost();
                 }
+
+                if(currentLine.contains("SVR GAME DRAW")){
+                    currentGameView.weTied();
+                }
+
 
                 if(currentLine.contains("SVR GAME YOURTURN") && previousLine.contains("SVR GAME MATCH ")){
                     System.out.println("IF 1");

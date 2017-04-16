@@ -148,9 +148,9 @@ public class ConnectedController extends PreGameView implements Initializable {
 }
 
     @Override
-    public void useBot() {
-        ServerHandlerReader.useBot = true;
-        playAsBot.setSelected(true);
+    public void useBot(boolean status) {
+        ServerHandlerReader.useBot = status;
+        playAsBot.setSelected(status);
     }
 
     /**

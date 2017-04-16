@@ -271,6 +271,20 @@ public class OthelloController extends GameView implements Initializable {
         });
     }
 
+    @Override
+    public void weTied() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("The game ended in a draw!");
+            alert.setContentText("The game ended in a draw!");
+            alert.setOnHidden(e -> {
+                backToLobby();
+            });
+            alert.show();
+        });
+    }
+
+
     public void changeLabel(boolean ourturn) {
         Platform.runLater(()->{
             if (!ourturn) {
@@ -306,7 +320,9 @@ public class OthelloController extends GameView implements Initializable {
                 e.printStackTrace();
             }
             ServerHandlerReader.stage.setTitle("Lobby");
-            ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
+            Scene scene = new Scene(root, 300, 400);
+            scene.getStylesheets().add("stylesheet.css");
+            ServerHandlerReader.stage.setScene(scene);
 
         });
     }

@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -159,12 +160,41 @@ public class TictactoeController extends GameView implements Initializable {
 
     @Override
     public void weWon() {
-
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("We won!");
+            alert.setContentText("We won this tic-tac-toe game!");
+            alert.setOnHidden(e -> {
+                backToLobby();
+            });
+            alert.show();
+        });
     }
 
     @Override
     public void weLost() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("We lost!");
+            alert.setContentText("We lost this othello game!");
+            alert.setOnHidden(e -> {
+                backToLobby();
+            });
+            alert.show();
+        });
+    }
 
+    @Override
+    public void weTied() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("The game ended in a draw!");
+            alert.setContentText("The game ended in a draw!");
+            alert.setOnHidden(e -> {
+                backToLobby();
+            });
+            alert.show();
+        });
     }
 
 
@@ -211,26 +241,29 @@ public class TictactoeController extends GameView implements Initializable {
     // Forfeits the game and returns to lobby / connectedView
     public void forfeitGame(ActionEvent actionEvent) {
         forfeit();
+        backToLobby();
+    }
 
-        //Perform this in the javafx thread
+    public void backToLobby(){
         Platform.runLater(() -> {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/connectedView.fxml"));
-        Parent root = null;
-        try {
-            root = (Parent) fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/connectedView.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) fxmlLoader.load();
 
-            //Set writer in controller
-            ServerHandlerReader.currentController = fxmlLoader.<ConnectedController>getController();
+                //Set writer in controller
+                ServerHandlerReader.currentController = fxmlLoader.<ConnectedController>getController();
 
-        } catch (IOException | ConcurrentModificationException e) {
-            e.printStackTrace();
-        }
+            } catch (IOException | ConcurrentModificationException e) {
+                e.printStackTrace();
+            }
+            ServerHandlerReader.stage.setTitle("Lobby");
+            Scene scene = new Scene(root, 300, 400);
+            scene.getStylesheets().add("stylesheet.css");
+            ServerHandlerReader.stage.setScene(scene);
 
-        ServerHandlerReader.stage.setTitle("Lobby");
-        ServerHandlerReader.stage.setScene(new Scene(root, 300, 400));
-
-    });
+        });
     }
 
 

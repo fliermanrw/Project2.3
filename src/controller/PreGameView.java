@@ -33,5 +33,5 @@ public abstract class PreGameView{
         return playerList;
     }
 
-    public abstract void useBot();
+    public abstract void useBot(boolean status);
 }

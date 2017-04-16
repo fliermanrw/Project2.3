@@ -19,4 +19,6 @@ public abstract class GameView{
     public abstract void weWon();
 
     public abstract void weLost();
+
+    public abstract void weTied();
 }

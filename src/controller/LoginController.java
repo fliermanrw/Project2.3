@@ -37,8 +37,8 @@ public class LoginController extends PreGameView {
     }
 
     @Override
-    public void useBot() {
-        ServerHandlerReader.useBot=true;
+    public void useBot(boolean status) {
+        ServerHandlerReader.useBot=status;
     }
 
     public void printError(String error) {
@@ -63,7 +63,7 @@ public class LoginController extends PreGameView {
                 cme.printStackTrace();
             }
             stage.setTitle("Connected");
-            Scene scene = new Scene(root, 300, 330);
+            Scene scene = new Scene(root, 300, 400);
             scene.getStylesheets().add("stylesheet.css");
             stage.setScene(scene);
         });
