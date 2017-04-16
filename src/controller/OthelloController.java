@@ -8,7 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import model.games.othello.othelloGameModel;
@@ -218,6 +220,32 @@ public class OthelloController extends GameView implements Initializable {
     @Override
     public boolean isLoaded() {
         return false;
+    }
+
+    @Override
+    public void weWon() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("We won!");
+            alert.setContentText("We won this othello game!");
+            alert.setOnHidden(e -> {
+               backToLobby();
+            });
+            alert.show();
+        });
+    }
+
+    @Override
+    public void weLost() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("We lost!");
+            alert.setContentText("We lost this othello game!");
+            alert.setOnHidden(e -> {
+                backToLobby();
+            });
+            alert.show();
+        });
     }
 
     public void changeLabel(boolean ourturn) {

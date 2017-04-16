@@ -15,4 +15,8 @@ public abstract class GameView{
     abstract void forfeit();
 
     public abstract boolean isLoaded();
+
+    public abstract void weWon();
+
+    public abstract void weLost();
 }

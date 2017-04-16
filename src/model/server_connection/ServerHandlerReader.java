@@ -127,6 +127,16 @@ public class ServerHandlerReader implements Runnable {
                 }
 
 
+                if(currentLine.contains("SVR GAME WIN")){
+                    //Please insert here what to do when we win
+                    //Return to lobby
+                    currentGameView.weWon();
+                }
+
+                if(currentLine.contains("SVR GAME LOSS")){
+                    currentGameView.weLost();
+                }
+
                 if(currentLine.contains("SVR GAME YOURTURN") && previousLine.contains("SVR GAME MATCH ")){
                     System.out.println("IF 1");
                     //@todo object is not initalized so firstturn = null

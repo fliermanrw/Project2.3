@@ -157,6 +157,16 @@ public class TictactoeController extends GameView implements Initializable {
         return false;
     }
 
+    @Override
+    public void weWon() {
+
+    }
+
+    @Override
+    public void weLost() {
+
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
