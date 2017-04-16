@@ -21,6 +21,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+//        setUserAgentStylesheet(STYLESHEET_MODENA);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/loginView.fxml"));
         Parent root = (Parent) fxmlLoader.load();
 
@@ -46,7 +47,9 @@ public class Main extends Application {
             LoginController loginController = fxmlLoader.getController();
             loginController.setStage(primaryStage);
             primaryStage.setTitle("Login");
-            primaryStage.setScene(new Scene(root, 200, 120));
+            Scene scene = new Scene(root, 200, 120);
+            scene.getStylesheets().add("stylesheet.css");
+            primaryStage.setScene(scene);
 //            primaryStage.setResizable(false);
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {

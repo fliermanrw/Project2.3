@@ -1,0 +1,7 @@
+#logArea .content{
+     -fx-background-color: transparent;
+}
+
+#logArea{
+    -fx-text-fill: red;
+}

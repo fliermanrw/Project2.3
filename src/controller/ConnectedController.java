@@ -26,6 +26,7 @@ public class ConnectedController extends PreGameView implements Initializable {
     @FXML TextArea logArea;
     @FXML ToggleGroup test;
     @FXML Label loggedInAs;
+    String log;
 
     @FXML
     RadioButton playAsBot;
@@ -62,7 +63,10 @@ public class ConnectedController extends PreGameView implements Initializable {
         //botPlayer();
 
         loggedInAs.setText("Logged in as: " + ServerHandler.playerName);
-        updateLog(ServerHandler.log);
+        logArea.setEditable(false);
+        logArea.setFocusTraversable(false);
+        logArea.setMouseTransparent(true);
+//        updateLog(ServerHandler.log);
     }
 
     @Override
@@ -136,8 +140,11 @@ public class ConnectedController extends PreGameView implements Initializable {
     }
 
     public void updateLog(String currentLine){
-//        logArea.clear();
+//        log+=currentLine;
+        logArea.clear();
         logArea.appendText(currentLine);
+//        logArea.clear();
+//        logArea.appendText(currentLine);
 }
 
     @Override
@@ -164,8 +171,20 @@ public class ConnectedController extends PreGameView implements Initializable {
             game = "Tic-tac-toe";
         }
 
-        //Options server-sided are "Reversi" and "Tic-tac-toe"
-        ServerHandlerWriter.writeSend("subscribe " + game);
+        final String gameChoice = game;
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Subscribing to the " + gameChoice + " waiting list");
+        alert.setContentText("You are subsribing to the waiting list for the game: " + gameChoice + "\n\n" + "A new game will automatically start when a match has been found.");
+        alert.setOnHidden(e -> {
+            if (alert.getResult().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
+                //Only accept subscribe when button ok is pressed
+                //Options server-sided are "Reversi" and "Tic-tac-toe"
+                ServerHandlerWriter.writeSend("subscribe " + gameChoice);
+                updateLog("You are subscribed to the game: " + gameChoice + "\n" + "Please wait patiently for match or invite a player");
+            }
+        });
+        alert.show();
     }
 
     public void getOpponents(){

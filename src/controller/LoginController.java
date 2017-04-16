@@ -63,7 +63,9 @@ public class LoginController extends PreGameView {
                 cme.printStackTrace();
             }
             stage.setTitle("Connected");
-            stage.setScene(new Scene(root, 300, 400));
+            Scene scene = new Scene(root, 300, 330);
+            scene.getStylesheets().add("stylesheet.css");
+            stage.setScene(scene);
         });
     }
 }

@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane prefHeight="400" prefWidth="300" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConnectedController">
+<TabPane prefHeight="330" prefWidth="300" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConnectedController">
    <tabs>
        <Tab closable="false" text="Home">
            <content>
-               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500" prefWidth="300">
+               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400" prefWidth="300">
                    <VBox AnchorPane.leftAnchor="14" AnchorPane.topAnchor="14">
                        <Label fx:id="loggedInAs" text="Logged in as: ">
                            <VBox.margin>
@@ -61,8 +61,8 @@
                        <Button minWidth="110" mnemonicParsing="false" onAction="#invPlayer" text="Challenge">
                        </Button>
                    </VBox>
-                   <Button minWidth="100" mnemonicParsing="false" onAction="#quit" text="Quit" AnchorPane.bottomAnchor="114" AnchorPane.rightAnchor="14" />
-                    <TextArea fx:id="logArea" prefHeight="100" text="" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" />
+                   <Button minWidth="100" mnemonicParsing="false" onAction="#quit" text="Quit" AnchorPane.bottomAnchor="44" AnchorPane.rightAnchor="14" />
+                    <TextArea fx:id="logArea" prefHeight="20" text="" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" />
                </AnchorPane>
            </content>
        </Tab>
