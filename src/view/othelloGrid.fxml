@@ -34,27 +34,6 @@
     </top>
     <center>
         <GridPane fx:id="othelloGameBoard" BorderPane.alignment="CENTER">
-
-         <columnConstraints>
-            <ColumnConstraints minWidth="10.0" prefWidth="50.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="50.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="50.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="50.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="50.0" />
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints minHeight="10.0" />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
         </GridPane>
     </center>
    <bottom>

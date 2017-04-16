@@ -46,7 +46,8 @@ public class Main extends Application {
             LoginController loginController = fxmlLoader.getController();
             loginController.setStage(primaryStage);
             primaryStage.setTitle("Login");
-            primaryStage.setScene(new Scene(root, 200, 150));
+            primaryStage.setScene(new Scene(root, 200, 120));
+//            primaryStage.setResizable(false);
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
                     System.out.println("Stage is closing, logging out");

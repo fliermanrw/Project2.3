@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -38,6 +39,24 @@ public class OthelloController extends GameView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        othelloGameBoard.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+            for(Node node : othelloGameBoard.getChildren()){
+                if(node instanceof Button){
+                    Button button = (Button) node;
+                    button.setPrefHeight(othelloGameBoard.getHeight()/8);
+                    button.setPrefWidth(othelloGameBoard.getWidth()/8);
+                }
+            }
+        });
+        othelloGameBoard.heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth)->{
+            for(Node node : othelloGameBoard.getChildren()){
+                if(node instanceof Button){
+                    Button button = (Button) node;
+                    button.setPrefHeight(othelloGameBoard.getHeight()/8);
+                    button.setPrefWidth(othelloGameBoard.getWidth()/8);
+                }
+            }
+        });
         othelloGameModel = new othelloGameModel('B');
         othelloGameModel.initGrid();
         initBoard();
@@ -71,12 +90,12 @@ public class OthelloController extends GameView implements Initializable {
                     //a.setText(" ");
                     //a.setStyle("-fx-background-image: url("../blackstone.png") ;");
                     a.setText("B");
-                    a.setStyle("-fx-background-color: BLACK ; -fx-text-fill: white ;  -fx-font-weight: 500; -fx-border-color: lightgray ");
+                    a.setStyle("-fx-background-color: BLACK ; -fx-text-fill: white ;   -fx-border-color: lightgray ");
                     othelloGameBoard.addColumn(col, a);
 
                 } else if (othelloGameModel.getBoard().get(othelloGameModel.rowColToInt(row, col)).getCharacterInCell() == 'W') {
                     a.setText("W");
-                    a.setStyle("-fx-background-color: whitesmoke ;  -fx-font-weight: 500 ; -fx-border-color: lightgray ");
+                    a.setStyle("-fx-background-color: whitesmoke ;   -fx-border-color: lightgray ");
                     othelloGameBoard.addColumn(col, a);
 
                 } else {
