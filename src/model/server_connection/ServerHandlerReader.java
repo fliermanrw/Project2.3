@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -86,23 +87,38 @@ public class ServerHandlerReader implements Runnable {
                     currentController.setPlayerList(players);
                 }
 
+                // If another player challenges us
                 if (currentLine.contains("CHALLENGE")) {
-                    Map<String, String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
+                    Map<String,String> vars = stringToMap(currentLine); //convert string to map with "Key": "Value" format
 
                     System.out.println(vars);
 
-                    Platform.runLater(() -> {
+                    // Call a confirmation screen with accept or cancel options
+                    Platform.runLater(()->{
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Challenge Request");
                         alert.setContentText("You have been challenged by " + vars.get("CHALLENGER") + " for a game of " + vars.get("GAMETYPE"));
-                        alert.setOnHidden(e -> {
-                            if (alert.getResult().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
-                                //Only accept challenge when button ok is pressed
-                                String challengeNumber = (String) vars.get("CHALLENGENUMBER");
-                                ServerHandlerWriter.acceptChallenge(challengeNumber);
-                            }
-                        });
-                        alert.show();
+
+                        ButtonType buttonTypeAcceptPlayer = new ButtonType("ACCEPT AS PLAYER");
+                        ButtonType buttonTypeAcceptBot = new ButtonType("ACCEPT AS BOT");
+                        ButtonType buttonTypeCancel = new ButtonType("CANCEL", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                        // Get the challengeNumber
+                        String challengeNumber = (String) vars.get("CHALLENGENUMBER");
+
+                        alert.getButtonTypes().setAll(buttonTypeAcceptPlayer, buttonTypeAcceptBot, buttonTypeCancel);
+
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.isPresent() && (result.get() == buttonTypeAcceptPlayer)){
+                            ServerHandlerWriter.acceptChallenge(challengeNumber);
+                            currentController.useBot();
+                            System.out.println("PLAYING AS PLAYER");
+                        } else if (result.isPresent() && (result.get() == buttonTypeAcceptBot)) {
+                            ServerHandlerWriter.acceptChallenge(challengeNumber);
+                            currentController.useBot();
+                            System.out.println("PLAYING AS BOT");
+
+                        }
                     });
                 }
 

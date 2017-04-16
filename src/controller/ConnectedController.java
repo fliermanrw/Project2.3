@@ -142,6 +142,12 @@ public class ConnectedController extends PreGameView implements Initializable {
         logArea.appendText(super.getLog());
     }
 
+    @Override
+    public void useBot() {
+        ServerHandlerReader.useBot = true;
+        playAsBot.setSelected(true);
+    }
+
     /**
      * Get all possible commands from server
      */

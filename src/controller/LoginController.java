@@ -14,6 +14,7 @@ import model.server_connection.ServerHandlerWriter;
 
 import java.io.IOException;
 import java.util.ConcurrentModificationException;
+import java.util.Map;
 
 public class LoginController extends PreGameView {
     @FXML
@@ -34,6 +35,11 @@ public class LoginController extends PreGameView {
     @Override
     public void startGame(String game, String playerToMove) {
 
+    }
+
+    @Override
+    public void useBot() {
+        ServerHandlerReader.useBot=true;
     }
 
     public void printError(String error) {
