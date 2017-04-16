@@ -171,6 +171,7 @@ public class OthelloController extends GameView implements Initializable {
     @Override
     public void ourturn() {
         ourturn = true;
+        changeLabel(ourturn); //change label every time this method is called
         updateBoard();
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
         if (ServerHandlerReader.useBot) {
@@ -182,6 +183,7 @@ public class OthelloController extends GameView implements Initializable {
     @Override
     public void ourTurnAgain() {
         ourturn = true;
+        changeLabel(ourturn); //don't forget to switch the label
         othelloGameModel.switchPlayer();
         updateBoard();
         System.out.println("We are the player that is starting the game our move: " + othelloGameModel.getCurrentPlayer());
@@ -207,6 +209,7 @@ public class OthelloController extends GameView implements Initializable {
         updateBoard();
         othelloGameModel.switchPlayer();
         ourturn = false;
+        changeLabel(ourturn);
     }
 
     public void botMove() {
@@ -224,6 +227,7 @@ public class OthelloController extends GameView implements Initializable {
         othelloGameModel.getOthelloBoard();
         othelloGameModel.switchPlayer();
         ourturn = false;
+        changeLabel(ourturn);
     }
 
     @Override
