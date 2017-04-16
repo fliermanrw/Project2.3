@@ -62,7 +62,7 @@ public class ConnectedController extends PreGameView implements Initializable {
         //botPlayer();
 
         loggedInAs.setText("Logged in as: " + ServerHandler.playerName);
-
+        updateLog(ServerHandler.log);
     }
 
     @Override
@@ -126,9 +126,8 @@ public class ConnectedController extends PreGameView implements Initializable {
 
 
 
-    public void logout(){
+    public void quit(){
         System.out.println("Logged out of the server");
-        super.updateLog("logout");
         ServerHandlerWriter.writeSend("logout");
 
        // and finally close the stage
@@ -137,10 +136,9 @@ public class ConnectedController extends PreGameView implements Initializable {
     }
 
     public void updateLog(String currentLine){
-        super.updateLog(currentLine);
-        logArea.clear();
-        logArea.appendText(super.getLog());
-    }
+//        logArea.clear();
+        logArea.appendText(currentLine);
+}
 
     @Override
     public void useBot() {
@@ -152,7 +150,6 @@ public class ConnectedController extends PreGameView implements Initializable {
      * Get all possible commands from server
      */
     public void help(){
-        super.updateLog("help");
     }
 
     /**
@@ -168,7 +165,6 @@ public class ConnectedController extends PreGameView implements Initializable {
         }
 
         //Options server-sided are "Reversi" and "Tic-tac-toe"
-        super.updateLog("subscribe " + game);
         ServerHandlerWriter.writeSend("subscribe " + game);
     }
 
@@ -211,11 +207,11 @@ public class ConnectedController extends PreGameView implements Initializable {
             selectedGame = "Reversi";
         }
         if(selectedOpponent != null){
-            logArea.setText("Invited " + selectedOpponent + " for a challenge!");
+            updateLog("Invited" + selectedOpponent + " for a challenge!" + "\n");
             ServerHandlerWriter.writeSend("challenge " + "\"" + selectedOpponent.replace(" ", "") +"\""  + " " + "\"" + selectedGame + "\"");
 
         } else {
-            logArea.setText("Select an opponent please..");
+            updateLog("Select an opponent please.." +  "\n");
         }
 
     }

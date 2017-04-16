@@ -28,7 +28,6 @@ public class LoginController extends PreGameView {
 
         //Login
         ServerHandlerWriter.login(playerName);
-        super.updateLog(ServerHandler.log);
         ServerHandler.playerName = playerName;
     }
 

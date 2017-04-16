@@ -11,20 +11,10 @@ import java.util.Map;
  */
 public abstract class PreGameView{
     List<String> playerList;
-    String log = "";
     Stage stage;
     Socket socket;
 
     public abstract void startGame(String game, String playerToMove);
-
-    public void updateLog(String currentLine){
-        log += currentLine;
-        log += "\n";
-    }
-
-    public String getLog(){
-        return log;
-    }
 
     public void setStage(Stage stage) {
         this.stage = stage;

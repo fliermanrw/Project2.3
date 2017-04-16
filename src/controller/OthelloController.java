@@ -272,15 +272,17 @@ public class OthelloController extends GameView implements Initializable {
     }
 
     public void changeLabel(boolean ourturn) {
-        if (!ourturn) {
-            changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
-            changeLabel.setStyle("-fx-background-color: RED ; ");
-        } else if (ourturn) {
-            changeLabel.setText("YOU NEED TO MAKE A MOVE");
-            changeLabel.setStyle("-fx-text-fill: BLUE ; ");
-            changeLabel.setStyle("-fx-background-color: aqua;");
+        Platform.runLater(()->{
+            if (!ourturn) {
+                changeLabel.setText("NOT YOUR TURN...WAITING FOR OTHER PLAYER");
+                changeLabel.setStyle("-fx-background-color: RED ; ");
+            } else if (ourturn) {
+                changeLabel.setText("YOU NEED TO MAKE A MOVE");
+                changeLabel.setStyle("-fx-text-fill: BLUE ; ");
+                changeLabel.setStyle("-fx-background-color: aqua;");
 
-        }
+            }
+        });
     }
 
     public void forfeitGame(ActionEvent actionEvent) {
