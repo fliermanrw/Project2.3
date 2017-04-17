@@ -95,7 +95,7 @@ public class OthelloController extends GameView implements Initializable {
 
                 } else if (othelloGameModel.getBoard().get(othelloGameModel.rowColToInt(row, col)).getCharacterInCell() == 'W') {
                     a.setText("W");
-                    a.setStyle("-fx-background-color: whitesmoke ;   -fx-border-color: lightgray ");
+                    a.setStyle("-fx-background-color: lightyellow ;   -fx-border-color: lightgray ");
                     othelloGameBoard.addColumn(col, a);
 
                 } else {
@@ -120,7 +120,7 @@ public class OthelloController extends GameView implements Initializable {
                     button.setStyle("-fx-background-color: black; -fx-text-fill: white ; -fx-font-weight: 500; -fx-border-color: lightgray");
                 } else if (String.valueOf(othelloGameModel.getBoard().get(i).getCharacterInCell()).equals("W")) {
                     button.setText("W");
-                    button.setStyle("-fx-background-color: whitesmoke; -fx-font-weight: 500; -fx-border-color: lightgray");
+                    button.setStyle("-fx-background-color: lightyellow; -fx-font-weight: 500; -fx-border-color: lightgray");
                 } else {
                     //@todo following commented code results in a bug. Can only call getValidMoves from one position else -> CONCURRENT MODIFICATION EXCEPTION
                     //@todo please fix quick, will bug in alot of situation
