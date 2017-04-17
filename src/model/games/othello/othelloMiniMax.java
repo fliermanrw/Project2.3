@@ -1,6 +1,7 @@
 package model.games.othello;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by arch on 4/12/17.
@@ -37,6 +38,28 @@ public class othelloMiniMax extends othelloLogic {
         return scoreForBranch;
     }
 
+    public long evaluateMoveActualPoints(ArrayList<boardCell> board, char turn){
+        int whitePoints = 0;
+        int blackPoints = 0;
+        for (boardCell a : board) {
+            switch (a.getCharacterInCell()) {
+                case 'W':
+                    whitePoints++;
+                    break;
+                case 'B':
+                    blackPoints++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (turn == 'W') {
+            return scoreForBranch += whitePoints;
+        }
+        return scoreForBranch += blackPoints;
+    }
+
     public char getOtherTurn(char currentTurn) {
         if (currentTurn == 'B') {
             return 'W';
@@ -60,7 +83,7 @@ public class othelloMiniMax extends othelloLogic {
                 }
                 // for each board recursive search a new board with the new move
                 applyMove(newBoard, a, tempTurn);
-                evaluateMove(newBoard, rootTurn);
+                evaluateMoveActualPoints(newBoard, rootTurn);
                 recursiveMiniMax(newBoard, getOtherTurn(tempTurn), depth += 1);
             }
         }
