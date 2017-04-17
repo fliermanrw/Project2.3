@@ -8,10 +8,11 @@ import java.util.HashMap;
  */
 public class othelloMiniMax extends othelloLogic {
     int totalDepth;
-    int maxDepth = 10;
+    int maxDepth = 15;
     char rootTurn;
 
     long scoreForBranch = 0;
+    int depthForBranch = 0;
 
     public long evaluateMove(ArrayList<boardCell> board, char turn) {
         int scoreForBoard = 0;
@@ -38,7 +39,10 @@ public class othelloMiniMax extends othelloLogic {
         return scoreForBranch;
     }
 
-    public long evaluateMoveActualPoints(ArrayList<boardCell> board, char turn){
+    public long evaluateMoveActualPoints(ArrayList<boardCell> board, char turn, int depth){
+        //Depth > depthforbranch == deepest calculated one is always final
+        depthForBranch = depth;
+//        System.out.println("Zoveel x in berekening:");
         int whitePoints = 0;
         int blackPoints = 0;
         for (boardCell a : board) {
@@ -54,10 +58,19 @@ public class othelloMiniMax extends othelloLogic {
             }
         }
 
+        //        System.out.printf("Board: " + board);
+        //        System.out.println("Whitepoints: " + whitePoints);
+        //        System.out.println("Blackpoints: " + blackPoints);
+        //        System.out.println();
+
+
         if (turn == 'W') {
-            return scoreForBranch += whitePoints;
+            scoreForBranch += whitePoints;
+        } else {
+            scoreForBranch += blackPoints;
         }
-        return scoreForBranch += blackPoints;
+
+        return scoreForBranch;
     }
 
     public char getOtherTurn(char currentTurn) {
@@ -68,6 +81,16 @@ public class othelloMiniMax extends othelloLogic {
         }
     }
 
+    /**
+     * Calculate the possible moves
+     * Make a new random move & switch the current player & create a new TemporaryBoard
+     * Keep callings this method recursively untill the maxDepth is reached.
+     * We then return the scores of the temporaryBoard's
+     * @param board
+     * @param tempTurn
+     * @param depth
+     * @return
+     */
     public long recursiveMiniMax(ArrayList<boardCell> board, char tempTurn, int depth) {
         totalDepth++;
         if (maxDepth > depth) {
@@ -83,11 +106,14 @@ public class othelloMiniMax extends othelloLogic {
                 }
                 // for each board recursive search a new board with the new move
                 applyMove(newBoard, a, tempTurn);
-                evaluateMoveActualPoints(newBoard, rootTurn);
+
+//                evaluateMoveActualPoints(newBoard, rootTurn); //calculate the points of the current board
+
+                //Call this function again with the new generate board, as the other player @todo use rootturn
                 recursiveMiniMax(newBoard, getOtherTurn(tempTurn), depth += 1);
             }
         }
-        return evaluateMove(board, rootTurn);
+        return evaluateMoveActualPoints(board, tempTurn, depth); //calculate the points of the current board
     }
 
     public int calculateBestMove(ArrayList<boardCell> rootBoard, char turn) {
