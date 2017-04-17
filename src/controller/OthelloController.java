@@ -178,6 +178,10 @@ public class OthelloController extends GameView implements Initializable {
             //    botMove();
             minimaxMove();
         }
+//        else{
+//            //@todo uncomment this for debugging, player makes a random move
+//            botMove();
+//        }
     }
 
     @Override
@@ -212,7 +216,7 @@ public class OthelloController extends GameView implements Initializable {
         changeLabel(ourturn);
     }
 
-    public void botMove() {
+    public void botRandom() {
         othelloGameModel.getOthelloBoard();
         ArrayList<Integer> validMoves = othelloGameModel.getValidMoves();
         System.out.println("Bot CURRENT PLAYER: " + othelloGameModel.getCurrentPlayer());

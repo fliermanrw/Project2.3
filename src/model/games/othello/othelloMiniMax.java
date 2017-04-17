@@ -142,14 +142,14 @@ public class othelloMiniMax extends othelloLogic {
     public long recursiveMiniMax(ArrayList<boardCell> board, char tempTurn, int depth) {
         //Stop condition of recursion
         if (depth == maxDepth) {
-            long points = evaluateMoveActualPoints(board, tempTurn);
+            long points = evaluateMove(board, tempTurn);
 //            System.out.println("points = " + points);
             return points;
         }
 
         if(tempTurn == rootTurn){
 //            //MAXIMIZING PLAYER
-            long bestScore = Long.MIN_VALUE;
+            long bestScore = 0;
 //            // Get the scores of all the possible moves
             for (boardCell a : fetchValidMovesAsCell(tempTurn,board)) {
                 ArrayList<boardCell> newBoard = new ArrayList<>();
