@@ -142,7 +142,7 @@ public class othelloMiniMax extends othelloLogic {
     public long recursiveMiniMax(ArrayList<boardCell> board, char tempTurn, int depth) {
         //Stop condition of recursion
         if (depth == maxDepth) {
-            long points = evaluateMove(board, tempTurn);
+            long points = evaluateMoveActualPoints(board, tempTurn);
 //            System.out.println("points = " + points);
             return points;
         }
