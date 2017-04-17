@@ -220,7 +220,7 @@ public class othelloLogic {
         }
     }
 
-    private static boolean passedOther = false;
+    private boolean passedOther = false;
 
     private boolean recursiveMoveCheck(int row, int col, char otherCell, ArrayList<boardCell> board) {
         if (!inBounds(row, col)) {
