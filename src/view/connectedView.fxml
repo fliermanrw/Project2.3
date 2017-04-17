@@ -91,4 +91,40 @@
            </content>
        </Tab>
    </tabs>
+    <Tab closable="false" text="About">
+        <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500" prefWidth="300">
+                <VBox AnchorPane.leftAnchor="14" AnchorPane.topAnchor="14">
+                    <children>
+                        <Label text="Version 2.0" />
+                        <Label text="Contributors:">
+                            <VBox.margin>
+                                <Insets top="5.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Label text="- Ryan Flierman">
+                            <VBox.margin>
+                                <Insets left="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Label text="- Danny Jager">
+                            <VBox.margin>
+                                <Insets left="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Label text="- Cyriel Zijlstra">
+                            <VBox.margin>
+                                <Insets left="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Label text="- Jouke Rienstra">
+                            <VBox.margin>
+                                <Insets left="10.0" />
+                            </VBox.margin>
+                        </Label>
+                    </children>
+                </VBox>
+            </AnchorPane>
+        </content>
+    </Tab>
 </TabPane>
