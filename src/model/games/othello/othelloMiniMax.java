@@ -8,8 +8,11 @@ import java.util.HashMap;
  */
 public class othelloMiniMax extends othelloLogic {
     int totalDepth;
-    int maxDepth = 10;
+    int maxDepth = 12;
     char rootTurn;
+
+    long start = System.currentTimeMillis();
+    long end = start + 8*1000;
 
     long scoreForBranch = 0;
 
@@ -84,6 +87,9 @@ public class othelloMiniMax extends othelloLogic {
                 // for each board recursive search a new board with the new move
                 applyMove(newBoard, a, tempTurn);
                 evaluateMoveActualPoints(newBoard, rootTurn);
+                if (System.currentTimeMillis() >= end){
+                    break;
+                }
                 recursiveMiniMax(newBoard, getOtherTurn(tempTurn), depth += 1);
             }
         }
@@ -107,6 +113,11 @@ public class othelloMiniMax extends othelloLogic {
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
+            }
+
+            if (System.currentTimeMillis() >= end){
+                System.out.println("time reached.");
+                break;
             }
 
             applyMove(newRootBoard, cell, turn);
