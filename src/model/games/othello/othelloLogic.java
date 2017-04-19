@@ -43,7 +43,7 @@ public class othelloLogic {
 
         // Apply turn
         board.get(b.getRow() * 8 + b.getCol()).setCharacterInCell(turn);
-         //board.getBoard()[b.getRow()][b.getCol()].setCharacterInCell(turn);
+
 
         int row = b.getRow();
         int col = b.getCol();

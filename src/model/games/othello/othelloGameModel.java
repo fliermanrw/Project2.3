@@ -60,13 +60,6 @@ public class othelloGameModel extends othelloLogic implements GameModel {
 
     @Override
     public void move(int move) {
-//        int y = move % 8;
-//        int x = 0;
-//        for (int j = 0; j < move + 1; j++) {
-//            if (j % 8 == 0) {
-//                x++;
-//            }
-//        }
         synchronized (othelloBoard) {
             applyMove(othelloBoard, othelloBoard.get(move), turn);
         }
@@ -91,13 +84,9 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         }
         // Generate a board object.
         othelloBoard = twoDArrayToList(newBoard);
-//        synchronized (othelloBoard) {
-//            // Make a list based on the new board.
-//            othelloBoard = new othelloBoard(twoDArrayToList(newBoard));
-//        }
     }
 
-    public ArrayList<boardCell> twoDArrayToList(boardCell[][] twoDArray) {
+    private ArrayList<boardCell> twoDArrayToList(boardCell[][] twoDArray) {
         ArrayList<boardCell> list = new ArrayList<boardCell>();
         for (boardCell[] array : twoDArray) {
             list.addAll(Arrays.asList(array));
@@ -119,7 +108,7 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         return new othelloMiniMax().calculateBestMove(othelloBoard, turn);
     }
 
-    public String findCurrentWinner() {
+    private String findCurrentWinner() {
         HashMap<String, Integer> map = getCurrentPoints();
         int whitePoints = map.get("W");
         int blackPoints = map.get("B");
@@ -132,7 +121,7 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         return "T"; // Tie
     }
 
-    public HashMap<String, Integer> getCurrentPoints() {
+    private HashMap<String, Integer> getCurrentPoints() {
         int whitePoints = 0;
         int blackPoints = 0;
         synchronized (othelloBoard) {
@@ -157,7 +146,7 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         return map;
     }
 
-    public void swapTurn() {
+    private void swapTurn() {
         if (turn == 'B') {
             turn = 'W';
         } else {
@@ -172,10 +161,5 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         }
     }
 
-//    public ArrayList<boardCell> getBoardAsList() {
-//        synchronized (othelloBoard) {
-//            return othelloBoard.getBoard();
-//        }
-//    }
 
 }

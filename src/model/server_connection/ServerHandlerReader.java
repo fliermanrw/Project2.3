@@ -232,7 +232,7 @@ public class ServerHandlerReader implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println("FUCK UIT DE WHILE LOOp");
+        System.out.println("Logged out from the server");
     }
 
     /**
@@ -244,7 +244,7 @@ public class ServerHandlerReader implements Runnable {
      *            So the second group matches everything between quotes and checks if it doesn't contain quotes itself?
      * @return Map Can be used as Map.get("KEY")
      */
-    public Map<String,String> stringToMap(String line) {
+    private Map<String,String> stringToMap(String line) {
         Map<String, String> vars = new HashMap<>();
         Pattern pattern = Pattern.compile("([A-Za-z]+): \"([^\"]*)\"");
         Matcher matcher = pattern.matcher(line);

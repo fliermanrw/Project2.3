@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import model.games.othello.othelloGameModel;
@@ -29,7 +28,7 @@ import java.util.ResourceBundle;
 
 public class OthelloController extends GameView implements Initializable {
     private othelloGameModel othelloGameModel;
-    boolean ourturn = false;
+    private boolean ourturn = false;
 
     @FXML
     GridPane othelloGameBoard;
@@ -175,7 +174,6 @@ public class OthelloController extends GameView implements Initializable {
         updateBoard();
         System.out.println("OthelloController: Got notified it's now our turn and we can make a move");
         if (ServerHandlerReader.useBot) {
-            //    botMove();
             minimaxMove();
         }
 //        else{
@@ -195,7 +193,6 @@ public class OthelloController extends GameView implements Initializable {
         System.out.println("OthelloController: --firstturn Got notified it's now our turn and we can make a move");
         if (ServerHandlerReader.useBot) {
             System.out.println("OthelloController: --firstturn Got notified it's now our turn, our bot is going to make a turn");
-            //botMove();
             minimaxMove();
         }
     }

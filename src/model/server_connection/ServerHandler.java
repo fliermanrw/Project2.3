@@ -11,6 +11,7 @@ public class ServerHandler {
     public static Stack<String> queue = new Stack<>();
     public static String log;
     public static String playerName;
+
 //
 //    public static void main(String[] args) {
 //        try {

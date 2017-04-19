@@ -50,17 +50,13 @@ public class ConnectedController extends PreGameView implements Initializable {
         // @todo eerder of later. Dit zorgt voor unexpected behaviour (soms null values bij super.getPlayerList() en soms niet).
         // @todo Daarom heb ik een soort Task of Keyframe systeem toegevoegd om te zorgen dat ze altijd in de juiste
         // @todo volgorde worden afgehandeld. (Misschien kan dit ook naar de startGame() method verplaatst worden. Even overleggen).
-        //Platform.runLater(()-> {
-            //updateOpponentSelection();
-            //System.out.println("Playerlist22 " + super.getPlayerList());
-        //});
+
         // Create keyframes and use a timeline to run the tasks after each other
         final KeyFrame kf1 = new KeyFrame(Duration.millis(0), e -> getOpponents());
         final KeyFrame kf2 = new KeyFrame(Duration.millis(500), e ->  updateOpponentSelection());
         final Timeline timeline = new Timeline(kf1, kf2);
         Platform.runLater(timeline::play);
 
-        //botPlayer();
 
         loggedInAs.setText("Logged in as: " + ServerHandler.playerName);
         logArea.setEditable(false);
@@ -96,7 +92,6 @@ public class ConnectedController extends PreGameView implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ConcurrentModificationException cme) {
-                    //System.out.println("Test");
                     cme.printStackTrace();
                 }
                 ServerHandlerReader.stage.setTitle("Our playername = " + ServerHandler.playerName);
@@ -112,10 +107,6 @@ public class ConnectedController extends PreGameView implements Initializable {
                     OthelloController othelloController = fxmlLoader.getController();
                     ServerHandlerReader.currentGameView = othelloController;
 
-////                    othelloController.init();
-//                    if (playerToMove.equals(ServerHandler.playerName)) {
-//                        othelloController.ourturn();
-//                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ConcurrentModificationException cme) {
@@ -139,13 +130,12 @@ public class ConnectedController extends PreGameView implements Initializable {
 
     }
 
-    public void updateLog(String currentLine){
-//        log+=currentLine;
+    private void updateLog(String currentLine){
+
         logArea.clear();
         logArea.appendText(currentLine);
-//        logArea.clear();
-//        logArea.appendText(currentLine);
-}
+
+    }
 
     @Override
     public void useBot(boolean status) {

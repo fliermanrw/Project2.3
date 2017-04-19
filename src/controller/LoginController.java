@@ -23,7 +23,7 @@ public class LoginController extends PreGameView {
     boolean succesfull = false;
 
     public void loginButton() {
-        //Get name
+        //Get username
         String playerName = textField.getText();
 
         //Login
@@ -32,17 +32,11 @@ public class LoginController extends PreGameView {
     }
 
     @Override
-    public void startGame(String game, String playerToMove) {
-
-    }
+    public void startGame(String game, String playerToMove) {}
 
     @Override
     public void useBot(boolean status) {
         ServerHandlerReader.useBot=status;
-    }
-
-    public void printError(String error) {
-        System.out.println(error);
     }
 
     public void login() {
