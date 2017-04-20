@@ -1,10 +1,8 @@
-# Game client for Othello & Tic-tac-toe  
-# Use Minimax AI to make a bot move
-# Provides interaction with a server  
+# Game client for Othello & Tic-tac-toe  (+ AI Bot option)
 # This is a project for the Hanze University.
 For this exercise a game server was provided. This game server is located in build_versions.  
 This repo consists of the client that provides a user interface for the server. 
-A client connects to the server and is able to play vs other players that are logged in.  
+A client connects to the server and is able to play vs other players that are logged in. Our client has the ability to use **bot functionality** this uses the **MiniMax algorithm** to decide the next move. Also this **client provides a user interface for the server** 
 At the end of the school period a Othello tournement is held where the AI bot's play against eachother.  
 
 # Deployment
