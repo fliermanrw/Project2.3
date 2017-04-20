@@ -108,7 +108,7 @@ public class othelloGameModel extends othelloLogic implements GameModel {
         return new othelloMiniMax().calculateBestMove(othelloBoard, turn);
     }
 
-    private String findCurrentWinner() {
+    public String findCurrentWinner() {
         HashMap<String, Integer> map = getCurrentPoints();
         int whitePoints = map.get("W");
         int blackPoints = map.get("B");

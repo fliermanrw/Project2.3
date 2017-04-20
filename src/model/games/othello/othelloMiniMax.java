@@ -80,55 +80,6 @@ public class othelloMiniMax extends othelloLogic {
         }
     }
 
-//    /**
-//     * Calculate the possible moves
-//     * Make a new random move & switch the current player & create a new TemporaryBoard
-//     * Keep callings this method recursively untill the maxDepth is reached.
-//     * We then return the scores of the temporaryBoard's
-//     * @param board
-//     * @param tempTurn
-//     * @param depth
-//     * @return
-//     */
-//    public long recursiveMiniMax(ArrayList<boardCell> board, char tempTurn, int depth, long score) {
-//        ArrayList<boardCell> validMoves  = fetchValidMovesAsCell(tempTurn,board);
-//        ArrayList<Long> depthScores = new ArrayList<>();
-//        ArrayList<ArrayList<boardCell>> tempBoards = new ArrayList<>();
-//
-//        if (maxDepth >= depth) {
-//            totalDepth++;
-//            depth++;
-//
-//            // Get the scores of all the possible moves
-//            for (boardCell a : validMoves) {
-//                ArrayList<boardCell> newBoard = new ArrayList<>();
-//                for (boardCell rootCell2 : board) {
-//                    try {
-//                        newBoard.add((boardCell) rootCell2.clone());
-//                    } catch (CloneNotSupportedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                tempBoards.add(newBoard);
-//                applyMove(newBoard, a, tempTurn);
-//                long moveScore = evaluateMoveActualPoints(newBoard, tempTurn);
-//                depthScores.add(moveScore);
-//            }
-//            System.out.println("Depth scores:" + depthScores);
-//            if(tempTurn == rootTurn){
-//                score += Collections.max(depthScores);
-//            }else{
-//                score += Collections.min(depthScores);
-//            }
-//            //Search all the boards following the performed move recursively
-//            for(boardCell validMove: validMoves){
-//                for(ArrayList<boardCell> tempBoard : tempBoards){
-//                    recursiveMiniMax(tempBoard, getOtherTurn(tempTurn), depth, score);
-//                }
-//            }
-//        }
-//        return score;
-//    }
     /**
      * Calculate the possible moves
      * Make a new random move & switch the current player & create a new TemporaryBoard
@@ -142,7 +93,7 @@ public class othelloMiniMax extends othelloLogic {
     public long recursiveMiniMax(ArrayList<boardCell> board, char tempTurn, int depth) {
         //Stop condition of recursion
         if (depth == maxDepth) {
-            long points = evaluateMoveActualPoints(board, tempTurn);
+            long points = evaluateMove(board, tempTurn);
 //            System.out.println("points = " + points);
             return points;
         }
