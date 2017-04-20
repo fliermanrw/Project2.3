@@ -12,6 +12,9 @@ At the end of the school period a Othello tournement is held where the AI bot's 
 # Installation: 
   - The build_versions contain all the build versions of this game client repo.
   - The current stable version is 2.0 
+  - Run a game server & let clients join the server to play against eachother
+  - Run two clients (in a test situation), these will connect to the server
+  
 
 # Todo:  
 Due to limited time the algorithm the algorithm is going to a depth of 7 and then makes it's best move.  
