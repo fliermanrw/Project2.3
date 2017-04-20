@@ -1,0 +1,23 @@
+# Game client for Othello(With bot option, using minimax algorithm) & Tic-tac-toe.
+# This is a project for the Hanze University.
+For this exercise a game server was provided. This game server is located in build_versions.  
+This repo consists of the client that provides a user interface for the server. 
+A client connects to the server and is able to play vs other players that are logged in.  
+At the end of the school period a Othello tournement is held where the AI bot's play against eachother.  
+
+# Deployment
+![Image](deployment.PNG)
+
+
+# Installation: 
+  - The build_versions contain all the build versions of this game client repo.
+  - The current stable version is 2.0 
+
+# Todo:  
+Due to limited time the algorithm the algorithm is going to a depth of 7 and then makes it's best move.  
+Some issues still have to be solved, these can be found in git issues.  
+
+# Presentation:
+![Image](presentation.PNG)
+
+
