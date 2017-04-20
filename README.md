@@ -6,7 +6,7 @@ A client connects to the server and is able to play vs other players that are lo
 At the end of the school period a Othello tournement is held where the AI bot's play against eachother.  
 
 # Deployment
-![Image](deployment.PNG)
+![Image](deployment_diagram.PNG)
 
 
 # Installation: 
@@ -17,7 +17,14 @@ At the end of the school period a Othello tournement is held where the AI bot's 
 Due to limited time the algorithm the algorithm is going to a depth of 7 and then makes it's best move.  
 Some issues still have to be solved, these can be found in git issues.  
 
-# Presentation:
-![Image](presentation.PNG)
+# Functionality:
+  Login  
+  ![Image](login.PNG)
+  Lobby  
+  ![Image](lobby.PNG)
+  Challenging  
+  ![Image](challenge.PNG)
+  Player vs Bot Othello  
+  ![Image](bot_vs_player.PNG)
 
 
